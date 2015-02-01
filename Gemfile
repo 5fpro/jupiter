@@ -122,3 +122,4 @@ gem 'jquery-ui-rails'
 gem 'bootstrap-sass', '~> 2.3'
 
 gem 'crummy'
+gem 'meta-tags', :require => 'meta_tags'
