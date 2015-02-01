@@ -116,3 +116,6 @@ gem 'acts-as-taggable-on'
 
 # model sorting
 gem 'acts_as_list'
+
+# front-end
+gem 'jquery-ui-rails'
