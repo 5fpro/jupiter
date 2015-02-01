@@ -31,6 +31,8 @@ defaults: &defaults
     host: myapp.5fpro.com.s3-website-us-east-1.amazonaws.com
   mailer:
     default_sender: "noreply@5fpro.com"
+  sitemap:
+    path: "sitemaps/"
 
 development:
   <<: *defaults
