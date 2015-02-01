@@ -119,3 +119,4 @@ gem 'acts_as_list'
 
 # front-end
 gem 'jquery-ui-rails'
+gem 'bootstrap-sass', '~> 2.3'
