@@ -25,5 +25,14 @@
 #
 
 class Admin::User < ::User
-  
+
+  class << self
+    def ransackable_scopes(auth_object = nil)
+      [ :has_avatar ]
+    end
+
+    def has_avatar(boolean = true)
+      where.not(avatar: nil)
+    end
+  end
 end
