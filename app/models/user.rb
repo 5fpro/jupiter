@@ -30,4 +30,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   devise :async
   acts_as_taggable
+
+  mount_uploader :avatar, AvatarUploader
 end

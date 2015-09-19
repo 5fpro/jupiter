@@ -67,7 +67,8 @@ ActiveRecord::Schema.define(version: 20151109063212) do
     t.string   "unconfirmed_email",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",                  default: false
+    t.boolean  "admin",                              default: false
+    t.string   "avatar"
   end
 
   add_index "users", ["admin"], :name => "index_users_on_admin"
