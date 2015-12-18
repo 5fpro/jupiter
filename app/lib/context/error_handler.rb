@@ -1,8 +1,12 @@
-module ErrorHandler
+module Context::ErrorHandler
   extend ActiveSupport::Concern
 
   def errors
-    @errors || []
+    @errors || {}
+  end
+
+  def error_messages
+    @errors.values.inject([]){ |s, messages| s + messages }
   end
 
   def has_error?
@@ -12,21 +16,10 @@ module ErrorHandler
 
   protected
 
-  def rescue_errors(&block)
-    begin
-      yield
-    rescue ErrorException => e
-      @errors ||= []
-      msgs = e.to_hash[:info][:error_messages] || []
-      msgs = [msgs] if msgs.is_a?(String)
-      msgs.each{ |m| @errors << m }
-      false
-    end
-  end
-
-  def add_error(message)
-    @errors ||= []
-    @errors << message
+  def add_error(key, custom_message = nil)
+    @errors ||= {}
+    @errors[key.to_sym] ||= []
+    @errors[key.to_sym] << custom_message || I18n.t("errors.#{key}", default: key.to_s)
     false
   end
 end
