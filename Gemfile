@@ -131,3 +131,7 @@ gem 'sitemap_generator'
 
 # model
 gem 'ransack'
+
+# omniauth
+gem 'omniauth'
+gem 'omniauth-github'
