@@ -21,6 +21,7 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  admin                  :boolean          default(FALSE)
+#  avatar                 :string
 #
 
 class User < ActiveRecord::Base
@@ -31,4 +32,6 @@ class User < ActiveRecord::Base
   devise :async
 
   mount_uploader :avatar, AvatarUploader
+
+  omniauthable
 end

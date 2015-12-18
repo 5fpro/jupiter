@@ -33,6 +33,13 @@ defaults: &defaults
     default_sender: "noreply@5fpro.com"
   sitemap:
     path: "sitemaps/"
+  omniauth:
+    providers:
+      github:
+        token: "3f9e288d55d83eee797d"
+        secret: "acc2d9185cdb236ffc227d4def846f3ade928710"
+        options:
+          scope: "user,user:email"
 
 development:
   <<: *defaults
