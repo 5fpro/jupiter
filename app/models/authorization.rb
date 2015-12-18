@@ -14,7 +14,7 @@
 #
 
 class Authorization < ActiveRecord::Base
-  enum provider: [ :facebook, :github, :google_oauth2 ]
+  enum provider: [ :github, :google_oauth2, :facebook ]
 
   validates_presence_of :provider, :uid, :auth
   validates_uniqueness_of :provider, scope: [ :uid ]
