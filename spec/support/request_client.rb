@@ -10,6 +10,10 @@ module RequestClient
     @current_user = user if response.status == 302
   end
 
+  def omniauth_signin
+    get "/authorizations/facebook/callback", nil, { "omniauth.auth" => omniauth_mock(:github) }
+  end
+
   def current_user
     @current_user
   end
