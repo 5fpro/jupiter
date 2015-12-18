@@ -32,4 +32,6 @@ class User < ActiveRecord::Base
   devise :async
 
   mount_uploader :avatar, AvatarUploader
+
+  omniauthable
 end
