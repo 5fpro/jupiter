@@ -10,4 +10,10 @@ module Omniauthable
   def confirmable?
     respond_to?(:confirmed?)
   end
+
+  protected
+
+  def password_required?
+    authorizations.size > 0 ? false : true
+  end
 end
