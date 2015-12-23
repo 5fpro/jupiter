@@ -3,21 +3,21 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  name                   :string(255)
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(255)      default(""), not null
-#  reset_password_token   :string(255)
+#  name                   :string
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
-#  confirmation_token     :string(255)
+#  current_sign_in_ip     :string
+#  last_sign_in_ip        :string
+#  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
+#  unconfirmed_email      :string
 #  created_at             :datetime
 #  updated_at             :datetime
 #  admin                  :boolean          default(FALSE)
@@ -37,6 +37,11 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   omniauthable
+
+  has_many :project_users
+  has_many :projects, through: :project_users
+  has_many :records
+  has_many :comments
 
   def avatar_url
     return avatar.url if avatar?
