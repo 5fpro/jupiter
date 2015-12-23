@@ -62,6 +62,10 @@ ActiveRecord::Schema.define(version: 20151223090403) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "project_users", ["project_id", "user_id"], name: "index_project_users_on_project_id_and_user_id", using: :btree
+  add_index "project_users", ["project_id"], name: "index_project_users_on_project_id", using: :btree
+  add_index "project_users", ["user_id"], name: "index_project_users_on_user_id", using: :btree
+
   create_table "projects", force: :cascade do |t|
     t.integer  "price_of_hour"
     t.string   "name"
