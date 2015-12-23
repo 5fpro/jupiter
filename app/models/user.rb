@@ -22,11 +22,14 @@
 #  updated_at             :datetime
 #  admin                  :boolean          default(FALSE)
 #  avatar                 :string
+#  data                   :hstore
 #
 
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  store_accessor :data, :github_account, :github_id, :github_token, :github_avatar
+
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
   devise :async
@@ -34,4 +37,10 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   omniauthable
+
+  def avatar_url
+    return avatar.url if avatar?
+    return github_avatar if github_avatar.present?
+    nil
+  end
 end

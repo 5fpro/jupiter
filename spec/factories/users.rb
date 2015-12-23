@@ -22,6 +22,7 @@
 #  updated_at             :datetime
 #  admin                  :boolean          default(FALSE)
 #  avatar                 :string
+#  data                   :hstore
 #
 
 FactoryGirl.define do
