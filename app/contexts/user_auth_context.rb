@@ -1,18 +1,20 @@
 class UserAuthContext < BaseContext
   before_perform :find_authorization
   before_perform :parse_email!
-  before_perform :already_auth?, if: :current_user?
+  # before_perform :already_auth?, if: :current_user?
   before_perform :email_uniqueness?, if: :current_user?
   before_perform :find_or_create_user, unless: :current_user?
   before_perform :bind_authorization_to_user
   after_perform :update_user_omniauth_data
   after_perform :user_confirm!
+  after_perform :update_github_data!
 
   # params should be env["omniauth.auth"] in controller
   def initialize(params, current_user = nil)
     @params = ActionController::Parameters.new(params)
     @provider = @params[:provider]
     @user = current_user
+    @new_user = false
     @authorization = nil
   end
 
@@ -44,7 +46,10 @@ class UserAuthContext < BaseContext
   end
 
   def already_auth?
-    return add_error(:omniauth_already_auth) if @authorization
+    if @authorization
+
+      return add_error(:omniauth_already_auth)
+    end
   end
 
   def email_uniqueness?
@@ -94,5 +99,17 @@ class UserAuthContext < BaseContext
 
   def provider_name
     @provider.to_s.titleize
+  end
+
+  def update_github_data!
+    if @provider.to_sym == :github
+      @user.update_attributes({
+        name: @authorization.auth_data["info"]["name"],
+        github_id: @authorization.uid,
+        github_account: @authorization.auth_data["info"]["nickname"],
+        github_avatar: @authorization.auth_data["info"]["image"],
+        github_token:  @authorization.auth_data["credentials"]["token"]
+      })
+    end
   end
 end
