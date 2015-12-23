@@ -38,6 +38,9 @@ class User < ActiveRecord::Base
 
   omniauthable
 
+  has_many :project_users
+  has_many :projects, through: :project_users
+
   def avatar_url
     return avatar.url if avatar?
     return github_avatar if github_avatar.present?
