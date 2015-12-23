@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   has_many :project_users
   has_many :projects, through: :project_users
   has_many :records
+  has_many :comments
 
   def avatar_url
     return avatar.url if avatar?
