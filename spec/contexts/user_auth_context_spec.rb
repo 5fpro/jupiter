@@ -93,4 +93,25 @@ describe UserAuthContext do
       }.to change{ user.authorizations.count }.by(1)
     end
   end
+
+  context "#update_github_data!" do
+    it "success" do
+      user = subject[:user]
+      expect(user.github_id).to be_present
+      expect(user.github_account).to be_present
+      expect(user.avatar_url).to be_present
+      expect(user.github_token).to be_present
+      expect(user.name).to be_present
+    end
+    it "sync if auth_data changed" do
+      subject
+      ori_name = omniauth_data["info"]["name"]
+      data = omniauth_data
+      data["info"]["name"] = "Venus"
+      expect{
+        described_class.new(data, user).perform
+      }.to change{ user.reload.name }.from(ori_name).to("Venus")
+      expect(user.authorizations.last.auth_data["info"]["name"]).to eq "Venus"
+    end
+  end
 end
