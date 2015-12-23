@@ -10,10 +10,5 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
-  factory :comment do
-    user { FactoryGirl.create :user }
-    item { FactoryGirl.create :record }
-  end
-
+class Admin::Comment < ::Comment
 end

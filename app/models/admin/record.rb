@@ -11,10 +11,5 @@
 #  updated_at  :datetime         not null
 #
 
-FactoryGirl.define do
-  factory :record do
-    project { FactoryGirl.create :project }
-    user    { FactoryGirl.create :user }
-  end
-
+class Admin::Record < ::Record
 end
