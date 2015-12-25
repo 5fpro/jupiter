@@ -13,6 +13,7 @@
 FactoryGirl.define do
   factory :project do
     owner { FactoryGirl.create :user }    
+    sequence(:name) { |n| "Project Name - #{n}" }
   end
 
 end
