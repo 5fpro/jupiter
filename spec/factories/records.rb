@@ -15,6 +15,7 @@ FactoryGirl.define do
   factory :record do
     project { FactoryGirl.create :project }
     user    { FactoryGirl.create :user }
+    sequence(:record_type) { |n| "Record Type - #{n}" } #TODO it's tmp data
   end
 
 end
