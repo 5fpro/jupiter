@@ -15,4 +15,6 @@ class Record < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
   has_many :comments, as: :item
+
+  validates_presence_of :user_id, :project_id, :record_type
 end
