@@ -28,4 +28,10 @@ module DataMaker
       admin: "0"
     )
   end
+
+  def data_for_project
+    { name: "venus",
+      price_of_hour: 1000
+    }
+  end
 end

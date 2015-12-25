@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
 
   has_many :project_users
   has_many :projects, through: :project_users
+  has_many :owned_projects, foreign_key: :owner_id, class_name: "Project"
   has_many :records
   has_many :comments
 
