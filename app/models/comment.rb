@@ -8,6 +8,7 @@
 #  item_type  :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  data       :hstore
 #
 
 class Comment < ActiveRecord::Base
@@ -15,4 +16,6 @@ class Comment < ActiveRecord::Base
   belongs_to :user
 
   validates_presence_of :user_id
+
+  store_accessor :data, :tmp
 end
