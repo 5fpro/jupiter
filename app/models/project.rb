@@ -8,6 +8,7 @@
 #  owner_id      :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  data          :hstore
 #
 
 class Project < ActiveRecord::Base
@@ -16,5 +17,15 @@ class Project < ActiveRecord::Base
   has_many :users, through: :project_users
   has_many :records
 
+  store_accessor :data, :users_count
+
   validates_presence_of :name, :owner_id
+
+  def has_user?(user)
+    project_users.map(&:user_id).include?(user.id)
+  end
+
+  def users_count
+    super.to_i
+  end
 end
