@@ -9,6 +9,7 @@
 #  minutes     :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  data        :hstore
 #
 
 class Admin::Record < ::Record
