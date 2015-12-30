@@ -52,6 +52,7 @@ RSpec.configure do |config|
   config.include Webmock
   config.include SidekiqHelper
   config.include DataMaker
+  config.include ContextMaker
   config.include RequestClient, type: :request
   config.include HtmlMatchers, type: :request
 

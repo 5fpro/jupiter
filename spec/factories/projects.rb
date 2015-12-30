@@ -8,6 +8,7 @@
 #  owner_id      :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  data          :hstore
 #
 
 FactoryGirl.define do
