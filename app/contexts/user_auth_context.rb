@@ -14,7 +14,6 @@ class UserAuthContext < BaseContext
     @params = ActionController::Parameters.new(params)
     @provider = @params[:provider]
     @user = current_user
-    @new_user = false
     @authorization = nil
   end
 
