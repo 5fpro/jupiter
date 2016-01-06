@@ -34,6 +34,6 @@ class ProjectRemoveUserContext < BaseContext
   end
 
   def update_users_count
-    @project.update_attribute :users_count, @project.project_users.count
+    Common::ProjectUpdateUsersCount.new(@project).perform
   end
 end
