@@ -10,7 +10,7 @@ class ProjectInviteContext < BaseContext
 
   def perform
     run_callbacks :perform do
-      ProjectAddUserContext.new(@project, @user).perform
+      Common::ProjectAddUserContext.new(@project, @user).perform
     end
   end
 

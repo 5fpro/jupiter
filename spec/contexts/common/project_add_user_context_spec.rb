@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ProjectAddUserContext do
+describe Common::ProjectAddUserContext do
   let(:user){ FactoryGirl.create :user }
   let(:project){ FactoryGirl.create :project }
 
