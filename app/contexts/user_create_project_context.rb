@@ -26,6 +26,6 @@ class UserCreateProjectContext < BaseContext
   end
 
   def create_project_users
-    ProjectAddUserContext.new(@project, @user).perform
+    Common::ProjectAddUserContext.new(@project, @user).perform
   end
 end
