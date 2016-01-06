@@ -1,4 +1,4 @@
-class ProjectAddUserContext < BaseContext
+class Common::ProjectAddUserContext < BaseContext
   before_perform :validates_user_not_in_project!
   after_perform :update_users_count
 
