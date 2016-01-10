@@ -23,4 +23,17 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :projects, except: :destroy do
+    resources :records do
+      collection do
+        get :histories
+      end
+    end
+    resources :collaborators, only: [:index, :create, :destroy]
+  end
+
+  resources :records, only: [] do
+    resources :comments
+  end
 end
