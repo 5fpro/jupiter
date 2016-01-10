@@ -31,7 +31,26 @@ module DataMaker
 
   def data_for_project
     { name: "venus",
-      price_of_hour: 1000
+      price_of_hour: 1000,
+      owner_id: FactoryGirl.create(:user).id
+    }
+  end
+
+  def data_for_record
+    { user_id: FactoryGirl.create(:user).id,
+      project_id: FactoryGirl.create(:project).id,
+      record_type: "record_type"
+    }
+  end
+
+  def data_for_comment
+    { user_id: FactoryGirl.create(:user).id
+    }
+  end
+
+  def data_for_project_user
+    { user_id: FactoryGirl.create(:user).id,
+      project_id: FactoryGirl.create(:project).id
     }
   end
 end
