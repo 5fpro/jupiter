@@ -10,9 +10,7 @@ class CollaboratorsController < BaseController
     if project_user.save
       redirect_to params[:redirect_to] || project_collaborators_path(project, project_user), flash: { success: "project_user created" }
     else
-      new()
-      flash.now[:error] = project_user.errors.full_messages
-      render :new
+      redirect_to :back, flash: { error: project_user.errors.full_messages }
     end
   end
 
