@@ -53,4 +53,10 @@ module DataMaker
       project_id: FactoryGirl.create(:project).id
     }
   end
+
+  def data_for_update_project
+    { name: "blablabla",
+      price_of_hour: 10000000
+    }
+  end
 end
