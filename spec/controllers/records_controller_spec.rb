@@ -6,6 +6,13 @@ RSpec.describe RecordsController, type: :request do
   let!(:record) { record_created!(user, project) }
   before{ signin_user(user) }
 
+  it "not my project" do
+    project2 = FactoryGirl.create :project
+    expect{
+      get "/projects/#{project2.id}/records"
+    }.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
   it "#index" do
     get "/projects/#{project.id}/records"
     expect(response).to be_success
