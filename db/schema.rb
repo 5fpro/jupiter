@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230101922) do
+ActiveRecord::Schema.define(version: 20160113173816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
   enable_extension "postgis"
+  enable_extension "hstore"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "provider"
@@ -81,15 +81,15 @@ ActiveRecord::Schema.define(version: 20151230101922) do
   create_table "records", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "project_id"
-    t.string   "record_type"
     t.integer  "minutes"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.hstore   "data"
+    t.integer  "record_type"
   end
 
+  add_index "records", ["project_id", "record_type"], name: "index_records_on_project_id_and_record_type", using: :btree
   add_index "records", ["project_id"], name: "index_records_on_project_id", using: :btree
-  add_index "records", ["record_type"], name: "index_records_on_record_type", using: :btree
   add_index "records", ["user_id", "project_id"], name: "index_records_on_user_id_and_project_id", using: :btree
   add_index "records", ["user_id"], name: "index_records_on_user_id", using: :btree
 
