@@ -10,4 +10,8 @@ module ContextMaker
     @user = user || FactoryGirl.create(:user)
     ProjectInviteContext.new(@project.owner, @user, @project).perform
   end
+
+  def record_created!(user, project)
+    RecordCreateContext.new(user, project).perform(data_for(:record))
+  end
 end

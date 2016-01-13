@@ -12,7 +12,7 @@ class RecordCreateContext < BaseContext
   end
 
   def perform(params)
-    @params = params
+    @params = params[:record] || params
     run_callbacks :perform do
       if @record.save
         @record

@@ -13,7 +13,7 @@
 #
 
 class Record < ActiveRecord::Base
-  enum record_type: [ :coding, :meeting, :discuss, :manage, :plan, :research, :documentation, :etc ]
+  enum record_type: [ :coding, :meeting, :discuss, :plan, :research, :documentation, :etc ]
 
   belongs_to :project
   belongs_to :user
