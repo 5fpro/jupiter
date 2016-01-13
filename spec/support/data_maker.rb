@@ -36,13 +36,6 @@ module DataMaker
     }
   end
 
-  def data_for_record
-    { user_id: FactoryGirl.create(:user).id,
-      project_id: FactoryGirl.create(:project).id,
-      record_type: "record_type"
-    }
-  end
-
   def data_for_comment
     { user_id: FactoryGirl.create(:user).id
     }
@@ -57,6 +50,13 @@ module DataMaker
   def data_for_update_project
     { name: "blablabla",
       price_of_hour: 10000000
+    }
+  end
+
+  def data_for_record
+    { record_type: :coding,
+      minutes: 120,
+      note: "fix bug"
     }
   end
 end
