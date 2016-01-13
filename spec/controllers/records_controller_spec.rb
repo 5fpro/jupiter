@@ -1,8 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe RecordsController, type: :request do
-  let!(:project) { FactoryGirl.create :project }
-  let!(:record) { FactoryGirl.create :record, project: project }
+  let!(:user){ FactoryGirl.create :user }
+  let!(:project) { project_created!(user) }
+  let!(:record) { record_created!(user, project) }
+  before{ signin_user(user) }
+
+  it "not my project" do
+    project2 = FactoryGirl.create :project
+    expect{
+      get "/projects/#{project2.id}/records"
+    }.to raise_error(ActiveRecord::RecordNotFound)
+  end
 
   it "#index" do
     get "/projects/#{project.id}/records"
@@ -21,7 +30,7 @@ RSpec.describe RecordsController, type: :request do
 
   it "#create" do
     expect{
-      post "/projects/#{project.id}/records", records: data_for(:record)
+      post "/projects/#{project.id}/records", record: data_for(:record)
     }.to change{ Record.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
@@ -35,7 +44,7 @@ RSpec.describe RecordsController, type: :request do
 
   it "#update" do
     expect{
-      put "/projects/#{project.id}/records/#{record.id}", records: { minutes: 10 }
+      put "/projects/#{project.id}/records/#{record.id}", record: { minutes: 10 }
     }.to change{ record.reload.minutes }
     expect(response).to be_redirect
     follow_redirect!
