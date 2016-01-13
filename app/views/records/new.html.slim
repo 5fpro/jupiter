@@ -1,0 +1,5 @@
+= simple_form_for @record, as: :record, method: :post, url: project_records_path(@project) do |f|
+  = f.input :record_type, as: :radio_buttons, collection: collection_for_record_types
+  = f.input :minutes
+  = f.input :note, as: :text
+  = f.submit
