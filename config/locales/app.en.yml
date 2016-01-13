@@ -1,0 +1,11 @@
+en:
+  models:
+    record:
+      record_types:
+        coding: "Coding / Code Reivew"
+        meeting: "Meeting"
+        discuss: "Discussion"
+        plan: "Planing / Manage"
+        research: "Research"
+        documentation: "Documentation"
+        etc: "Others..."
