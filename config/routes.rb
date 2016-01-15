@@ -25,11 +25,7 @@ Rails.application.routes.draw do
   end
 
   resources :projects, except: :destroy do
-    resources :records do
-      collection do
-        get :histories
-      end
-    end
+    resources :records
     resources :collaborators, only: [:index, :create, :destroy]
   end
 
