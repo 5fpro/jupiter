@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
   resources :projects, except: :destroy do
     resources :records
-    resources :collaborators, only: [:index, :create, :destroy]
+    resources :collaborators, except: [:edit, :update, :show]
   end
 
   resources :records, only: [] do

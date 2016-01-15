@@ -10,6 +10,11 @@ RSpec.describe CollaboratorsController, type: :request do
     expect(response).to be_success
   end
 
+  it "#new" do
+    get "/projects/#{project.id}/collaborators/new"
+    expect(response).to be_success
+  end
+
   it "#create" do
     expect{
       post "/projects/#{project.id}/collaborators", project_users: data_for(:project_user, project: project, user: user)
