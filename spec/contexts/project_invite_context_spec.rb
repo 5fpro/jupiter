@@ -5,7 +5,7 @@ describe ProjectInviteContext do
   let(:user){ FactoryGirl.create :user }
   let(:project){ project_created!(me) }
 
-  subject{ described_class.new(me, user, project).perform }
+  subject{ described_class.new(me, user.email, project).perform }
 
   context "success" do
     it "project has user" do
