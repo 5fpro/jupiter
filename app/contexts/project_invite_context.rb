@@ -1,10 +1,11 @@
 class ProjectInviteContext < BaseContext
+  before_perform :validates_user_exist!
   before_perform :validates_me_in_project!
   before_perform :validates_user_is_not_me!
 
-  def initialize(me, user, project)
+  def initialize(me, email, project)
     @me = me
-    @user = user
+    @user = User.exists?(email: email) ? User.find_by(email: email) : nil
     @project = project
   end
 
@@ -15,6 +16,11 @@ class ProjectInviteContext < BaseContext
   end
 
   private
+
+  def validates_user_exist!
+    return add_error(:user_is_not_exist) unless @user
+    true
+  end
 
   def validates_me_in_project!
     return add_error(:user_is_not_in_project) unless @project.has_user?(@me)
