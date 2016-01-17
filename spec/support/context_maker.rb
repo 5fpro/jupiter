@@ -12,6 +12,6 @@ module ContextMaker
   end
 
   def record_created!(user, project)
-    RecordCreateContext.new(user, project).perform(data_for(:record))
+    @record = RecordCreateContext.new(user, project).perform(data_for(:record))
   end
 end
