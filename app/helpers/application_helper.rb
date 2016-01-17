@@ -5,4 +5,11 @@ module ApplicationHelper
     end
   end
 
+  def collection_for_users
+    User.all.map { |user| [user.name, user.id] }
+  end
+
+  def collection_for_users_email
+    User.all.map(&:email)
+  end
 end
