@@ -1,0 +1,2 @@
+= simple_form_for @record, as: :record, method: :put, url: project_record_path(@project, @record) do |f|
+  = render partial: "form", as: :f, object: f
