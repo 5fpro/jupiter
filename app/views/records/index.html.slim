@@ -1,0 +1,11 @@
+- @records.each do |record|
+  = "分鐘 : #{ record.minutes }"
+  br
+  = "Type : #{ record_type_name(record.record_type) }"
+  br
+  = "備註 : #{ record.note }"
+  br
+  = link_to "編輯", edit_project_record_path(@project, record), target: "_blank"
+  br
+  | ============= 區隔 ================
+  br
