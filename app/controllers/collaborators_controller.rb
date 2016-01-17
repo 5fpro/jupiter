@@ -1,4 +1,5 @@
 class CollaboratorsController < BaseController
+  before_filter :authenticate_user!
   before_filter :project
   before_filter :project_user
 
@@ -10,7 +11,7 @@ class CollaboratorsController < BaseController
   end
 
   def create
-    context = ProjectInviteContext.new(current_user, params[:user][:email], @project)
+    context = ProjectInviteContext.new(current_user, params[:project_user][:email], @project)
     if context.perform
       redirect_to project_path(project), flash: { success: "project_user created" }
     else

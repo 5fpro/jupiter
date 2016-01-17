@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :request do
-  let!(:project) { FactoryGirl.create :project }
+  before do
+    project_created!
+    signin_user(@user)
+  end
 
   it "#index" do
     get "/projects"
@@ -9,7 +12,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   it "#show" do
-    get "/projects/#{project.id}"
+    get "/projects/#{@project.id}"
     expect(response).to be_success
   end
 
@@ -20,7 +23,7 @@ RSpec.describe ProjectsController, type: :request do
 
   it "#create" do
     expect{
-      post "/projects", projects: data_for(:project)
+      post "/projects", project: data_for(:project)
     }.to change{ Project.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
@@ -28,14 +31,14 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   it "#edit" do
-    get "/projects/#{project.id}/edit"
+    get "/projects/#{@project.id}/edit"
     expect(response).to be_success
   end
 
   it "#update" do
     expect{
-      put "/projects/#{project.id}", projects: { name: "blablabla" }
-    }.to change{ project.reload.name }
+      put "/projects/#{@project.id}", project: { name: "blablabla" }
+    }.to change{ @project.reload.name }
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
