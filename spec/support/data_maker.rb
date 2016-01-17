@@ -59,4 +59,11 @@ module DataMaker
       note: "fix bug"
     }
   end
+
+  def data_for_update_record
+    { record_type: :etc,
+      minutes: 10,
+      note: "update minutes"
+    }
+  end
 end
