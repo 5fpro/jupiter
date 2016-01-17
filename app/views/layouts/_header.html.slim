@@ -1,0 +1,7 @@
+- if user_signed_in?
+  = link_to "Logout", destroy_user_session_path, method: :delete
+  br
+  = link_to "Create New Project", new_project_path
+- else
+  = link_to "GitHub login", auth_github_path
+br
