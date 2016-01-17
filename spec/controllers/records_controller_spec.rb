@@ -44,8 +44,8 @@ RSpec.describe RecordsController, type: :request do
 
   it "#update" do
     expect{
-      put "/projects/#{project.id}/records/#{record.id}", record: { minutes: 10 }
-    }.to change{ record.reload.minutes }
+      put "/projects/#{project.id}/records/#{record.id}", record: data_for(:update_record)
+    }.to change{ record.reload.minutes }.to(data_for(:update_record)[:minutes])
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
