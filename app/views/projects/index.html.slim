@@ -1,0 +1,11 @@
+- @projects.each do |p|
+  = "專案名稱 : #{ p.name }"
+  br
+  = "專案每小時單價 : #{ p.price_of_hour }"
+  br
+  = link_to "專案資訊", project_path(p)
+  br
+  = link_to "更新專案 ", edit_project_path(p)
+  br
+  | ==================================== 分隔線 =================================
+  br

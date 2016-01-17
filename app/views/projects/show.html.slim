@@ -1,0 +1,10 @@
+= link_to "新增成員", new_project_collaborator_path(@project)
+br
+= link_to "成員列表", project_collaborators_path(@project)
+br
+= "專案名稱: #{ @project.name }"
+br
+= "專案每小時單價 : #{ @project.price_of_hour }"
+br
+= "專案擁有人 : #{ @project.owner.name }"
+br

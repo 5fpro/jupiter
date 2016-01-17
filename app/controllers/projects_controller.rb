@@ -1,8 +1,9 @@
 class ProjectsController < BaseController
+  before_filter :authenticate_user!
   before_filter :project
 
   def index
-    @projects = Project.all
+    @projects = current_user.projects
   end
 
   def show
@@ -10,16 +11,15 @@ class ProjectsController < BaseController
   end
 
   def new
-    
+
   end
 
   def create
-    if project.save
-      redirect_to params[:redirect_to] || project_path(project), flash: { success: "project created" }
+    context = UserCreateProjectContext.new(current_user, params)
+    if project = context.perform
+      redirect_to project_path(project), flash: { success: "project created" }
     else
-      new()
-      flash.now[:error] = project.errors.full_messages
-      render :new
+      redirect_to projects_path, flash: { error: context.error_messages.join(",") }
     end
   end
 
@@ -44,6 +44,6 @@ class ProjectsController < BaseController
   end
 
   def project_params
-    params.fetch(:projects, {}).permit(:price_of_hour, :name, :owner_id, :tmp)
+    params.fetch(:project, {}).permit(:price_of_hour, :name, :owner_id, :tmp)
   end
 end
