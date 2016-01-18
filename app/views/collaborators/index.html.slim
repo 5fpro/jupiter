@@ -1,0 +1,8 @@
+- @project_users.each do |project_user|
+  - if project_user.user == @project.owner
+    = "管理者 : #{ project_user.user.email }"
+    br
+  - else
+    = project_user.user.email
+    = link_to "移除此成員", project_collaborator_path(@project, project_user), method: :delete, data: { confirm: "確定移除？"}
+    br
