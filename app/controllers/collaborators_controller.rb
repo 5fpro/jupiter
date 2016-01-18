@@ -1,4 +1,5 @@
 class CollaboratorsController < BaseController
+  before_filter :authenticate_user!
   before_filter :project
   before_filter :project_user
 
@@ -6,19 +7,24 @@ class CollaboratorsController < BaseController
     @project_users = project.project_users
   end
 
+  def new
+  end
+
   def create
-    if project_user.save
-      redirect_to params[:redirect_to] || project_collaborators_path(project, project_user), flash: { success: "project_user created" }
+    context = ProjectInviteContext.new(current_user, params[:project_user][:email], @project)
+    if context.perform
+      redirect_to project_path(project), flash: { success: "project_user created" }
     else
-      redirect_to :back, flash: { error: project_user.errors.full_messages }
+      redirect_to :back, flash: { error: context.error_messages.join(",") }
     end
   end
 
   def destroy
-    if project_user.destroy
-      redirect_to params[:redirect_to] || project_collaborators_path, flash: { success: "project_user deleted" }
+    context = ProjectRemoveUserContext.new(current_user, @project_user.user, @project)
+    if context.perform
+      redirect_to project_path(@project), flash: { success: "project_user deleted" }
     else
-      redirect_to :back, flash: { error: project_user.errors.full_messages }
+      redirect_to :back, flash: { error: context.error_messages.join(",") }
     end
   end
 
@@ -29,10 +35,6 @@ class CollaboratorsController < BaseController
   end
 
   def project_user
-    @project_user ||= params[:id] ? @project.project_users.find(params[:id]) : @project.project_users.new(project_user_params)
-  end
-
-  def project_user_params
-    params.fetch(:project_users, {}).permit(:user_id, :project_id)
+    @project_user ||= params[:id] ? @project.project_users.find(params[:id]) : nil
   end
 end

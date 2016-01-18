@@ -59,9 +59,4 @@ RSpec.describe RecordsController, type: :request do
     follow_redirect!
     expect(response).to be_success
   end
-
-  it "#histories" do
-    get "/projects/#{project.id}/records/histories"
-    expect(response).to be_success
-  end
 end
