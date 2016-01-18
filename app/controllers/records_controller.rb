@@ -31,20 +31,22 @@ class RecordsController < BaseController
   end
 
   def update
-    if record.update_attributes(record_params)
-      redirect_to params[:redirect_to] || project_record_path(project, record), flash: { success: "record updated" }
+    context = RecordUpdateContext.new(current_user, @record)
+    if @record = context.perform(params)
+      redirect_to project_record_path(project, @record), flash: { success: "record update" }
     else
       edit()
-      flash.now[:error] = record.errors.full_messages
+      flash.now[:error] = context.error_messages.join(", ")
       render :edit
     end
   end
 
   def destroy
-    if record.destroy
-      redirect_to params[:redirect_to] || project_records_path, flash: { success: "record deleted" }
+    context = RecordDeleteContext.new(current_user, @record)
+    if context.perform
+      redirect_to project_records_path(project), flash: { success: "record deleted" }
     else
-      redirect_to :back, flash: { error: record.errors.full_messages }
+      redirect_to :back, flash: { error: context.error_messages.join(", ") }
     end
   end
 
