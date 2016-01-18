@@ -8,8 +8,4 @@ module ApplicationHelper
   def collection_for_project_users(project)
     project.users.map { |user| [user.name, user.id] }
   end
-
-  def collection_for_users_email
-    User.all.map(&:email)
-  end
 end
