@@ -14,12 +14,11 @@ module Taggable
     def define_class_methods_for_taggable!
       self.class.instance_eval do
         define_method :tagged, ->(*tags) do
-          tags.select!{ |t| t.present? }
+          tags.select!(&:present?)
           tags.size > 0 ? tagged_with(tags, any: true) : where(nil)
         end
       end
     end
   end
-
 
 end

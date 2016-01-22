@@ -1,17 +1,15 @@
 class ProjectsController < BaseController
-  before_filter :authenticate_user!
-  before_filter :project
+  before_action :authenticate_user!
+  before_action :project
 
   def index
     @projects = current_user.projects
   end
 
   def show
-
   end
 
   def new
-
   end
 
   def create
@@ -24,14 +22,13 @@ class ProjectsController < BaseController
   end
 
   def edit
-
   end
 
   def update
     if project.update_attributes(project_params)
       redirect_to params[:redirect_to] || project_path(project), flash: { success: "project updated" }
     else
-      edit()
+      edit
       flash.now[:error] = project.errors.full_messages
       render :edit
     end

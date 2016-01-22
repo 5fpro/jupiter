@@ -1,5 +1,5 @@
 class RecordUpdateContext < BaseContext
-  PERMITS = [:minutes, :note, :record_type]
+  PERMITS = [:minutes, :note, :record_type].freeze
 
   before_perform :validates_user!
   before_perform :assign_value
@@ -10,7 +10,7 @@ class RecordUpdateContext < BaseContext
   end
 
   def perform(params)
-    @params = permit_params( params[:record] || params, PERMITS )
+    @params = permit_params(params[:record] || params, PERMITS)
     run_callbacks :perform do
       if @record.save
         @record
@@ -23,7 +23,7 @@ class RecordUpdateContext < BaseContext
   private
 
   def validates_user!
-    return add_error(:user_is_not_owner) unless @record.user_id ==  @user.id
+    return add_error(:user_is_not_owner) unless @record.user_id == @user.id
     true
   end
 

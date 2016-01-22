@@ -15,14 +15,14 @@ module Restorable
       self.class.instance_eval do
         define_method :delete_state, ->(value) do
           if [:only_deleted, :with_deleted].include?(value.to_sym)
-            self.public_send(value)
+            public_send(value)
           else
             where(nil)
           end
         end
 
       end
-      self.send :define_method, :restorable?, -> do
+      send :define_method, :restorable?, -> do
         true
       end
     end

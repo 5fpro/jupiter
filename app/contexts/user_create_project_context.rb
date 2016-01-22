@@ -1,12 +1,12 @@
 class UserCreateProjectContext < BaseContext
-  PERMITS = [:name, :price_of_hour]
+  PERMITS = [:name, :price_of_hour].freeze
 
   before_perform :build_project
   after_perform  :create_project_users
 
   def initialize(user, params)
     @user = user
-    @params = permit_params( params[:project] || params, PERMITS )
+    @params = permit_params(params[:project] || params, PERMITS)
   end
 
   def perform
