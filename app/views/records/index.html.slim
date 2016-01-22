@@ -1,3 +1,8 @@
+h1
+  = @project.name
+
+= render partial: "filtering", as: :q, object: @q
+
 - @records.each do |record|
   = "分鐘 : #{ record.minutes }"
   br
