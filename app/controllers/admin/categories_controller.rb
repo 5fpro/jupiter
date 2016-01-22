@@ -64,7 +64,7 @@ class Admin::CategoriesController < Admin::BaseController
                       { success: "category restored" }
                     else
                       { error: "already restored" }
-    end
+                    end
     redirect_to request.referer || admin_categories_path, flash: flash_message
   end
 

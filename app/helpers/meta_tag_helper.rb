@@ -1,5 +1,29 @@
 module MetaTagHelper
   def set_meta(data = {})
+    data = process_meta_data(data)
+    set_meta_tags(data.merge(
+                    reverse:   default_meta[:reverse],
+                    separator: default_meta[:separator],
+                    canonical: data[:og][:url]
+    ))
+  end
+
+  def default_meta
+    { title: "My app",
+      description: "5Fpro awesome!",
+      keywords: "5fpro",
+      fb_app_id: "12341234",
+      fb_admin_ids: "1234,123",
+      separator: " | ",
+      reverse: true,
+      og_type: "website",
+      site: "5Fpro"
+    }
+  end
+
+  private
+
+  def process_meta_data(data)
     url = data[:url] || url_for(params.merge(host: Setting.host))
     data[:title] ||= default_meta[:title]
     data[:description] ||= default_meta[:description]
@@ -16,23 +40,6 @@ module MetaTagHelper
       admins: default_meta[:fb_admin_ids]
     }
     data[:og][:image] = data[:image] if data[:image]
-    set_meta_tags(data.merge(
-                    reverse:   default_meta[:reverse],
-                    separator: default_meta[:separator],
-                    canonical: url
-    ))
-  end
-
-  def default_meta
-    { title: "My app",
-      description: "5Fpro awesome!",
-      keywords: "5fpro",
-      fb_app_id: "12341234",
-      fb_admin_ids: "1234,123",
-      separator: " | ",
-      reverse: true,
-      og_type: "website",
-      site: "5Fpro"
-    }
+    data
   end
 end

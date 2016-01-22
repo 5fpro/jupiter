@@ -6,7 +6,7 @@ module Context::ErrorHandler
   end
 
   def error_messages
-    @errors.values.inject([]) { |s, messages| s + messages }
+    @errors.values.inject([]) { |a, e| a + e }
   end
 
   def has_error?

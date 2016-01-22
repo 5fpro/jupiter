@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
 
   store_accessor :data, :users_count
 
-  validates_presence_of :name, :owner_id
+  validates :name, :owner_id, presence: true
 
   def has_user?(user)
     project_users.map(&:user_id).include?(user.id)

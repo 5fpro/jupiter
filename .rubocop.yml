@@ -87,3 +87,21 @@ Style/BlockDelimiters:
 
 Style/RegexpLiteral:
   AllowInnerSlashes: true
+
+Style/PredicateName:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 50
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/NestedMethodDefinition:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 30

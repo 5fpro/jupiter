@@ -66,7 +66,7 @@ class BaseUploader < CarrierWave::Uploader::Base
   def id_partition(attachment)
     case id = attachment.id
     when Integer
-      ("%09d" % id).scan(/\d{3}/).join("/")
+      format("%09d", id).scan(/\d{3}/).join("/")
     when String
       id.scan(/.{3}/).first(3).join("/")
     end

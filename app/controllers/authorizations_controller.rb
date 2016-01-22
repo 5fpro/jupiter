@@ -8,7 +8,7 @@ class AuthorizationsController < ApplicationController
     else
       redirect_to root_path(host: Setting.host), flash: { error: "oauth sign in fail" }
     end
-    end
+  end
 
   def failure
     flash[:error] = params[:message]
