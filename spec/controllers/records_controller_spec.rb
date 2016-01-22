@@ -20,19 +20,19 @@ RSpec.describe RecordsController, type: :request do
     context "empty" do
       before { subject }
 
-      it{ expect(response).to be_success }
+      it { expect(response).to be_success }
     end
 
     context "has record" do
       before { FactoryGirl.create :record, project: project, user: user }
       before { subject }
 
-      it{ expect(response).to be_success }
+      it { expect(response).to be_success }
     end
 
     context "different groups" do
 
-      let(:member){ FactoryGirl.create :user }
+      let(:member) { FactoryGirl.create :user }
       before { project_invite!(project, member) }
       before { FactoryGirl.create :record, project: project, user: member }
       before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
@@ -55,7 +55,7 @@ RSpec.describe RecordsController, type: :request do
   end
 
   describe "#show" do
-    let(:member){ FactoryGirl.create :user }
+    let(:member) { FactoryGirl.create :user }
     before { project_invite!(project, member) }
 
     context "my record" do
@@ -99,7 +99,7 @@ RSpec.describe RecordsController, type: :request do
   end
 
   describe "#edit" do
-    let(:member){ FactoryGirl.create :user }
+    let(:member) { FactoryGirl.create :user }
     before { project_invite!(project, member) }
 
     context "my record" do

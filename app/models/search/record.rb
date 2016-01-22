@@ -1,7 +1,7 @@
 class Search::Record < ::Record
 
   CREATED_AT_PERIODS = [:this_week, :last_week, :this_month, :last_month].freeze
-  GROUPS = [:day, :week, :month, :record_type, :user]
+  GROUPS = [:day, :week, :month, :record_type, :user].freeze
 
   class << self
     def ransackable_scopes(_auth_object = nil)
@@ -9,7 +9,7 @@ class Search::Record < ::Record
     end
 
     def record_type_key_in(*values)
-      values = values.select(&:present?).map{ |v| self.record_types[v.to_sym] }
+      values = values.select(&:present?).map { |v| record_types[v.to_sym] }
       where(record_type: values)
     end
 
@@ -34,11 +34,11 @@ class Search::Record < ::Record
     end
 
     def created_at_collection
-      CREATED_AT_PERIODS.map{ |key| [I18n.t("models.record.created_at_periods.#{key}"), key] }
+      CREATED_AT_PERIODS.map { |key| [I18n.t("models.record.created_at_periods.#{key}"), key] }
     end
 
     def group_collection
-      GROUPS.map{ |key| [I18n.t("models.record.groups.#{key}"), key] }
+      GROUPS.map { |key| [I18n.t("models.record.groups.#{key}"), key] }
     end
   end
 end
