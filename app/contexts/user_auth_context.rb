@@ -81,7 +81,7 @@ class UserAuthContext < BaseContext
   end
 
   def initialize_user
-    user = User.new( params_to_user_attributes )
+    user = User.new(params_to_user_attributes)
     def user.password_required?
       false
     end
@@ -102,13 +102,11 @@ class UserAuthContext < BaseContext
 
   def update_github_data!
     if @provider.to_sym == :github
-      @user.update_attributes({
-        name: @authorization.auth_data["info"]["name"],
-        github_id: @authorization.uid,
-        github_account: @authorization.auth_data["info"]["nickname"],
-        github_avatar: @authorization.auth_data["info"]["image"],
-        github_token:  @authorization.auth_data["credentials"]["token"]
-      })
+      @user.update_attributes(name: @authorization.auth_data["info"]["name"],
+                              github_id: @authorization.uid,
+                              github_account: @authorization.auth_data["info"]["nickname"],
+                              github_avatar: @authorization.auth_data["info"]["image"],
+                              github_token:  @authorization.auth_data["credentials"]["token"])
     end
   end
 end

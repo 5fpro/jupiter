@@ -9,7 +9,7 @@ module Sortable
 
       acts_as_list(opts)
       define_column_setter!(column)
-      scope :sorted, ->{ order("#{column} ASC") }
+      scope :sorted, -> { order("#{column} ASC") }
       after_destroy :remove_from_list, if: :restorable?
     end
 
@@ -17,7 +17,7 @@ module Sortable
 
     # let acts_as_list usage like ranked-model
     def define_column_setter!(column)
-      self.send :define_method, "#{column}=", ->(value) do
+      send :define_method, "#{column}=", ->(value) do
         return if new_record?
         orig_value = public_send(column)
         if value.present?
