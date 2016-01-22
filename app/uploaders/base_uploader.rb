@@ -12,9 +12,9 @@ class BaseUploader < CarrierWave::Uploader::Base
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
+  # def store_dir
+  #   "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+  # end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
@@ -66,11 +66,9 @@ class BaseUploader < CarrierWave::Uploader::Base
   def id_partition(attachment)
     case id = attachment.id
     when Integer
-      ("%09d" % id).scan(/\d{3}/).join("/")
+      format("%09d", id).scan(/\d{3}/).join("/")
     when String
       id.scan(/.{3}/).first(3).join("/")
-    else
-      nil
     end
   end
 

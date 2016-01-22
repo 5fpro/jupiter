@@ -1,5 +1,5 @@
 class ProjectUpdateSettingContext < BaseContext
-  PERMITS = [:name, :price_of_hour, :owner_id]
+  PERMITS = [:name, :price_of_hour, :owner_id].freeze
 
   before_perform :validates_owner!
   before_perform :assign_value
@@ -10,7 +10,7 @@ class ProjectUpdateSettingContext < BaseContext
   end
 
   def perform(params)
-    @params = permit_params( params[:project] || params, PERMITS )
+    @params = permit_params(params[:project] || params, PERMITS)
     run_callbacks :perform do
       if @project.save
         @project
@@ -23,7 +23,7 @@ class ProjectUpdateSettingContext < BaseContext
   private
 
   def validates_owner!
-    return add_error(:user_is_not_owner) unless @project.owner_id ==  @user.id
+    return add_error(:user_is_not_owner) unless @project.owner_id == @user.id
     true
   end
 

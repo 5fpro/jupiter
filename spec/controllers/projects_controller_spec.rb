@@ -22,9 +22,9 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   it "#create" do
-    expect{
+    expect {
       post "/projects", project: data_for(:project)
-    }.to change{ Project.count }.by(1)
+    }.to change { Project.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
@@ -36,9 +36,9 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   it "#update" do
-    expect{
+    expect {
       put "/projects/#{@project.id}", project: { name: "blablabla" }
-    }.to change{ @project.reload.name }
+    }.to change { @project.reload.name }
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success

@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe RecordsController, type: :request do
-  let!(:user){ FactoryGirl.create :user }
+  let!(:user) { FactoryGirl.create :user }
   let!(:project) { project_created!(user) }
   let!(:record) { record_created!(user, project) }
-  before{ signin_user(user) }
+  before { signin_user(user) }
 
   it "not my project" do
     project2 = FactoryGirl.create :project
-    expect{
+    expect {
       get "/projects/#{project2.id}/records"
     }.to raise_error(ActiveRecord::RecordNotFound)
   end
@@ -29,9 +29,9 @@ RSpec.describe RecordsController, type: :request do
   end
 
   it "#create" do
-    expect{
+    expect {
       post "/projects/#{project.id}/records", record: data_for(:record)
-    }.to change{ Record.count }.by(1)
+    }.to change { Record.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
@@ -43,18 +43,18 @@ RSpec.describe RecordsController, type: :request do
   end
 
   it "#update" do
-    expect{
+    expect {
       put "/projects/#{project.id}/records/#{record.id}", record: data_for(:update_record)
-    }.to change{ record.reload.minutes }.to(data_for(:update_record)[:minutes])
+    }.to change { record.reload.minutes }.to(data_for(:update_record)[:minutes])
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
   end
 
   it "#destroy" do
-    expect{
+    expect {
       delete "/projects/#{project.id}/records/#{record.id}"
-    }.to change{ Record.count }.by(-1)
+    }.to change { Record.count }.by(-1)
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success

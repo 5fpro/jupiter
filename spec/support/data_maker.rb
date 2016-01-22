@@ -49,7 +49,7 @@ module DataMaker
 
   def data_for_update_project
     { name: "blablabla",
-      price_of_hour: 10000000
+      price_of_hour: 10_000_000
     }
   end
 

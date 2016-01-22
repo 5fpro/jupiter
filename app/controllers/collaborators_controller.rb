@@ -1,7 +1,7 @@
 class CollaboratorsController < BaseController
-  before_filter :authenticate_user!
-  before_filter :project
-  before_filter :project_user
+  before_action :authenticate_user!
+  before_action :project
+  before_action :project_user
 
   def index
     @project_users = project.project_users

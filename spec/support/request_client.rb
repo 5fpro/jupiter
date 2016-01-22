@@ -11,7 +11,7 @@ module RequestClient
   end
 
   def omniauth_signin
-    get "/authorizations/facebook/callback", nil, { "omniauth.auth" => omniauth_mock(:github) }
+    get "/authorizations/facebook/callback", nil, "omniauth.auth" => omniauth_mock(:github)
   end
 
   def current_user
