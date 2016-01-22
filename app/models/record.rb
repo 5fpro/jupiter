@@ -21,5 +21,14 @@ class Record < ActiveRecord::Base
 
   validates :user_id, :project_id, :record_type, :minutes, presence: true
 
+  scope :this_month, ->{ where(created_at: Time.zone.now.beginning_of_month..Time.zone.now) }
+  scope :last_month, ->{ where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month) }
+
   store_accessor :data, :note
+
+  class << self
+    def total_time
+      (select(:minutes).map(&:minutes).inject(&:+) || 0).minutes
+    end
+  end
 end
