@@ -9,3 +9,7 @@ en:
         research: "Research"
         documentation: "Documentation"
         etc: "Others..."
+  errors:
+    omniauth_parse_email_fail: "omniauth_parse_email_fail"
+    omniauth_already_auth: "omniauth_already_auth"
+    omniauth_email_registered: "omniauth_email_registered"
