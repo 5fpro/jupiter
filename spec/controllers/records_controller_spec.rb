@@ -29,6 +29,29 @@ RSpec.describe RecordsController, type: :request do
 
       it{ expect(response).to be_success }
     end
+
+    context "different groups" do
+
+      let(:member){ FactoryGirl.create :user }
+      before{ project_invite!(project, member) }
+      before{ FactoryGirl.create :record, project: project, user: member }
+      before{ FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
+
+      it "by user" do
+        get "/projects/#{project.id}/records", q: { group_by: "user" }
+        expect(response).to be_success
+      end
+
+      it "by record_type" do
+        get "/projects/#{project.id}/records", q: { group_by: "record_type" }
+        expect(response).to be_success
+      end
+
+      it "by week" do
+        get "/projects/#{project.id}/records", q: { group_by: "week" }
+        expect(response).to be_success
+      end
+    end
   end
 
   it "#show" do
