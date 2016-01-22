@@ -16,8 +16,8 @@
 class Authorization < ActiveRecord::Base
   enum provider: [:github, :google_oauth2, :facebook]
 
-  validates_presence_of :provider, :uid, :auth
-  validates_uniqueness_of :provider, scope: [:uid]
+  validates :provider, :uid, :auth, presence: true
+  validates :provider, uniqueness: { scope: :uid }
   belongs_to :auth, polymorphic: true
   serialize :auth_data, Hash
 end

@@ -23,7 +23,7 @@ describe UserAuthContext do
       end
     end
     it "user2 has the same email" do
-      user2 = FactoryGirl.create :user, email: email
+      FactoryGirl.create :user, email: email
       expect {
         @result = subject
       }.not_to change { user.reload.authorizations.count }

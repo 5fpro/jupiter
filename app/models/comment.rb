@@ -15,7 +15,7 @@ class Comment < ActiveRecord::Base
   belongs_to :item, polymorphic: true
   belongs_to :user
 
-  validates_presence_of :user_id
+  validates :user_id, presence: true
 
   store_accessor :data, :tmp
 end
