@@ -13,31 +13,31 @@ RSpec.describe ProjectsController, type: :request do
 
   describe "#show" do
 
-    let(:project){ @project }
+    let(:project) { @project }
 
-    subject{ get "/projects/#{project.id}" }
+    subject { get "/projects/#{project.id}" }
 
     context "empty" do
-      before{ subject }
+      before { subject }
 
-      it{ expect(response).to be_success }
+      it { expect(response).to be_success }
     end
 
     context "has member" do
-      let(:member){ FactoryGirl.create :user }
+      let(:member) { FactoryGirl.create :user }
 
-      before{ project_invite!(project, member) }
-      before{ subject }
+      before { project_invite!(project, member) }
+      before { subject }
 
-      it{ expect(response).to be_success }
+      it { expect(response).to be_success }
 
       context "has reocrds" do
-        let(:time){ (50 * 60) + 10 }
+        let(:time) { (50 * 60) + 10 }
 
-        before{ FactoryGirl.create :record, project: project, user: member, minutes: time, created_at: 1.minute.ago }
-        before{ get "/projects/#{project.id}" }
+        before { FactoryGirl.create :record, project: project, user: member, minutes: time, created_at: 1.minute.ago }
+        before { get "/projects/#{project.id}" }
 
-        it{ expect(response.body).to match(DatetimeService.to_units_text(time.minutes, skip_day: true)) }
+        it { expect(response.body).to match(DatetimeService.to_units_text(time.minutes, skip_day: true)) }
       end
 
     end

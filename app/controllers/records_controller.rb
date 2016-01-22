@@ -2,7 +2,7 @@ class RecordsController < BaseController
   before_action :authenticate_user!
 
   before_action :find_project
-  before_action :find_record, only: [ :edit, :update, :destroy]
+  before_action :find_record, only: [:edit, :update, :destroy]
 
   def index
     @q = Search::Record.where(project_id: @project.id).order("id DESC").ransack(params[:q])
