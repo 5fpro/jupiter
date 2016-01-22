@@ -1,8 +1,8 @@
 class RecordsController < BaseController
   before_action :authenticate_user!
 
-  before_filter :project
-  before_filter :record
+  before_action :project
+  before_action :record
 
   def index
     @records = project.records
@@ -20,14 +20,13 @@ class RecordsController < BaseController
     if @record = context.perform(params)
       redirect_to params[:redirect_to] || project_record_path(project, @record), flash: { success: "record created" }
     else
-      new()
+      new
       flash.now[:error] = context.error_messages.join(", ")
       render :new
     end
   end
 
   def edit
-
   end
 
   def update
@@ -35,7 +34,7 @@ class RecordsController < BaseController
     if @record = context.perform(params)
       redirect_to project_record_path(project, @record), flash: { success: "record update" }
     else
-      edit()
+      edit
       flash.now[:error] = context.error_messages.join(", ")
       render :edit
     end
@@ -51,7 +50,6 @@ class RecordsController < BaseController
   end
 
   def histories
-
   end
 
   private

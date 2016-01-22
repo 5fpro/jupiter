@@ -1,5 +1,5 @@
 class RecordCreateContext < BaseContext
-  PERMITS = [:record_type, :minutes, :note]
+  PERMITS = [:record_type, :minutes, :note].freeze
   attr_accessor :project, :user, :record
 
   before_perform :init_params

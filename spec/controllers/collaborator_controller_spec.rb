@@ -18,9 +18,9 @@ RSpec.describe CollaboratorsController, type: :request do
 
   it "#create" do
     user = FactoryGirl.create :user
-    expect{
+    expect {
       post "/projects/#{@project.id}/collaborators", project_user: { email: user.email }
-    }.to change{ @project.users.count }.by(1)
+    }.to change { @project.users.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
@@ -29,9 +29,9 @@ RSpec.describe CollaboratorsController, type: :request do
   it "#destroy" do
     project_invite!(@project)
     project_user = @project.project_users.where(user_id: @user.id).first
-    expect{
+    expect {
       delete "/projects/#{@project.id}/collaborators/#{project_user.id}"
-    }.to change{ @project.users.count }.by(-1)
+    }.to change { @project.users.count }.by(-1)
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
