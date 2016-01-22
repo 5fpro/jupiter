@@ -37,7 +37,7 @@ RSpec.describe ProjectsController, type: :request do
         before{ FactoryGirl.create :record, project: project, user: member, minutes: time, created_at: 1.minute.ago }
         before{ get "/projects/#{project.id}" }
 
-        it{ expect(response.body).to match(DatetimeService.to_units_text(time.minutes)) }
+        it{ expect(response.body).to match(DatetimeService.to_units_text(time.minutes, skip_day: true)) }
       end
 
     end
