@@ -1,3 +1,7 @@
+= render partial: "projects/menu", as: :project, object: @project
+
+div= link_to "新增成員", new_project_collaborator_path(@project)
+
 - @project_users.each do |project_user|
   - if project_user.user == @project.owner
     = "管理者 : #{ project_user.user.email }"

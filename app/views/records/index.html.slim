@@ -1,5 +1,6 @@
-h1
-  = @project.name
+= render partial: "projects/menu", as: :project, object: @project
+
+hr/
 
 = render partial: "filtering", as: :q, object: @q
 

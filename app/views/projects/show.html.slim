@@ -1,10 +1,4 @@
-h1
-  = "專案名稱: #{ @project.name }"
-.menu
-  .bt= link_to "新增成員", new_project_collaborator_path(@project)
-  .bt= link_to "成員詳細列表", project_collaborators_path(@project)
-  .bt= link_to "新增record", new_project_record_path(@project), target: "_blank"
-  .bt= link_to "record清單", project_records_path(@project)
+= render partial: "menu", as: :project, object: @project
 
 h2
   = "Info"
