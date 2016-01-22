@@ -1,0 +1,10 @@
+= search_form_for @q, :builder => SimpleForm::FormBuilder, html: { class: "form-horizontal" }, defaults: { required: false }, url: project_records_path(@project) do |f|
+  = f.input :user_id_eq, label: "User", as: :select, collection: collection_for_project_users(@project)
+  = f.input :record_type_key_in, label: "Type", as: :check_boxes, collection: collection_for_record_types, checked: params[:q].try(:[], :record_type_key_in)
+  = f.input :created_at_period_is, as: :select, collection: Search::Record.created_at_collection, label: "Period"
+
+  = f.input :group_by, as: :select, collection: Search::Record.group_collection, label: "Group by"
+  - if Rails.env.development?
+    = f.input :created_at_eq, as: :string, input_html: { name: "", value: @q.result.to_sql }, label: "debug sql"
+  .form-actions
+    = f.submit "Search", class: "btn btn-primary"

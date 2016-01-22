@@ -1,0 +1,12 @@
+h1
+  = @project.name
+
+.menu
+  = link_to "記錄時間", new_project_record_path(@project)
+  = " | "
+  = link_to "record清單", project_records_path(@project)
+  = " | "
+  - if @project.owner_id == current_user.id
+    = link_to "管理成員", project_collaborators_path(@project)
+    = " | "
+    = link_to "設定", edit_project_path(@project)
