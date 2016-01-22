@@ -9,3 +9,18 @@ en:
         research: "Research"
         documentation: "Documentation"
         etc: "Others..."
+      created_at_periods:
+        this_week: "This Week"
+        last_week: "Last Week"
+        this_month: "This Month"
+        last_month: "Last Month"
+      groups:
+        record_type: "Type"
+        user: "User"
+        week: "Week"
+        month: "Month"
+        day: "Day"
+  errors:
+    omniauth_parse_email_fail: "omniauth_parse_email_fail"
+    omniauth_already_auth: "omniauth_already_auth"
+    omniauth_email_registered: "omniauth_email_registered"

@@ -1,18 +1,25 @@
-.div
-  = "ID: "
-  = @record.id
-.div
-  = "Type: "
-  = record_type_name( @record.record_type )
-.div
-  = "Minutes: "
-  = @record.minutes
-.div
-  = "Note: "
-  = @record.note
-.div
-  = "Created At: "
-  = @record.created_at
-.div
-  = "Updated At: "
-  = @record.updated_at
+= render partial: "projects/menu", as: :project, object: @project
+
+table
+  tbody
+    tr
+      td ID
+      td= @record.id
+    tr
+      td User
+      td= @record.user.name
+    tr
+      td Type
+      td= record_type_name(@record.record_type)
+    tr
+      td Minutes
+      td= @record.minutes
+    tr
+      td Note
+      td= @record.note
+    tr
+      td Created
+      td= @record.created_at
+    tr
+      td Updated
+      td= @record.updated_at

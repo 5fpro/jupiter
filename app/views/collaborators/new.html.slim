@@ -1,2 +1,4 @@
+= render partial: "projects/menu", as: :project, object: @project
+
 = form_tag( project_collaborators_path(@project), method: :post) do
   = render partial: "form"
