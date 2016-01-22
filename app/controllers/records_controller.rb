@@ -5,7 +5,8 @@ class RecordsController < BaseController
   before_action :record
 
   def index
-    @records = project.records
+    @q = Search::Record.where(project_id: project.id).ransack(params[:q])
+    @records = @q.result.order("id DESC").page(params[:page]).per(30)
   end
 
   def show
@@ -55,7 +56,8 @@ class RecordsController < BaseController
   private
 
   def project
-    @project = current_user.projects.find(params[:project_id])
+    @project ||= current_user.projects.find(params[:project_id])
+    @project
   end
 
   def record

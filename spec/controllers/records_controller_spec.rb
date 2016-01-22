@@ -13,9 +13,22 @@ RSpec.describe RecordsController, type: :request do
     }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
-  it "#index" do
-    get "/projects/#{project.id}/records"
-    expect(response).to be_success
+  describe "#index" do
+
+    subject{ get "/projects/#{project.id}/records" }
+
+    context "empty" do
+      before{ subject }
+
+      it{ expect(response).to be_success }
+    end
+
+    context "has record" do
+      before{ FactoryGirl.create :record, project: project, user: user }
+      before{ subject }
+
+      it{ expect(response).to be_success }
+    end
   end
 
   it "#show" do
