@@ -8,4 +8,8 @@ module ApplicationHelper
   def collection_for_project_users(project)
     project.users.map { |user| [user.name, user.id] }
   end
+
+  def render_hours(time)
+    DatetimeService.to_units_text(time, skip_day: true)
+  end
 end

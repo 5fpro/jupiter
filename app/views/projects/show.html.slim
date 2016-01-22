@@ -33,6 +33,6 @@ table
       tr
         td= user.name
         td= user.email
-        td= DatetimeService.to_units_text(user.total_time)
-        td= DatetimeService.to_units_text(user.records.this_month.total_time)
-        td= DatetimeService.to_units_text(user.records.last_month.total_time)
+        td= render_hours(user.total_time)
+        td= render_hours(user.records.this_month.total_time)
+        td= render_hours(user.records.last_month.total_time)
