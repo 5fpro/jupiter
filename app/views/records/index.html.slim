@@ -3,16 +3,18 @@ h1
 
 = render partial: "filtering", as: :q, object: @q
 
+table
 - @records.each do |record|
-  = "分鐘 : #{ record.minutes }"
-  br
-  = "Type : #{ record_type_name(record.record_type) }"
-  br
-  = "備註 : #{ record.note }"
-  br
-  = link_to "編輯", edit_project_record_path(@project, record)
-  br
-  = link_to "刪除", project_record_path(@project, record), method: :delete, data: { confirm: "確定刪除？" }
-  br
-  | ============= 區隔 ================
-  br
+
+  / = "分鐘 : #{ record.minutes }"
+  / br
+  / = "Type : #{ record_type_name(record.record_type) }"
+  / br
+  / = "備註 : #{ record.note }"
+  / br
+  / = link_to "編輯", edit_project_record_path(@project, record)
+  / br
+  / = link_to "刪除", project_record_path(@project, record), method: :delete, data: { confirm: "確定刪除？" }
+  / br
+  / | ============= 區隔 ================
+  / br
