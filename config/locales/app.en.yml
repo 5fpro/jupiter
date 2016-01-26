@@ -17,6 +17,7 @@ en:
       groups:
         record_type: "Type"
         user: "User"
+        project: "Project"
         week: "Week"
         month: "Month"
         day: "Day"

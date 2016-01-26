@@ -1,7 +1,7 @@
 class Search::Record < ::Record
 
   CREATED_AT_PERIODS = [:this_week, :last_week, :this_month, :last_month].freeze
-  GROUPS = [:day, :week, :month, :record_type, :user].freeze
+  GROUPS = [:day, :week, :month, :record_type, :user, :project].freeze
 
   class << self
     def ransackable_scopes(_auth_object = nil)
@@ -27,6 +27,7 @@ class Search::Record < ::Record
       case group.to_sym
       when :record_type then scoped.select(:record_type).group(:record_type).reorder(:record_type)
       when :user        then scoped.select(:user_id).group(:user_id).reorder("minutes")
+      when :project     then scoped.select(:project_id).group(:project_id).reorder("minutes")
       when :day         then scoped.select("date(created_at) as time_text").group(:time_text).reorder("time_text")
       when :week        then scoped.select("EXTRACT(YEAR FROM created_at)::text ||  EXTRACT(WEEK FROM created_at)::text AS time_text, max(created_at) as max_time").group(:time_text).reorder("max_time")
       when :month       then scoped.select("EXTRACT(YEAR FROM created_at)::text ||  EXTRACT(MONTH FROM created_at)::text AS time_text, max(created_at) as max_time").group(:time_text).reorder("max_time")
