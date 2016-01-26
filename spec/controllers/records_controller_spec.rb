@@ -15,6 +15,31 @@ RSpec.describe RecordsController, type: :request do
       it { expect(response.body).not_to match(/action="\/projects\/#{project.id}\/records"/) }
 
       it { expect(response.body).to match(/action="\/records"/) }
+
+      context "different groups" do
+
+        let(:member) { FactoryGirl.create :user }
+        before { project_invite!(project, member) }
+        before { FactoryGirl.create :record, project: project, user: member }
+        before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
+        before { FactoryGirl.create :record, user: user, record_type: :meeting }
+
+        it "by project" do
+          get "/records", q: { group_by: "project" }
+          expect(response).to be_success
+        end
+
+        it "by record_type" do
+          get "/records", q: { group_by: "record_type" }
+          expect(response).to be_success
+        end
+
+        it "by week" do
+          get "/records", q: { group_by: "week" }
+          expect(response).to be_success
+        end
+      end
+
     end
   end
 
@@ -53,6 +78,7 @@ RSpec.describe RecordsController, type: :request do
         before { project_invite!(project, member) }
         before { FactoryGirl.create :record, project: project, user: member }
         before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
+        before { FactoryGirl.create :record, user: user, record_type: :meeting }
 
         it "by user" do
           get "/projects/#{project.id}/records", q: { group_by: "user" }
