@@ -1,14 +1,15 @@
-= render partial: "projects/menu", as: :project, object: @project
+= render partial: "projects/menu", as: :project, object: @project if @project
 
 hr/
 
 = render partial: "filtering", as: :q, object: @q
 
+= "總工時: #{@total_hours}"
 table
   thead
     tr
       td ID
-      td User
+      td= @project ? "User" : "Project"
       td Type
       td minutes
       td note
@@ -17,13 +18,11 @@ table
     - @records.each do |record|
       tr
         td= record.try(:id)
-        td
-          - if user = record.try(:user)
-            = user.name
+        td= @project ? record.try(:user).try(:name) : record.try(:project).try(:name)
         td= record_type_name(record.try(:record_type))
         td= record.minutes
         td= record.try(:note) if record.try(:data)
         td
           - if record.try(:id) && record.user_id == current_user.id
-            = link_to "編輯", edit_project_record_path(@project, record)
-            = link_to "刪除", project_record_path(@project, record), method: :delete, data: { confirm: "確定刪除？" }
+            = link_to "編輯", edit_project_record_path(record.project, record, redirect_to: url_for(params))
+            = link_to "刪除", project_record_path(record.project, record, redirect_to: url_for(params)), method: :delete, data: { confirm: "確定刪除？" }

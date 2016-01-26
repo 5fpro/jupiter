@@ -2,21 +2,28 @@ class RecordsController < BaseController
   before_action :authenticate_user!
 
   before_action :find_project
+  before_action :find_scoped
   before_action :find_record, only: [:edit, :update, :destroy]
 
+  # GET /projects/:project_id/records
+  # GET /records
   def index
-    @q = Search::Record.where(project_id: @project.id).order("id DESC").ransack(params[:q])
+    @q = Search::Record.where(nil).merge(@scoped).ransack(params[:q])
     @records = @q.result.page(params[:page]).per(30)
+    @total_time = DatetimeService.to_units_text(@q.result.total_time, skip_day: true)
   end
 
+  # GET /projects/:project_id/records/:id
   def show
-    @record = @project.records.find(params[:id])
+    @record = @scoped.find(params[:id])
   end
 
+  # GET /projects/:project_id/records/new
   def new
-    @record = current_user.records.new(params[:record])
+    @record = @scoped_with_user.new(params[:record])
   end
 
+  # POST /projects/:project_id/records
   def create
     context = RecordCreateContext.new(current_user, @project)
     if @record = context.perform(params)
@@ -28,13 +35,15 @@ class RecordsController < BaseController
     end
   end
 
+  # GET /projects/:project_id/records/:id/edit
   def edit
   end
 
+  # PUT /projects/:project_id/records/:id
   def update
     context = RecordUpdateContext.new(current_user, @record)
     if @record = context.perform(params)
-      redirect_to project_record_path(@project, @record), flash: { success: "record update" }
+      redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record update" }
     else
       edit
       flash.now[:error] = context.error_messages.join(", ")
@@ -42,10 +51,11 @@ class RecordsController < BaseController
     end
   end
 
+  # DELETE /projects/:project_id/records/:id
   def destroy
     context = RecordDeleteContext.new(current_user, @record)
     if context.perform
-      redirect_to project_records_path(@project), flash: { success: "record deleted" }
+      redirect_to params[:redirect_to] || project_records_path(@project), flash: { success: "record deleted" }
     else
       redirect_to :back, flash: { error: context.error_messages.join(", ") }
     end
@@ -54,12 +64,19 @@ class RecordsController < BaseController
   private
 
   def find_project
-    @project ||= current_user.projects.find(params[:project_id])
-    @project
+    if params[:project_id]
+      @project = current_user.projects.find(params[:project_id])
+      @scoped = @project.records
+    end
+  end
+
+  def find_scoped
+    @scoped ||= current_user.records
+    @scoped_with_user = current_user.records.merge(@scoped)
   end
 
   def find_record
     return unless params[:id]
-    @record = current_user.records.where(project_id: @project.id).find(params[:id])
+    @record = @scoped_with_user.find(params[:id])
   end
 end
