@@ -9,7 +9,7 @@ table
   thead
     tr
       td ID
-      td User
+      td= @project ? "User" : "Project"
       td Type
       td minutes
       td note
@@ -18,9 +18,7 @@ table
     - @records.each do |record|
       tr
         td= record.try(:id)
-        td
-          - if user = record.try(:user)
-            = user.name
+        td= @project ? record.try(:user).try(:name) : record.try(:project).try(:name)
         td= record_type_name(record.try(:record_type))
         td= record.minutes
         td= record.try(:note) if record.try(:data)
