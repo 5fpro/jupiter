@@ -26,5 +26,5 @@ table
         td= record.try(:note) if record.try(:data)
         td
           - if record.try(:id) && record.user_id == current_user.id
-            = link_to "編輯", edit_project_record_path(record.project, record)
-            = link_to "刪除", project_record_path(record.project, record), method: :delete, data: { confirm: "確定刪除？" }
+            = link_to "編輯", edit_project_record_path(record.project, record, redirect_to: url_for(params))
+            = link_to "刪除", project_record_path(record.project, record, redirect_to: url_for(params)), method: :delete, data: { confirm: "確定刪除？" }
