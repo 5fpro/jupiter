@@ -56,7 +56,6 @@ RSpec.describe RecordsController, type: :request do
 
       subject { get "/projects/#{project.id}/records" }
 
-
       context "empty" do
         before { subject }
 
