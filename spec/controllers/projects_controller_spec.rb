@@ -17,9 +17,9 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "has projects & records" do
-      before{ project_created!(current_user) }
-      before{ record_created!(current_user, project) }
-      before{ record_created!(current_user, project) }
+      before { project_created!(current_user) }
+      before { record_created!(current_user, project) }
+      before { record_created!(current_user, project) }
 
       before { subject }
 
