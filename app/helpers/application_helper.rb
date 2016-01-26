@@ -9,6 +9,10 @@ module ApplicationHelper
     project.users.map { |user| [user.name, user.id] }
   end
 
+  def collection_for_user_projects(user)
+    user.projects.map { |project| [project.name, project.id] }
+  end
+
   def render_hours(time)
     DatetimeService.to_units_text(time, skip_day: true)
   end

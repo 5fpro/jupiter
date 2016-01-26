@@ -2,11 +2,23 @@ require 'rails_helper'
 
 RSpec.describe RecordsController, type: :request do
   let!(:user) { FactoryGirl.create :user }
+  let!(:project) { project_created!(user) }
   let!(:record) { record_created!(user, project) }
   before { signin_user(user) }
 
-  context "under project" do
-    let!(:project) { project_created!(user) }
+  context "under /" do
+    context "GET /records" do
+      before { get "/records" }
+
+      it { expect(response).to be_success }
+
+      it { expect(response.body).not_to match(/action="\/projects\/#{project.id}\/records"/) }
+
+      it { expect(response.body).to match(/action="\/records"/) }
+    end
+  end
+
+  context "under /projects/:project_id" do
 
     it "not my project" do
       project2 = FactoryGirl.create :project
@@ -19,10 +31,13 @@ RSpec.describe RecordsController, type: :request do
 
       subject { get "/projects/#{project.id}/records" }
 
+
       context "empty" do
         before { subject }
 
         it { expect(response).to be_success }
+
+        it { expect(response.body).to match(/action="\/projects\/#{project.id}\/records"/) }
       end
 
       context "has record" do
