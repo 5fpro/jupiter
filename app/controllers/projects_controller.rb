@@ -4,6 +4,7 @@ class ProjectsController < BaseController
 
   def index
     @projects = current_user.projects
+    @my_records = current_user.records
   end
 
   def show

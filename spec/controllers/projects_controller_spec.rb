@@ -1,20 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :request do
-  before do
-    @project = project_created!
-    signin_user(@user)
-  end
 
-  it "#index" do
-    get "/projects"
-    expect(response).to be_success
+  let!(:project) { project_created! }
+  before { signin_user(@user) }
+
+  describe "#index" do
+
+    subject { get "/projects" }
+
+    context "empty" do
+      before { Project.delete_all }
+      before { subject }
+
+      it { expect(response).to be_success }
+    end
+
+    context "has projects & records" do
+      before{ project_created!(current_user) }
+      before{ record_created!(current_user, project) }
+      before{ record_created!(current_user, project) }
+
+      before { subject }
+
+      it { expect(response).to be_success }
+    end
   end
 
   describe "#show" do
-
-    let(:project) { @project }
-
     subject { get "/projects/#{project.id}" }
 
     context "empty" do
