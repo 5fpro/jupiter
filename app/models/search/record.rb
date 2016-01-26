@@ -15,10 +15,10 @@ class Search::Record < ::Record
 
     def created_at_period_is(period)
       case period.to_sym
-      when :this_week then where(created_at: Time.now.beginning_of_week..Time.now.end_of_week)
-      when :last_week then where(created_at: 1.week.ago.beginning_of_week..1.week.ago.end_of_week)
-      when :this_month then where(created_at: Time.now.beginning_of_month..Time.now.end_of_month)
-      when :last_month then where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month)
+      when :this_week then this_week
+      when :last_week then last_week
+      when :this_month then this_month
+      when :last_month then last_month
       end
     end
 

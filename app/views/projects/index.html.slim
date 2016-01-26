@@ -1,11 +1,10 @@
-- @projects.each do |p|
-  = "專案名稱 : #{ p.name }"
-  br
-  = "專案每小時單價 : #{ p.price_of_hour }"
-  br
-  = link_to "專案資訊", project_path(p)
-  br
-  = link_to "更新專案 ", edit_project_path(p)
-  br
-  | ==================================== 分隔線 =================================
-  br
+h2 我的所有專案工時
+
+= render partial: "record_stats", as: :records, object: @my_records
+
+h1 我參與的專案列表
+
+.projects
+  - @projects.each do |p|
+    .project id="project-#{p.id}"
+      = render partial: "project", object: p, locals: { records: @my_records }

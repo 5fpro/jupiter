@@ -1,0 +1,3 @@
+= simple_form_for Record.new, method: :post, url: project_records_path(@project, format: :js), remote: true do |f|
+  = render partial: "records/form", as: :f, object: f
+  = link_to "close", "#", "data-close-form" => true

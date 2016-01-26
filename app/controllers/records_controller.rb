@@ -10,7 +10,7 @@ class RecordsController < BaseController
   def index
     @q = Search::Record.where(nil).merge(@scoped).ransack(params[:q])
     @records = @q.result.page(params[:page]).per(30)
-    @total_time = DatetimeService.to_units_text(@q.result.total_time, skip_day: true)
+    @total_time = @q.result.total_time
   end
 
   # GET /projects/:project_id/records/:id
@@ -27,11 +27,16 @@ class RecordsController < BaseController
   def create
     context = RecordCreateContext.new(current_user, @project)
     if @record = context.perform(params)
-      redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record created" }
+      respond_to do |f|
+        f.html { redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record created" } }
+        f.js { render }
+      end
     else
-      new
-      flash.now[:error] = context.error_messages.join(", ")
-      render :new
+      @error_messages = context.error_messages.join(", ")
+      respond_to do |f|
+        f.html { render_new_for_error(@error_messages) }
+        f.js { render }
+      end
     end
   end
 
@@ -78,5 +83,11 @@ class RecordsController < BaseController
   def find_record
     return unless params[:id]
     @record = @scoped_with_user.find(params[:id])
+  end
+
+  def render_new_for_error(error_messages)
+    new
+    flash.now[:error] = error_messages
+    render :new
   end
 end
