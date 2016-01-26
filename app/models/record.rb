@@ -28,7 +28,7 @@ class Record < ActiveRecord::Base
 
   class << self
     def total_time
-      (select(:minutes).map(&:minutes).inject(&:+) || 0).minutes
+      (unscope(:order, :select, :group).select(:minutes).map(&:minutes).inject(&:+) || 0).minutes
     end
   end
 end
