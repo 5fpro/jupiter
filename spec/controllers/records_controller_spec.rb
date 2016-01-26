@@ -126,18 +126,32 @@ RSpec.describe RecordsController, type: :request do
       end
     end
 
-    it "#new" do
-      get "/projects/#{project.id}/records/new"
-      expect(response).to be_success
+    describe "#new" do
+      it "html" do
+        get "/projects/#{project.id}/records/new"
+        expect(response).to be_success
+      end
+      it "js" do
+        xhr :get, "/projects/#{project.id}/records/new.js"
+        expect(response).to be_success
+      end
     end
 
-    it "#create" do
-      expect {
-        post "/projects/#{project.id}/records", record: data_for(:record)
-      }.to change { Record.count }.by(1)
-      expect(response).to be_redirect
-      follow_redirect!
-      expect(response).to be_success
+    describe "#create" do
+      it "html" do
+        expect {
+          post "/projects/#{project.id}/records", record: data_for(:record)
+        }.to change { Record.count }.by(1)
+        expect(response).to be_redirect
+        follow_redirect!
+        expect(response).to be_success
+      end
+      it "js" do
+        expect {
+          xhr :post, "/projects/#{project.id}/records", record: data_for(:record)
+        }.to change { Record.count }.by(1)
+        expect(response).to be_success
+      end
     end
 
     describe "#edit" do
