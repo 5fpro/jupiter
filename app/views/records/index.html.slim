@@ -4,7 +4,7 @@ hr/
 
 = render partial: "filtering", as: :q, object: @q
 
-= "總工時: #{@total_hours}"
+= "總工時: #{render_hours(@total_time)}"
 table
   thead
     tr
