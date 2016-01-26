@@ -10,6 +10,7 @@ class RecordsController < BaseController
   def index
     @q = Search::Record.where(nil).merge(@scoped).ransack(params[:q])
     @records = @q.result.page(params[:page]).per(30)
+    @total_time = DatetimeService.to_units_text(@q.result.total_time, skip_day: true)
   end
 
   # GET /projects/:project_id/records/:id
