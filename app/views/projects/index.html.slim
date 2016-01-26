@@ -4,6 +4,7 @@ h2 我的所有專案工時
 
 h1 我參與的專案列表
 
-- @projects.each do |p|
-  h2= link_to p.name, project_path(p)
-  = render partial: "record_stats", as: :records, object: p.records.merge(@my_records)
+.projects
+  - @projects.each do |p|
+    .project id="project-#{p.id}"
+      = render partial: "project", object: p, locals: { records: @my_records }

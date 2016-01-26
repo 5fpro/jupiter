@@ -27,11 +27,16 @@ class RecordsController < BaseController
   def create
     context = RecordCreateContext.new(current_user, @project)
     if @record = context.perform(params)
-      redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record created" }
+      respond_to do |f|
+        f.html { redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record created" } }
+        f.js { render }
+      end
     else
-      new
-      flash.now[:error] = context.error_messages.join(", ")
-      render :new
+      @error_messages = context.error_messages.join(", ")
+      respond_to do |f|
+        f.html { render_new_for_error(@error_messages) }
+        f.js { render }
+      end
     end
   end
 
@@ -78,5 +83,11 @@ class RecordsController < BaseController
   def find_record
     return unless params[:id]
     @record = @scoped_with_user.find(params[:id])
+  end
+
+  def render_new_for_error(error_messages)
+    new
+    flash.now[:error] = error_messages
+    render :new
   end
 end
