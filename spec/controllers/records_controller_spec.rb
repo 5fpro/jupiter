@@ -120,7 +120,7 @@ RSpec.describe RecordsController, type: :request do
       end
 
       context "not my record of outside project member" do
-        let(:record2) { FactoryGirl.create :record, user: member }
+        let(:record2) { FactoryGirl.create :record }
 
         it { expect { get "/projects/#{project.id}/records/#{record2.id}" }.to raise_error(ActiveRecord::RecordNotFound) }
       end
@@ -173,13 +173,13 @@ RSpec.describe RecordsController, type: :request do
       context "not project record" do
         let(:record2) { FactoryGirl.create :record, user: member }
 
-        it { expect { get "/projects/#{project.id}/records/#{record2.id}" }.to raise_error(ActiveRecord::RecordNotFound) }
+        it { expect { get "/projects/#{project.id}/records/#{record2.id}/edit" }.to raise_error(ActiveRecord::RecordNotFound) }
       end
 
       context "not my record of outside project member" do
-        let(:record2) { FactoryGirl.create :record, user: member }
+        let(:record2) { FactoryGirl.create :record }
 
-        it { expect { get "/projects/#{project.id}/records/#{record2.id}" }.to raise_error(ActiveRecord::RecordNotFound) }
+        it { expect { get "/projects/#{project.id}/records/#{record2.id}/edit" }.to raise_error(ActiveRecord::RecordNotFound) }
       end
     end
 
