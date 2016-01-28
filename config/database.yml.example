@@ -1,7 +1,7 @@
 development: &default
   adapter: 'postgis'
   encoding: 'unicode'
-  database: 'myapp_development'
+  database: 'jupiter_development'
   host: '127.0.0.1'
   username: 'root'
   password: ''
@@ -10,9 +10,15 @@ development: &default
 
 test: &TEST
   <<: *default
-  database: 'myapp_test'
+  database: 'jupiter_test'
 
 production:
-  <<: *default
-  database: 'myapp_production'
+  adapter: 'postgis'
+  encoding: 'unicode'
+  database: 'jupiter'
+  host: 'production.cqndlcrl4vjd.ap-northeast-1.rds.amazonaws.com'
+  username: 'scoopr'
+  password: ''
+  postgis_extension: true
+  schema_search_path: 'public, postgis'
 
