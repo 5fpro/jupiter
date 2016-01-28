@@ -48,4 +48,44 @@ test:
   <<: *defaults
 
 production:
-  <<: *defaults
+  SECRET_KEY_BASE: daskdjaslkjdsalkdj12341234
+  host: jupiter.5fpro.com
+  assets_host: assets.jupiter.com.s3-website-ap-northeast-1.amazonaws.com
+  asset_sync:
+    bucket: assets.jupiter.com
+    region: ap-northeast-1
+  redis:
+    url: redis://production.pe88z9.0001.apne1.cache.amazonaws.com:6379/6
+  dalli:
+    servers:
+    - production-memcached.pe88z9.cfg.apne1.cache.amazonaws.com
+    options:
+      namespace: jupiter
+      expires_in: 0
+      threadsafe: true
+      failover: true
+      compress: false
+      keepalive: true
+      username:
+      password:
+      pool_size: 1
+  aws:
+    access_key_id: AKIAJW4PBFEZNFD5KJGA
+    secret_access_key: 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
+  sidekiq:
+    url: redis://production.pe88z9.0001.apne1.cache.amazonaws.com:6379/6
+  carrierwave:
+    region: ap-northeast-1
+    bucket: assets.jupiter.com
+    host: assets.jupiter.com.s3-website-ap-northeast-1.amazonaws.com
+  mailer:
+    default_sender: "noreply@5fpro.com"
+  sitemap:
+    path: "sitemaps/"
+  omniauth:
+    providers:
+      github:
+        token: "47dacaade03e48630474"
+        secret: "732c797834235ac8be35dc0b0ea50fef6836b1ad"
+        options:
+          scope: "user,user:email"
