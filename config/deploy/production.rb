@@ -17,7 +17,7 @@ aws_conf = YAML.load(IO.read("./config/application.yml"))["development"]["aws"].
 AWS.config(aws_conf)
 # lb_name = "jupiter"
 # servers = AWS::ELB.new.load_balancers[lb_name].instances.map(&:ip_address)
-servers = "jupiter.5fpro.com"
+servers = ["jupiter.5fpro.com"]
 
 shadow_server = "54.92.33.221"
 role :app,             servers
