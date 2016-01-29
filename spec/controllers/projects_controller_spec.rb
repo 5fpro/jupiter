@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe ProjectsController, type: :request do
 
   let!(:project) { project_created! }
-  before { signin_user(@user) }
+  let(:user) { @user }
+  before { signin_user(user) }
 
   describe "#index" do
 
@@ -71,17 +72,50 @@ RSpec.describe ProjectsController, type: :request do
     expect(response).to be_success
   end
 
-  it "#edit" do
-    get "/projects/#{@project.id}/edit"
-    expect(response).to be_success
+  describe "#edit" do
+    subject { get "/projects/#{project.id}/edit" }
+
+    context "success" do
+      before { subject }
+
+      it { expect(response).to be_success }
+    end
+
+    context "not in project" do
+      before { project.project_users.map(&:delete) }
+
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
   end
 
-  it "#update" do
-    expect {
-      put "/projects/#{@project.id}", project: { name: "blablabla" }
-    }.to change { @project.reload.name }
-    expect(response).to be_redirect
-    follow_redirect!
-    expect(response).to be_success
+  describe "#update" do
+    let(:data) { data_for(:update_project) }
+    subject { put "/projects/#{project.id}", project: data }
+
+    context "success" do
+      before { subject }
+
+      it { expect(response).to be_redirect }
+
+      context "follow redirect" do
+        before { follow_redirect! }
+
+        it { expect(response).to be_success }
+      end
+    end
+
+    context "not in project" do
+      before { project.project_users.map(&:delete) }
+
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
+
+    context "update fail" do
+      before { project.update_column :name, "" }
+      before { subject }
+
+      it { expect(response).to be_success }
+      it { expect(project.reload.description).to be_blank }
+    end
   end
 end
