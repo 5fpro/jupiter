@@ -13,6 +13,11 @@ class SlackService
       delay.notify(message, channel: channel, name: name, icon_url: icon_url, webhook: webhook)
     end
 
+    def notify_admin(message, channel = 'jupiter-notify')
+      webhook = "https://hooks.slack.com/services/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"
+      notify(message, channel: channel, name: "Jupiter", icon_url: "http://i.imgur.com/4G30GGh.jpg", webhook: webhook)
+    end
+
     # see more message formating:
     #   https://api.slack.com/docs/formatting
     def render_link(link, message = nil)

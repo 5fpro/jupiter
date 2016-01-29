@@ -5,6 +5,10 @@ RSpec.describe SlackService, type: :model do
     described_class.notify("haha")
   end
 
+  it ".notify_admin" do
+    described_class.notify_admin("haha")
+  end
+
   it ".notify_async" do
     expect {
       described_class.notify_async("haha")
