@@ -1,4 +1,5 @@
 = render partial: "menu", as: :project, object: @project
 
-= simple_form_for @project, url: project_path(@project), method: :put, wrapper: :admin do |f|
-  = render partial: "form", object: f, as: :f
+= simple_form_for @project, url: project_path(@project), method: :put do |f|
+  = f.input :description, as: :text, label: "Description"
+  = f.submit "Update"
