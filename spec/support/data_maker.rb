@@ -48,6 +48,11 @@ module DataMaker
   end
 
   def data_for_update_project
+    { description: "hahaha"
+    }
+  end
+
+  def data_for_update_project_setting
     { name: "blablabla",
       price_of_hour: 10_000_000
     }

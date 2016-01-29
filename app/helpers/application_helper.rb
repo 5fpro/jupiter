@@ -16,4 +16,10 @@ module ApplicationHelper
   def render_hours(time)
     DatetimeService.to_units_text(time, skip_day: true)
   end
+
+  def render_html(text)
+    text = simple_format(text, {}, wrapper_tag: 'div')
+    text = auto_link(text, html: { target: "_blank" }, sanitize: false)
+    raw text
+  end
 end
