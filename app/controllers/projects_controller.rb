@@ -11,12 +11,13 @@ class ProjectsController < BaseController
   end
 
   def new
+    @project ||= current_user.projects.new
   end
 
   def create
     context = UserCreateProjectContext.new(current_user, params)
-    if project = context.perform
-      redirect_to project_path(project), flash: { success: "project created" }
+    if @project = context.perform
+      redirect_to project_path(@project), flash: { success: "project created" }
     else
       redirect_to projects_path, flash: { error: context.error_messages.join(",") }
     end
@@ -37,7 +38,7 @@ class ProjectsController < BaseController
   private
 
   def find_project
-    @project = current_user.projects.find(params[:id])
+    @project = current_user.projects.find(params[:id]) if params[:id]
   end
 
   def update_fail
