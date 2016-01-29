@@ -28,13 +28,13 @@ class RecordsController < BaseController
     context = RecordCreateContext.new(current_user, @project)
     if @record = context.perform(params)
       respond_to do |f|
-        f.html { redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record created" } }
+        f.html { redirect_as_success(project_record_path(@project, @record), "record created") }
         f.js { render }
       end
     else
       @error_messages = context.error_messages.join(", ")
       respond_to do |f|
-        f.html { render_new_for_error(@error_messages) }
+        f.html { render_as_fail(:new, @error_messages) }
         f.js { render }
       end
     end
@@ -48,11 +48,9 @@ class RecordsController < BaseController
   def update
     context = RecordUpdateContext.new(current_user, @record)
     if @record = context.perform(params)
-      redirect_to params[:redirect_to] || project_record_path(@project, @record), flash: { success: "record update" }
+      redirect_as_success(project_record_path(@project, @record), "record update")
     else
-      edit
-      flash.now[:error] = context.error_messages.join(", ")
-      render :edit
+      render_as_fail(:edit, context.error_messages)
     end
   end
 
@@ -60,7 +58,7 @@ class RecordsController < BaseController
   def destroy
     context = RecordDeleteContext.new(current_user, @record)
     if context.perform
-      redirect_to params[:redirect_to] || project_records_path(@project), flash: { success: "record deleted" }
+      redirect_as_success(project_records_path(@project), "record deleted")
     else
       redirect_to :back, flash: { error: context.error_messages.join(", ") }
     end
@@ -83,11 +81,5 @@ class RecordsController < BaseController
   def find_record
     return unless params[:id]
     @record = @scoped_with_user.find(params[:id])
-  end
-
-  def render_new_for_error(error_messages)
-    new
-    flash.now[:error] = error_messages
-    render :new
   end
 end

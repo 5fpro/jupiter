@@ -1,10 +1,8 @@
 - if user_signed_in?
-  = link_to "Logout", destroy_user_session_path, method: :delete
-  br
-  = link_to "Create New Project", new_project_path
-  br
-  = link_to "我的專案列表", projects_path
-  = link_to "我的工時記錄", records_path
+  .div= link_to "Logout", destroy_user_session_path, method: :delete
+  .div= link_to "Create New Project", new_project_path
+  .div= link_to "我的專案列表", projects_path
+  .div= link_to "我的工時記錄", records_path
 - else
   = link_to "GitHub login", auth_github_path
 br

@@ -17,7 +17,7 @@ class Project < ActiveRecord::Base
   has_many :users, through: :project_users
   has_many :records
 
-  store_accessor :data, :users_count
+  store_accessor :data, :users_count, :description
 
   validates :name, :owner_id, presence: true
 

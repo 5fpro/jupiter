@@ -1,6 +1,7 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
-  before_action :project
+  before_action :find_owned_project, only: [:setting, :update_setting]
+  before_action :find_project
 
   def index
     @projects = current_user.projects
@@ -11,14 +12,15 @@ class ProjectsController < BaseController
   end
 
   def new
+    @project ||= current_user.projects.new
   end
 
   def create
     context = UserCreateProjectContext.new(current_user, params)
-    if project = context.perform
-      redirect_to project_path(project), flash: { success: "project created" }
+    if @project = context.perform
+      redirect_as_success(project_path(@project), "project created")
     else
-      redirect_to projects_path, flash: { error: context.error_messages.join(",") }
+      render_as_fail(:new, context.error_messages)
     end
   end
 
@@ -26,22 +28,33 @@ class ProjectsController < BaseController
   end
 
   def update
-    if project.update_attributes(project_params)
-      redirect_to params[:redirect_to] || project_path(project), flash: { success: "project updated" }
+    context = ProjectUpdateContext.new(current_user, @project)
+    if context.perform(params)
+      redirect_as_success(project_path(@project), "project updated")
     else
-      edit
-      flash.now[:error] = project.errors.full_messages
-      render :edit
+      render_as_fail(:edit, context.error_messages)
+    end
+  end
+
+  def setting
+  end
+
+  def update_setting
+    context = ProjectUpdateSettingContext.new(current_user, @project)
+    if context.perform(params)
+      redirect_as_success(project_path(@project), "project updated")
+    else
+      render_as_fail(:setting, context.error_messages)
     end
   end
 
   private
 
-  def project
-    @project ||= params[:id] ? Project.find(params[:id]) : Project.new(project_params)
+  def find_project
+    @project ||= current_user.projects.find(params[:id]) if params[:id]
   end
 
-  def project_params
-    params.fetch(:project, {}).permit(:price_of_hour, :name, :owner_id, :tmp)
+  def find_owned_project
+    @project = current_user.owned_projects.find(params[:id])
   end
 end

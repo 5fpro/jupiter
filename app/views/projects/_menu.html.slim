@@ -6,7 +6,9 @@ h1
   = " | "
   = link_to "record清單", project_records_path(@project)
   = " | "
+  = link_to "編輯", edit_project_path(@project)
+  = " | "
   - if @project.owner_id == current_user.id
     = link_to "管理成員", project_collaborators_path(@project)
     = " | "
-    = link_to "設定", edit_project_path(@project)
+    = link_to "設定", setting_project_path(@project)
