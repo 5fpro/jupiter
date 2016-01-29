@@ -24,9 +24,10 @@ table
       td 上月總時數
   tbody
     - @project.users.each do |user|
+      - reocrds = user.records.merge(@project.records)
       tr
         td= user.name
         td= user.email
-        td= render_hours(user.records.merge(@project.records).total_time)
-        td= render_hours(user.records.this_month.total_time)
-        td= render_hours(user.records.last_month.total_time)
+        td= render_hours(reocrds.total_time)
+        td= render_hours(reocrds.this_month.total_time)
+        td= render_hours(reocrds.last_month.total_time)
