@@ -34,4 +34,11 @@ describe ProjectInviteContext do
     }.not_to change { project.reload.users_count }
     expect(@result).to eq false
   end
+
+  describe "validates_user_in_project!" do
+    before { described_class.new(me, user.email, project).perform }
+    subject { described_class.new(me, user.email, project).perform }
+
+    it { expect(subject).to be_falsey }
+  end
 end

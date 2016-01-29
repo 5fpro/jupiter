@@ -1,6 +1,7 @@
 class ProjectInviteContext < BaseContext
   before_perform :validates_user_exist!
   before_perform :validates_me_in_project!
+  before_perform :validates_user_in_project!
   before_perform :validates_user_is_not_me!
 
   def initialize(me, email, project)
@@ -24,7 +25,12 @@ class ProjectInviteContext < BaseContext
   end
 
   def validates_me_in_project!
-    return add_error(:user_is_not_in_project) unless @project.has_user?(@me)
+    return add_error(:me_is_not_in_project) unless @project.has_user?(@me)
+    true
+  end
+
+  def validates_user_in_project!
+    return add_error(:user_is_in_project) if @project.has_user?(@user)
     true
   end
 
