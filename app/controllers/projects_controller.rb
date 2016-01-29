@@ -1,6 +1,6 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
-  before_action :project
+  before_action :find_project
 
   def index
     @projects = current_user.projects
@@ -26,22 +26,23 @@ class ProjectsController < BaseController
   end
 
   def update
-    if project.update_attributes(project_params)
-      redirect_to params[:redirect_to] || project_path(project), flash: { success: "project updated" }
+    context = ProjectUpdateContext.new(current_user, @project)
+    if context.perform(params)
+      redirect_to params[:redirect_to] || project_path(@project), flash: { success: "project updated" }
     else
-      edit
-      flash.now[:error] = project.errors.full_messages
-      render :edit
+      update_fail
     end
   end
 
   private
 
-  def project
-    @project ||= params[:id] ? Project.find(params[:id]) : Project.new(project_params)
+  def find_project
+    @project = current_user.projects.find(params[:id])
   end
 
-  def project_params
-    params.fetch(:project, {}).permit(:price_of_hour, :name, :owner_id, :tmp)
+  def update_fail
+    edit
+    flash.now[:error] = @project.errors.full_messages
+    render :edit
   end
 end
