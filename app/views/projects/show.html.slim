@@ -12,7 +12,7 @@ table
     td= @project.owner.name
   tr
     td 描述
-    td= simple_format(@project.description)
+    td= render_html(@project.description)
 
 h2
   = "成員"
