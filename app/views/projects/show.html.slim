@@ -20,6 +20,7 @@ h2
 table
   thead
     tr
+      td avatar
       td Name
       td Email
       td 累積總時數
@@ -29,6 +30,7 @@ table
     - @project.users.each do |user|
       - reocrds = user.records.merge(@project.records)
       tr
+        td= image_tag(user.github_avatar, size: "50x50")
         td= user.name
         td= user.email
         td= render_hours(reocrds.total_time)
