@@ -4,6 +4,11 @@ RSpec.describe ProjectsController, type: :request do
 
   let!(:project) { project_created! }
   let(:user) { @user }
+
+  def remove_user_from_project!(project, user)
+    project.project_users.where(user_id: user.id).first.try(:delete)
+  end
+
   before { signin_user(user) }
 
   describe "#index" do
@@ -56,6 +61,11 @@ RSpec.describe ProjectsController, type: :request do
 
     end
 
+    context "not in project" do
+      before { remove_user_from_project!(project, user) }
+
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
   end
 
   it "#new" do
@@ -82,7 +92,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "not in project" do
-      before { project.project_users.map(&:delete) }
+      before { remove_user_from_project!(project, user) }
 
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
@@ -105,7 +115,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "not in project" do
-      before { project.project_users.map(&:delete) }
+      before { remove_user_from_project!(project, user) }
 
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
