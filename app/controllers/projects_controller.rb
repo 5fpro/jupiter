@@ -18,9 +18,9 @@ class ProjectsController < BaseController
   def create
     context = UserCreateProjectContext.new(current_user, params)
     if @project = context.perform
-      redirect_to project_path(@project), flash: { success: "project created" }
+      redirect_as_success(project_path(@project), "project created")
     else
-      redirect_to projects_path, flash: { error: context.error_messages.join(",") }
+      render_as_fail(:new, context.error_messages)
     end
   end
 
@@ -30,9 +30,9 @@ class ProjectsController < BaseController
   def update
     context = ProjectUpdateContext.new(current_user, @project)
     if context.perform(params)
-      redirect_to params[:redirect_to] || project_path(@project), flash: { success: "project updated" }
+      redirect_as_success(project_path(@project), "project updated")
     else
-      update_fail(context.error_messages)
+      render_as_fail(:edit, context.error_messages)
     end
   end
 
@@ -42,9 +42,9 @@ class ProjectsController < BaseController
   def update_setting
     context = ProjectUpdateSettingContext.new(current_user, @project)
     if context.perform(params)
-      redirect_to params[:redirect_to] || project_path(@project), flash: { success: "project updated" }
+      redirect_as_success(project_path(@project), "project updated")
     else
-      update_setting_fail(context.error_messages)
+      render_as_fail(:setting, context.error_messages)
     end
   end
 
@@ -56,17 +56,5 @@ class ProjectsController < BaseController
 
   def find_owned_project
     @project = current_user.owned_projects.find(params[:id])
-  end
-
-  def update_setting_fail(error_messages = nil)
-    setting
-    flash.now[:error] = error_messages if error_messages
-    render :setting
-  end
-
-  def update_fail(error_messages = nil)
-    edit
-    flash.now[:error] = error_messages if error_messages
-    render :edit
   end
 end
