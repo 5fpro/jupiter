@@ -8,6 +8,7 @@ class UserAuthContext < BaseContext
   after_perform :update_user_omniauth_data
   after_perform :user_confirm!
   after_perform :update_github_data!
+  after_perform :new_user_comming
 
   # params should be env["omniauth.auth"] in controller
   def initialize(params, current_user = nil)
@@ -15,6 +16,7 @@ class UserAuthContext < BaseContext
     @provider = @params[:provider]
     @user = current_user
     @authorization = nil
+    @new_user_comming = false
   end
 
   def perform
@@ -59,7 +61,10 @@ class UserAuthContext < BaseContext
 
   def find_or_create_user
     @user = @authorization.try(:auth) || User.find_by(email: @email) || initialize_user
-    @user.save! if @user.new_record?
+    if @user.new_record?
+      @user.save!
+      @new_user_comming = true
+    end
   end
 
   def bind_authorization_to_user
@@ -108,5 +113,10 @@ class UserAuthContext < BaseContext
                               github_avatar: @authorization.auth_data["info"]["image"],
                               github_token:  @authorization.auth_data["credentials"]["token"])
     end
+  end
+
+  def new_user_comming
+    return unless @new_user_comming
+    SlackService.delay(retry: false).notify_admin("新使用者註冊! (##{@user.id})#{@user.name}<#{@user.email}>")
   end
 end
