@@ -28,7 +28,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  store_accessor :data, :github_account, :github_id, :github_token, :github_avatar, :total_minutes
+  store_accessor :data, :github_account, :github_id, :github_token, :github_avatar
 
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -48,14 +48,6 @@ class User < ActiveRecord::Base
     return avatar.url if avatar?
     return github_avatar if github_avatar.present?
     nil
-  end
-
-  def total_time
-    total_minutes.minutes
-  end
-
-  def total_minutes
-    super.to_i
   end
 
 end
