@@ -16,6 +16,7 @@ class Project < ActiveRecord::Base
   has_many :project_users
   has_many :users, through: :project_users
   has_many :records
+  has_many :slack_channels
 
   store_accessor :data, :users_count, :description
 
