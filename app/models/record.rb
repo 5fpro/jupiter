@@ -33,4 +33,8 @@ class Record < ActiveRecord::Base
       (unscope(:order, :select, :group).select(:minutes).map(&:minutes).inject(&:+) || 0).minutes
     end
   end
+
+  def total_time
+    minutes.to_i.minutes
+  end
 end
