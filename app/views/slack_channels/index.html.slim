@@ -1,0 +1,30 @@
+= render partial: "projects/menu", as: :project, object: @project
+hr/
+
+h2 Slack 頻道管理
+
+h3= link_to "新增頻道", new_project_slack_channel_path(@project)
+
+table
+  thead
+    tr
+      th ID
+      th 名稱
+      th 頻道
+      th 觸發
+      th
+  tbody
+    - @slack_channels.each do |slack_channel|
+      tr
+        td= slack_channel.id
+        td= slack_channel.name
+        td= slack_channel.room
+        td= render_slack_channel_events(slack_channel)
+        td
+          = link_to "明細", project_slack_channel_path(@project, slack_channel)
+          = " | "
+          = link_to "編輯", edit_project_slack_channel_path(@project, slack_channel)
+          = " | "
+          = link_to "刪除", project_slack_channel_path(@project, slack_channel), "data-confirm" => "確定刪除", method: :delete
+          = " | "
+          = link_to "測試", testing_project_slack_channel_path(@project, slack_channel, redirect_to: url_for(params)), method: :post

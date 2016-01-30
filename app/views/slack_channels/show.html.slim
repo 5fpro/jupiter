@@ -1,0 +1,29 @@
+= render partial: "projects/menu", as: :project, object: @project
+hr/
+
+h3= link_to "頻道列表", project_slack_channels_path(@project)
+h3= link_to "編輯此頻道", edit_project_slack_channel_path(@project, @slack_channel)
+h3= link_to "測試", testing_project_slack_channel_path(@project, @slack_channel, redirect_to: url_for(params)), method: :post
+table
+  tbody
+    tr
+      td ID
+      td= @slack_channel.id
+    tr
+      td Name
+      td= @slack_channel.name
+    tr
+      td Events
+      td= render_slack_channel_events(@slack_channel)
+    tr
+      td Webhook
+      td= @slack_channel.webhook
+    tr
+      td Room
+      td= @slack_channel.room
+    tr
+      td icon_url
+      td= image_tag(@slack_channel.icon_url, size: "300x300") if @slack_channel.icon_url.present?
+    tr
+      td robot name
+      td= @slack_channel.robot_name

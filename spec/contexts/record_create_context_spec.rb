@@ -29,4 +29,10 @@ describe RecordCreateContext do
       subject.perform(data.merge(minutes: nil))
     }.not_to change { project.records.count }
   end
+
+  describe "#notify_slack_channels" do
+    before { FactoryGirl.create :slack_channel, :record_created, project: project }
+    
+    it { expect { subject.perform(data) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
+  end
 end

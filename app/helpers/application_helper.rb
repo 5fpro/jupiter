@@ -13,8 +13,12 @@ module ApplicationHelper
     user.projects.map { |project| [project.name, project.id] }
   end
 
-  def render_hours(time)
-    DatetimeService.to_units_text(time, skip_day: true)
+  def collection_for_slack_channel_events
+    Notify::Event.collection
+  end
+
+  def render_slack_channel_events(slack_channel)
+    render_html slack_channel.events.map { |e| Notify::Event.desc(e) }.join("\n")
   end
 
   def render_html(text)

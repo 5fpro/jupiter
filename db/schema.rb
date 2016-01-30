@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160113173816) do
+ActiveRecord::Schema.define(version: 20160130083518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,16 @@ ActiveRecord::Schema.define(version: 20160113173816) do
   add_index "records", ["project_id"], name: "index_records_on_project_id", using: :btree
   add_index "records", ["user_id", "project_id"], name: "index_records_on_user_id_and_project_id", using: :btree
   add_index "records", ["user_id"], name: "index_records_on_user_id", using: :btree
+
+  create_table "slack_channels", force: :cascade do |t|
+    t.integer  "project_id"
+    t.boolean  "disabled",   default: false
+    t.hstore   "data"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "slack_channels", ["project_id"], name: "index_slack_channels_on_project_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
