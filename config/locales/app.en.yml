@@ -21,6 +21,9 @@ en:
         week: "Week"
         month: "Month"
         day: "Day"
+    slack_channel:
+      events:
+        record_created: "Record Created"
   errors:
     omniauth_parse_email_fail: "omniauth_parse_email_fail"
     omniauth_already_auth: "omniauth_already_auth"

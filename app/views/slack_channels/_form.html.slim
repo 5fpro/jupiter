@@ -3,4 +3,5 @@
 = f.input :room, as: :string, required: true, hint: "user 請用 @xxx. private Channel 無需 # 開頭"
 = f.input :icon_url, as: :string
 = f.input :robot_name, as: :string
+= f.input :events, as: :check_boxes, collection: collection_for_slack_channel_events, checked: f.object.events
 = f.submit "送出"
