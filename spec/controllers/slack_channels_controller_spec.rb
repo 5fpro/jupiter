@@ -145,4 +145,31 @@ RSpec.describe SlackChannelsController, type: :request do
       it { expect(project.slack_channels.count).to eq 1 }
     end
   end
+
+  describe "#testing" do
+    subject { post "/projects/#{project.id}/slack_channels/#{slack_channel.id}/testing" }
+
+    context "success" do
+      before { subject }
+
+      it { expect(response).to be_redirect }
+      it "follow redirect" do
+        follow_redirect!
+        expect(response).to be_success
+        expect(response.body).to match("send")
+      end
+    end
+
+    context "fail" do
+      before { slack_channel.update_attribute :room, "" }
+      before { subject }
+
+      it { expect(response).to be_redirect }
+      it "follow redirect" do
+        follow_redirect!
+        expect(response).to be_success
+        expect(response.body).to match("fail")
+      end
+    end
+  end
 end

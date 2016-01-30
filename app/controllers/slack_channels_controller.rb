@@ -44,6 +44,16 @@ class SlackChannelsController < BaseController
     end
   end
 
+  def testing
+    message = "test slack channel: #{@slack_channel.name}"
+    context = Notify::SendToSlackContext.new(message, @slack_channel)
+    if context.perform(async: false)
+      redirect_as_success project_slack_channels_path(@project), "testing message send!"
+    else
+      redirect_as_fail project_slack_channels_path(@project), "testing failed! #{context.error_messages}"
+    end
+  end
+
   private
 
   def find_project
