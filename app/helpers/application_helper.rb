@@ -13,6 +13,10 @@ module ApplicationHelper
     user.projects.map { |project| [project.name, project.id] }
   end
 
+  def collection_for_slack_channel_events
+    SlackChannel::EVENTS.map{ |e| [I18n.t("models.slack_channel.events.#{e}"), e] }
+  end
+
   def render_hours(time)
     DatetimeService.to_units_text(time, skip_day: true)
   end

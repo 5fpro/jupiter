@@ -1,5 +1,5 @@
 class SlackChannelCreateContext < BaseContext
-  PERMITS = [:name, :webhook, :icon_url, :robot_name, :room].freeze
+  PERMITS = [:name, :webhook, :icon_url, :robot_name, :room, { events: [] }].freeze
 
   before_perform :validates_owner
   before_perform :build_slack_channel

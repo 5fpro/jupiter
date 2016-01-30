@@ -14,4 +14,9 @@ describe SlackChannelUpdateContext do
 
     it { expect { subject.perform(params) }.not_to change { slack_channel.reload.name } }
   end
+
+  context "update :events" do
+    let(:params) { { events: ["", "record_created"] } }
+    it { expect { subject.perform(params) }.to change { slack_channel.reload.events }.to(["record_created"]) }
+  end
 end
