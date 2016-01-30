@@ -23,6 +23,10 @@ FactoryGirl.define do
       icon_url "http://i.imgur.com/4G30GGh.jpg"
     end
 
+    trait :record_created do
+      events { [ :record_created ] }
+    end
+
     trait :update do
       project nil
       name "ttt"
