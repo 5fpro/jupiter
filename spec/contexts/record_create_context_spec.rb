@@ -32,7 +32,7 @@ describe RecordCreateContext do
 
   describe "#notify_slack_channels" do
     before { FactoryGirl.create :slack_channel, :record_created, project: project }
-    
+
     it { expect { subject.perform(data) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
   end
 end
