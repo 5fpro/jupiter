@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def collection_for_slack_channel_events
-    SlackChannel::EVENTS.map{ |e| [I18n.t("models.slack_channel.events.#{e}"), e] }
+    Notify::Event.collection
   end
 
   def render_html(text)

@@ -11,8 +11,6 @@
 #
 
 class SlackChannel < ActiveRecord::Base
-  EVENTS = [:record_created].freeze
-
   belongs_to :project
 
   validates :project, presence: true
