@@ -24,9 +24,9 @@ en:
     slack_channel:
       events:
         record_created: "Record Created"
-  messages:
-    slack_channel:
-      events:
+  contexts:
+    notify:
+      event-messages:
         record_created: "Record#%{record_id}(%{record_type_name}) created for %{time} by %{user_name} on %{project_name}"
   errors:
     omniauth_parse_email_fail: "omniauth_parse_email_fail"

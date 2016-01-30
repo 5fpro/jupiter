@@ -1,6 +1,4 @@
 class SlackChannelsNotifyContext < BaseContext
-  include RecordHelper
-
   before_perform :find_slack_channels
 
   def initialize(project, event)
@@ -25,14 +23,8 @@ class SlackChannelsNotifyContext < BaseContext
 
   # TODO: move to another context
   def send_notify(event, slack_channel, objects = {})
-    message = generate_message(event, objects)
+    message = Notify::GenerateMessageContext.new(event, objects).perform
     send_to_slack(slack_channel, message)
-  end
-
-  def generate_message(event, objects = {})
-    case event.to_s
-    when "record_created" then I18n.t("messages.slack_channel.events.#{event}", record_id: objects[:record].id, user_name: objects[:record].user.name, time:  render_hours(objects[:record].total_time), record_type_name: record_type_name(objects[:record].record_type), project_name: objects[:record].project.name)
-    end
   end
 
   def send_to_slack(slack_channel, message)
