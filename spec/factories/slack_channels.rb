@@ -24,7 +24,7 @@ FactoryGirl.define do
     end
 
     trait :record_created do
-      events { [ :record_created ] }
+      events { [:record_created] }
     end
 
     trait :update do
