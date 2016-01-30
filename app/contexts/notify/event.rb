@@ -9,7 +9,11 @@ class Notify::Event
     end
 
     def collection
-      all.map { |e| [I18n.t("models.slack_channel.events.#{e}"), e] }
+      all.map { |e| [desc(e), e] }
+    end
+
+    def desc(event)
+      I18n.t("models.slack_channel.events.#{event}")
     end
   end
 end
