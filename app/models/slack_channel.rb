@@ -19,8 +19,8 @@ class SlackChannel < ActiveRecord::Base
 
   def events
     value = (super || [])
-    value = eval(value) if value.is_a?(String) && value.present?
-    value.map(&:to_s).select(&:present?)
+    value = value.gsub(/[^a-zA-Z,_]+/, "").split(",") if value.is_a?(String) && value.present?
+    value.select(&:present?)
   end
 
   def event?(e)
