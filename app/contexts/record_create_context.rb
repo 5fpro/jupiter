@@ -5,6 +5,7 @@ class RecordCreateContext < BaseContext
   before_perform :init_params
   before_perform :validates_user_in_project!
   before_perform :build_record
+  after_perform :notify_slack_channels
 
   def initialize(user, project)
     @user = user
@@ -36,5 +37,9 @@ class RecordCreateContext < BaseContext
   def build_record
     @record = @project.records.build(@params)
     @record.user = @user
+  end
+
+  def notify_slack_channels
+    Notify::TriggerContext.new(@project, :record_created).perform(record: @record)
   end
 end
