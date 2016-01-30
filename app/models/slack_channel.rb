@@ -14,4 +14,6 @@ class SlackChannel < ActiveRecord::Base
   belongs_to :project
 
   validates :project, presence: true
+
+  store_accessor :data, :name, :webhook, :icon_url, :robot_name, :room
 end
