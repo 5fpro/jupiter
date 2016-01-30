@@ -24,13 +24,6 @@ class SlackChannelsNotifyContext < BaseContext
   # TODO: move to another context
   def send_notify(event, slack_channel, objects = {})
     message = Notify::GenerateMessageContext.new(event, objects).perform
-    send_to_slack(slack_channel, message)
-  end
-
-  def send_to_slack(slack_channel, message)
-    name = slack_channel.robot_name
-    icon_url = slack_channel.icon_url || ""
-    webhook = slack_channel.webhook
-    SlackService.notify_async(message, channel: slack_channel.room, name: name, icon_url: icon_url, webhook: webhook)
+    Notify::SendToSlackContext.new(message, slack_channel).perform
   end
 end

@@ -13,14 +13,14 @@
 FactoryGirl.define do
   factory :slack_channel do
     project { FactoryGirl.create :project }
+    webhook "http://xxxxxx.comasdasd/dasdasdasd/asdasdas"
+    room "#general"
 
     trait :create do
       project nil
-      webhook "http://xxxxxx.comasdasd/dasdasdasd/asdasdas"
       robot_name "Jupiter"
       name "tetetetet"
       icon_url "http://i.imgur.com/4G30GGh.jpg"
-      room "#general"
     end
 
     trait :update do
