@@ -13,4 +13,8 @@ module CrudConcern
     redirect_to params[:redirect_to] || url, flash: flash_opts
   end
 
+  def redirect_as_fail(url, message = nil)
+    flash_opts = message ? { error: message } : nil
+    redirect_to params[:redirect_to] || url, flash: flash_opts
+  end
 end

@@ -1,0 +1,6 @@
+= render partial: "projects/menu", as: :project, object: @project
+hr/
+
+- url = project_slack_channels_path(@project, redirect_to: params[:redirect_to])
+= simple_form_for @slack_channel, method: :post, url: url do |f|
+  = render partial: "form", as: :f, object: f
