@@ -1,0 +1,26 @@
+= render partial: "projects/menu", as: :project, object: @project
+hr/
+
+h3= link_to "編輯", edit_project_slack_channel_path(@project, @slack_channel)
+
+table
+  tbody
+    tr
+      td ID
+      td= @slack_channel.id
+    tr
+      td Name
+      td= @slack_channel.name
+    tr
+      td Webhook
+      td= @slack_channel.webhook
+    tr
+      td Room
+      td= @slack_channel.room
+    tr
+      td icon_url
+      td= image_tag(@slack_channel.icon_url, size: "300x300") if @slack_channel.icon_url.present?
+    tr
+      td robot name
+      td= @slack_channel.robot_name
+    
