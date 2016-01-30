@@ -13,7 +13,7 @@
 FactoryGirl.define do
   factory :slack_channel do
     project { FactoryGirl.create :project }
-    webhook "http://xxxxxx.comasdasd/dasdasdasd/asdasdas"
+    webhook "https://hooks.slack.com/services/xxxxx/xxxx"
     room "#general"
 
     trait :create do
