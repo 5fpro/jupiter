@@ -21,6 +21,6 @@ RSpec.describe SlackChannel, type: :model do
 
   it "#events and & #event?" do
     slack_channel.update_attribute :events, ["", "record_created"]
-    expect( SlackChannel.find(slack_channel.id).event?(:record_created) ).to eq true
+    expect(SlackChannel.find(slack_channel.id).event?(:record_created)).to eq true
   end
 end
