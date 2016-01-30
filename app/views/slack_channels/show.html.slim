@@ -1,7 +1,8 @@
 = render partial: "projects/menu", as: :project, object: @project
 hr/
 
-h3= link_to "編輯", edit_project_slack_channel_path(@project, @slack_channel)
+h3= link_to "頻道列表", project_slack_channels_path(@project)
+h3= link_to "編輯此頻道", edit_project_slack_channel_path(@project, @slack_channel)
 
 table
   tbody
@@ -11,6 +12,9 @@ table
     tr
       td Name
       td= @slack_channel.name
+    tr
+      td Events
+      td= render_slack_channel_events(@slack_channel)
     tr
       td Webhook
       td= @slack_channel.webhook
@@ -23,4 +27,3 @@ table
     tr
       td robot name
       td= @slack_channel.robot_name
-    

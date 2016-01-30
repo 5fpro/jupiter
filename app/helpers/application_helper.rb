@@ -17,6 +17,10 @@ module ApplicationHelper
     Notify::Event.collection
   end
 
+  def render_slack_channel_events(slack_channel)
+    render_html slack_channel.events.map { |e| Notify::Event.desc(e) }.join("\n")
+  end
+
   def render_html(text)
     text = simple_format(text, {}, wrapper_tag: 'div')
     text = auto_link(text, html: { target: "_blank" }, sanitize: false)
