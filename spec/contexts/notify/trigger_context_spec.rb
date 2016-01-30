@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe SlackChannelsNotifyContext do
+describe Notify::TriggerContext do
   let(:project) { project_created! }
   let(:user) { project.owner }
   let(:record) { record_created!(user, project) }
