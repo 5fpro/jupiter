@@ -23,7 +23,7 @@ table
         td= record_type_name(record.try(:record_type))
         td= record.minutes
         td= record.try(:note) if record.try(:data)
-        tr= record.try(:created_at)
+        td= record.try(:created_at)
         td
           - if record.try(:id) && record.user_id == current_user.id
             = link_to "編輯", edit_project_record_path(record.project, record, redirect_to: url_for(params))
