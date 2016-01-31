@@ -8,7 +8,7 @@ class RecordsController < BaseController
   # GET /projects/:project_id/records
   # GET /records
   def index
-    @q = Search::Record.where(nil).merge(@scoped).ransack(params[:q])
+    @q = Search::Record.where(nil).merge(@scoped.order("id DESC")).ransack(params[:q])
     @records = @q.result.page(params[:page]).per(30)
     @total_time = @q.result.total_time
   end
