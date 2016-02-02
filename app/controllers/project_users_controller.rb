@@ -1,6 +1,6 @@
 class ProjectUsersController < BaseController
   before_action :authenticate_user!
-  before_action :find_project
+  before_action :find_project_users
 
   def update
     if @project_user.update_attributes(project_user_params)
@@ -12,7 +12,7 @@ class ProjectUsersController < BaseController
 
   private
 
-  def find_project
+  def find_project_users
     @project_user ||= current_user.project_users.find(params[:id]) if params[:id]
   end
 
