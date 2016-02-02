@@ -2,9 +2,9 @@ class ProjectsController < BaseController
   before_action :authenticate_user!
   before_action :find_owned_project, only: [:setting, :update_setting]
   before_action :find_project
+  before_action :find_projects, only: [:index, :edit_collection]
 
   def index
-    @projects = current_user.projects
     @my_records = current_user.records
   end
 
@@ -48,6 +48,9 @@ class ProjectsController < BaseController
     end
   end
 
+  def edit_collection
+  end
+
   private
 
   def find_project
@@ -56,5 +59,9 @@ class ProjectsController < BaseController
 
   def find_owned_project
     @project = current_user.owned_projects.find(params[:id])
+  end
+
+  def find_projects
+    @projects = current_user.projects
   end
 end

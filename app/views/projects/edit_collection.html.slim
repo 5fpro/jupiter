@@ -1,0 +1,7 @@
+h1 我參與的專案列表
+
+.projects
+  - @projects.each do |p|
+    .project id="project-#{p.id}"
+      = p.name
+      br
