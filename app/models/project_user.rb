@@ -15,4 +15,6 @@ class ProjectUser < ActiveRecord::Base
   belongs_to :user
 
   validates :project_id, uniqueness: { scope: :user_id }
+
+  sortable column: :sort, add_new_at: nil
 end

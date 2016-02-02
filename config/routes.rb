@@ -44,4 +44,6 @@ Rails.application.routes.draw do
   resources :records, only: [:index] do
     resources :comments
   end
+
+  resources :project_users, only: [:update]
 end
