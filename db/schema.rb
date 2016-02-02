@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160130083518) do
+ActiveRecord::Schema.define(version: 20160202053118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
   enable_extension "hstore"
+  enable_extension "postgis"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "provider"
@@ -61,10 +61,12 @@ ActiveRecord::Schema.define(version: 20160130083518) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "sort"
   end
 
   add_index "project_users", ["project_id", "user_id"], name: "index_project_users_on_project_id_and_user_id", using: :btree
   add_index "project_users", ["project_id"], name: "index_project_users_on_project_id", using: :btree
+  add_index "project_users", ["user_id", "sort"], name: "index_project_users_on_user_id_and_sort", using: :btree
   add_index "project_users", ["user_id"], name: "index_project_users_on_user_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
