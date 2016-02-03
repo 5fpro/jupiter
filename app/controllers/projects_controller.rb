@@ -1,7 +1,7 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
   before_action :find_owned_project, only: [:setting, :update_setting]
-  before_action :find_project
+  before_action :find_project, except: [:edit_collection]
 
   def index
     @projects = current_user.projects
@@ -46,6 +46,10 @@ class ProjectsController < BaseController
     else
       render_as_fail(:setting, context.error_messages)
     end
+  end
+
+  def edit_collection
+    @project_users = current_user.project_users.sorted
   end
 
   private

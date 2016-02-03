@@ -7,6 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  sort       :integer
 #
 
 class ProjectUser < ActiveRecord::Base
@@ -14,4 +15,6 @@ class ProjectUser < ActiveRecord::Base
   belongs_to :user
 
   validates :project_id, uniqueness: { scope: :user_id }
+
+  sortable column: :sort, add_new_at: nil
 end

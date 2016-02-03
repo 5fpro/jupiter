@@ -26,4 +26,16 @@ module ApplicationHelper
     text = auto_link(text, html: { target: "_blank" }, sanitize: false)
     raw text
   end
+
+  def render_sorting_buttons(instance, column: :sort)
+    scope = instance.class.to_s.split("::").last.underscore
+    html = [:first, :up, :down, :last, :remove].map do |action|
+      if action == :remove && instance.try(column).nil?
+        ""
+      else
+        link_to action.to_s.camelize, send("#{scope}_path", instance, "#{scope}[#{column}]" => action, redirect_to: url_for), method: :put, class: "btn btn-mini"
+      end
+    end.join(" ")
+    raw html
+  end
 end
