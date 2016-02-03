@@ -154,7 +154,7 @@ RSpec.describe RecordsController, type: :request do
     describe "#create" do
       it "html" do
         expect {
-          post "/projects/#{project.id}/records", record: data_for(:record)
+          post "/projects/#{project.id}/records", record: attributes_for(:record)
         }.to change { Record.count }.by(1)
         expect(response).to be_redirect
         follow_redirect!
@@ -162,7 +162,7 @@ RSpec.describe RecordsController, type: :request do
       end
       it "js" do
         expect {
-          xhr :post, "/projects/#{project.id}/records", record: data_for(:record)
+          xhr :post, "/projects/#{project.id}/records", record: attributes_for(:record)
         }.to change { Record.count }.by(1)
         expect(response).to be_success
       end
@@ -199,8 +199,8 @@ RSpec.describe RecordsController, type: :request do
 
     it "#update" do
       expect {
-        put "/projects/#{project.id}/records/#{record.id}", record: data_for(:update_record)
-      }.to change { record.reload.minutes }.to(data_for(:update_record)[:minutes])
+        put "/projects/#{project.id}/records/#{record.id}", record: attributes_for(:record, :update_record)
+      }.to change { record.reload.minutes }.to(attributes_for(:record, :update_record)[:minutes])
       expect(response).to be_redirect
       follow_redirect!
       expect(response).to be_success

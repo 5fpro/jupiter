@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ProjectUpdateSettingContext do
   let(:user) { FactoryGirl.create :user }
   let(:user1) { FactoryGirl.create :user }
-  let(:data) { data_for(:update_project_setting) }
+  let(:data) { attributes_for(:project, :update_project_setting) }
   before { project_created!(user) }
 
   it "success" do

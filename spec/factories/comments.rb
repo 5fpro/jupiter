@@ -17,4 +17,8 @@ FactoryGirl.define do
     item { FactoryGirl.create :record }
   end
 
+  trait :create_comment do
+    user_id { FactoryGirl.create(:user).id }
+  end
+
 end

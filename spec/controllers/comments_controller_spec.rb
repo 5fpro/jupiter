@@ -34,7 +34,7 @@ RSpec.describe CommentsController, type: :request do
 
   it "#create" do
     expect {
-      post "/records/#{record.id}/comments", comments: data_for(:comment)
+      post "/records/#{record.id}/comments", comments: attributes_for(:comment, :create_comment)
     }.to change { Comment.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!

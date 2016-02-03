@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe UserCreateProjectContext do
   let(:user) { FactoryGirl.create :user }
-  let(:data) { data_for_project }
+  let(:data) { attributes_for(:project) }
 
   subject { described_class.new(user, data).perform }
 

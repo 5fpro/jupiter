@@ -88,7 +88,7 @@ RSpec.describe ProjectsController, type: :request do
 
   it "#create" do
     expect {
-      post "/projects", project: data_for(:project)
+      post "/projects", project: attributes_for(:project)
     }.to change { Project.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
@@ -112,7 +112,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   describe "#update" do
-    let(:data) { data_for(:update_project) }
+    let(:data) { attributes_for(:project, :update_project) }
     subject { put "/projects/#{project.id}", project: data }
 
     context "success" do
@@ -158,7 +158,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   describe "#update_setting" do
-    let(:data) { data_for(:update_project_setting) }
+    let(:data) { attributes_for(:project, :update_project_setting) }
     subject { put "/projects/#{project.id}/setting", project: data }
 
     context "success" do
@@ -173,7 +173,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "update fail" do
-      let!(:data) { data_for(:update_project_setting, name: "") }
+      let!(:data) { attributes_for(:project, :update_project_setting, name: "") }
       before { subject }
 
       it { expect(response).to be_success }
