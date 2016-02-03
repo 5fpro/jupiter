@@ -179,4 +179,11 @@ RSpec.describe ProjectsController, type: :request do
       it { expect(response).to be_success }
     end
   end
+
+  describe "#edit_collection" do
+    subject { get "/projects/edit" }
+    before { subject }
+
+    it { expect(response).to be_success }
+  end
 end

@@ -1,0 +1,8 @@
+h1 我參與的專案列表
+
+.project_users
+  - @project_users.each do |pu|
+    .project_user id="project-user-#{pu.id}"
+      = pu.project.name
+      br
+      = render_sorting_buttons(pu)

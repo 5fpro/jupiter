@@ -29,6 +29,9 @@ Rails.application.routes.draw do
       get :setting
       put :setting, action: "update_setting"
     end
+    collection do
+      get :edit, action: :edit_collection
+    end
     resources :records
     resources :collaborators, except: [:edit, :update, :show]
     resources :slack_channels do
@@ -41,4 +44,6 @@ Rails.application.routes.draw do
   resources :records, only: [:index] do
     resources :comments
   end
+
+  resources :project_users, only: [:update]
 end

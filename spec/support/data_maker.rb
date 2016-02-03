@@ -71,4 +71,8 @@ module DataMaker
       note: "update minutes"
     }
   end
+
+  def data_for_update_project_user
+    { sort: :last }
+  end
 end
