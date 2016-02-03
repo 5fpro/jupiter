@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       put :setting, action: "update_setting"
     end
     collection do
-      get :sorting, action: "edit_collection"
+      get :edit, action: :edit_collection
     end
     resources :records
     resources :collaborators, except: [:edit, :update, :show]
