@@ -15,4 +15,13 @@ FactoryGirl.define do
     project { FactoryGirl.create :project }
   end
 
+  trait :create_project_user do
+    user_id    { FactoryGirl.create(:user).id }
+    project_id { FactoryGirl.create(:project).id }
+  end
+
+  trait :update_project_user do
+    sort :last
+  end
+
 end

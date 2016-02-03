@@ -20,4 +20,16 @@ FactoryGirl.define do
     minutes 100
   end
 
+  trait :create_record do
+    record_type :coding
+    minutes 120
+    note "fix bug"
+  end
+
+  trait :update_record do
+    record_type :etc
+    minutes 10
+    note "update minutes"
+  end
+
 end

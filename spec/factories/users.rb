@@ -44,4 +44,11 @@ FactoryGirl.define do
       avatar { File.open("#{Rails.root}/spec/fixtures/5fpro.png") }
     end
   end
+
+  trait :creating_user do
+    name "5Fpro"
+    sequence(:email) { |n| "user#{n}@5fpro.com" }
+    password "12341234"
+    admin "0"
+  end
 end

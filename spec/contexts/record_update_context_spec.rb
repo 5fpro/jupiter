@@ -10,13 +10,13 @@ describe RecordUpdateContext do
 
   it "success" do
     expect {
-      described_class.new(user, @record).perform(data_for(:update_record))
-    }.to change { @record.reload.note }.to(data_for(:update_record)[:note])
+      described_class.new(user, @record).perform(attributes_for(:record, :update_record))
+    }.to change { @record.reload.note }.to(attributes_for(:record, :update_record)[:note])
   end
 
   it "not owner" do
     expect {
-      described_class.new(user1, @record).perform(data_for(:update_record))
+      described_class.new(user1, @record).perform(attributes_for(:record, :update_record))
     }.not_to change { @record.reload.note }
   end
 end

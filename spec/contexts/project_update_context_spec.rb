@@ -4,7 +4,7 @@ describe ProjectUpdateContext do
   let(:user) { FactoryGirl.create :user }
   let(:user1) { FactoryGirl.create :user }
   let(:project) { project_created!(user) }
-  let(:data) { data_for(:update_project) }
+  let(:data) { attributes_for(:project, :update_project) }
   subject { described_class.new(user, project) }
 
   it "success" do

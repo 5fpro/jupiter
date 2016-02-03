@@ -1,7 +1,7 @@
 module ContextMaker
   def project_created!(user = nil)
     @user = user || FactoryGirl.create(:user)
-    @project = UserCreateProjectContext.new(@user, data_for(:project)).perform
+    @project = UserCreateProjectContext.new(@user, attributes_for(:project, :update_project)).perform
     @project
   end
 
@@ -12,6 +12,6 @@ module ContextMaker
   end
 
   def record_created!(user, project)
-    @record = RecordCreateContext.new(user, project).perform(data_for(:record))
+    @record = RecordCreateContext.new(user, project).perform(attributes_for(:record))
   end
 end
