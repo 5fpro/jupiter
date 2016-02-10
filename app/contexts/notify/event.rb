@@ -1,7 +1,7 @@
 class Notify::Event
   class << self
     def all
-      [:record_created]
+      [:record_created, :approach_hours_limit]
     end
 
     def descs
