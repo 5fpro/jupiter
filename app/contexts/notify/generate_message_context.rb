@@ -31,10 +31,10 @@ class Notify::GenerateMessageContext < BaseContext
     }
   end
 
-  def to_params_monthly_limit_hours_approach
+  def to_params_approach_hours_limit
     project = @objects[:project]
     { project_name: project.name,
-      limit_hours: render_hours(project.monthly_limit_hours.hours),
+      limit_hours: render_hours(project.hours_limit.hours),
       current_hours: render_hours(project.records.this_month.total_time)
     }
   end
