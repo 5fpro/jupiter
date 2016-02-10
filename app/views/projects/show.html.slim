@@ -1,7 +1,6 @@
 = render partial: "menu", as: :project, object: @project
 
-h2
-  = "Info"
+h2= "Info"
 
 table
   tr
@@ -14,8 +13,9 @@ table
     td 描述
     td= render_html(@project.description)
 
-h2
-  = "成員"
+= render partial: "records", as: :project, object: @project
+
+h2= "成員"
 
 table
   thead
