@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   has_many :slack_channels
 
   store_accessor :data, :users_count, :description, :hours_limit,
-    :approached_hours_limit
+                 :approached_hours_limit
 
   validates :name, :owner_id, presence: true
 

@@ -8,7 +8,7 @@ class Project::HoursLimitCheckContext < BaseContext
 
   class << self
     def perform(project_id)
-      self.new(Project.find(project_id)).perform
+      new(Project.find(project_id)).perform
     end
   end
 
