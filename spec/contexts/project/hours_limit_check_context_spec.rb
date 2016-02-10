@@ -21,6 +21,10 @@ describe Project::HoursLimitCheckContext, type: :context do
         it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(SlackService, :notify) }
       end
     end
+
+    describe "#perform" do
+      it { expect { described_class.perform(project.id) }.to change { project.reload.approached_hours_limit } }
+    end
   end
 
   context "no value" do
