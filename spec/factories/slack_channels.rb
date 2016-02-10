@@ -27,6 +27,10 @@ FactoryGirl.define do
       events { [:record_created] }
     end
 
+    trait :monthly_limit_hours_approach do
+      events { [:monthly_limit_hours_approach] }
+    end
+
     trait :update do
       project nil
       name "ttt"
