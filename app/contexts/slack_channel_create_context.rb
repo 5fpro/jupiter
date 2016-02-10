@@ -24,7 +24,7 @@ class SlackChannelCreateContext < BaseContext
   end
 
   def validates_owner
-    return add_error(:user_is_not_owner) if @project.owner_id != @user.id
+    return add_error(:user_is_not_owner) unless @project.owner?(@user)
     true
   end
 end

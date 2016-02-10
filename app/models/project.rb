@@ -27,6 +27,10 @@ class Project < ActiveRecord::Base
     project_users.map(&:user_id).include?(user.id)
   end
 
+  def owner?(user)
+    owner_id == user.try(:id)
+  end
+
   def users_count
     super.to_i
   end
