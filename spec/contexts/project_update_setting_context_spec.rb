@@ -11,6 +11,7 @@ describe ProjectUpdateSettingContext do
       described_class.new(user, @project).perform(data)
     }.to change { @project.reload.name }
     expect(@project.price_of_hour).to eq(data[:price_of_hour])
+    expect(@project.monthly_limit_hours).to eq(data[:monthly_limit_hours])
   end
 
   it "not owner" do

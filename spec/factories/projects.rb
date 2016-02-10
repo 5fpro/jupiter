@@ -25,6 +25,7 @@ FactoryGirl.define do
   trait :update_project_setting do
     name "blablabla"
     price_of_hour 10_000_000
+    monthly_limit_hours 100
   end
 
 end
