@@ -18,7 +18,8 @@ class Project < ActiveRecord::Base
   has_many :records
   has_many :slack_channels
 
-  store_accessor :data, :users_count, :description, :monthly_limit_hours
+  store_accessor :data, :users_count, :description, :monthly_limit_hours,
+    :approached_monthly_limit_hours
 
   validates :name, :owner_id, presence: true
 
@@ -32,5 +33,9 @@ class Project < ActiveRecord::Base
 
   def monthly_limit_hours
     super.to_i
+  end
+
+  def approached_monthly_limit_hours
+    super == "true"
   end
 end
