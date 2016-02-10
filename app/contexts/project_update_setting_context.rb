@@ -1,5 +1,5 @@
 class ProjectUpdateSettingContext < BaseContext
-  PERMITS = [:name, :price_of_hour, :owner_id].freeze
+  PERMITS = [:name, :price_of_hour, :owner_id, :hours_limit].freeze
 
   before_perform :validates_owner!
   before_perform :assign_value
