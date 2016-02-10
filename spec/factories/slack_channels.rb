@@ -27,8 +27,8 @@ FactoryGirl.define do
       events { [:record_created] }
     end
 
-    trait :monthly_limit_hours_approach do
-      events { [:monthly_limit_hours_approach] }
+    trait :approach_hours_limit do
+      events { [:approach_hours_limit] }
     end
 
     trait :update do
