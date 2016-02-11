@@ -88,7 +88,7 @@ RSpec.describe SlackChannelsController, type: :request do
   end
 
   describe "#create" do
-    let(:data) { FactoryGirl.attributes_for :slack_channel_for_create }
+    let(:data) { attributes_for :slack_channel_for_create }
     subject { post "/projects/#{project.id}/slack_channels/", slack_channel: data }
 
     context "success" do
