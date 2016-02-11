@@ -16,7 +16,8 @@ require 'rails_helper'
 RSpec.describe Comment, type: :model do
   let(:comment) { FactoryGirl.create :comment }
 
-  it "FactoryGirl" do
-    expect(comment).not_to be_new_record
+  context "FactoryGirl" do
+    it { expect(comment).not_to be_new_record }
+    it { attributes_for :comment_for_create }
   end
 end

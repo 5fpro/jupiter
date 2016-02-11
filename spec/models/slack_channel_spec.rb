@@ -15,8 +15,12 @@ require 'rails_helper'
 RSpec.describe SlackChannel, type: :model do
   let(:slack_channel) { FactoryGirl.create :slack_channel }
 
-  it "FactoryGirl" do
-    expect(slack_channel).not_to be_new_record
+  context "FactoryGirl" do
+    it { expect(slack_channel).not_to be_new_record }
+    it { FactoryGirl.create :slack_channel, :record_created }
+    it { FactoryGirl.create :slack_channel, :approach_hours_limit }
+    it { attributes_for :slack_channel_for_update }
+    it { attributes_for :slack_channel_for_create }
   end
 
   it "#events and & #event?" do

@@ -30,9 +30,12 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:user) { FactoryGirl.create :user }
 
-  it "FactoryGirl" do
-    expect(user).not_to be_new_record
-    expect(FactoryGirl.create(:user_with_avatar).avatar.url).to be_present
+  context "FactoryGirl" do
+    it { expect(user).not_to be_new_record }
+    it { expect(FactoryGirl.create(:user_with_avatar).avatar.url).to be_present }
+    it { expect(FactoryGirl.create(:unconfirmed_user).confirmed?).to eq false }
+    it { expect(FactoryGirl.create(:admin_user).admin?).to eq true }
+    it { attributes_for :user_for_create }
   end
 
   it "devise async" do
