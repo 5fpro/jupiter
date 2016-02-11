@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  sort       :integer
+#  data       :hstore
 #
 
 class ProjectUser < ActiveRecord::Base
@@ -17,4 +18,6 @@ class ProjectUser < ActiveRecord::Base
   validates :project_id, uniqueness: { scope: :user_id }
 
   sortable column: :sort, add_new_at: nil
+
+  store_accessor :data, :slack_user
 end
