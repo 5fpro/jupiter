@@ -23,6 +23,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_other_user do
+      after(:create) do |project|
+        FactoryGirl.create :project_user, project: project
+      end
+    end
+
     trait :with_slack_channel do
       after(:create) do |project|
         slack_channel = FactoryGirl.create :slack_channel, project: project
@@ -30,20 +36,29 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_records do
+      after(:create) do |project|
+        FactoryGirl.create_list :record, 2, project: project, user: project.owner
+      end
+    end
+
     factory :project_for_slack_notify, traits: [:with_project_user, :with_slack_channel]
-  end
-
-  trait :update_project do
-    description "hahaha"
-  end
-
-  trait :update_project_setting do
-    name "blablabla"
-    price_of_hour 10_000_000
-    hours_limit 100
+    factory :project_has_members, traits: [:with_project_user, :with_other_user]
+    factory :project_has_records, traits: [:with_project_user, :with_records]
   end
 
   factory :project_for_update, class: Project do
+
+    trait :member do
+      description "hahaha"
+    end
+
+    trait :setting do
+      name "blablabla"
+      price_of_hour 10_000_000
+      hours_limit 100
+    end
+
     trait :project_users do
       project_users_attributes { [{ slack_user: "haha", id: ProjectUser.last.try(:id) }] }
     end
