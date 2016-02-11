@@ -16,6 +16,21 @@ FactoryGirl.define do
     owner { FactoryGirl.create :user }
     sequence(:name) { |n| "Project Name - #{n}" }
     price_of_hour 1000
+
+    trait :with_project_user do
+      after(:create) do |project|
+        FactoryGirl.create :project_user, project: project, user: project.owner
+      end
+    end
+
+    trait :with_slack_channel do
+      after(:create) do |project|
+        slack_channel = FactoryGirl.create :slack_channel, project: project
+        project.update_attribute :primary_slack_channel_id, slack_channel.id
+      end
+    end
+
+    factory :project_for_slack_notify, traits: [:with_project_user, :with_slack_channel]
   end
 
   trait :update_project do
@@ -28,4 +43,9 @@ FactoryGirl.define do
     hours_limit 100
   end
 
+  factory :project_for_update, class: Project do
+    trait :project_users do
+      project_users_attributes { [{ slack_user: "haha", id: ProjectUser.last.try(:id) }] }
+    end
+  end
 end

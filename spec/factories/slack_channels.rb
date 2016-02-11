@@ -34,6 +34,7 @@ FactoryGirl.define do
     trait :update do
       project nil
       name "ttt"
+      primary "1"
     end
   end
 

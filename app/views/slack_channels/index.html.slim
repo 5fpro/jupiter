@@ -9,6 +9,7 @@ table
   thead
     tr
       th ID
+      th 主要
       th 名稱
       th 頻道
       th 觸發
@@ -17,6 +18,7 @@ table
     - @slack_channels.each do |slack_channel|
       tr
         td= slack_channel.id
+        td= "Y" if slack_channel.primary?
         td= slack_channel.name
         td= slack_channel.room
         td= render_slack_channel_events(slack_channel)
