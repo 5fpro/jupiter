@@ -16,8 +16,18 @@ require 'rails_helper'
 RSpec.describe Project, type: :model do
   let(:project) { FactoryGirl.create :project }
 
-  describe "FactoryGirl" do
+  context "FactoryGirl" do
     it { expect(project).not_to be_new_record }
+    it { FactoryGirl.create :project, :with_project_user }
+    it { FactoryGirl.create :project, :with_other_user }
+    it { FactoryGirl.create :project, :with_slack_channel }
+    it { FactoryGirl.create :project, :with_records }
+    it { FactoryGirl.create :project_for_slack_notify }
+    it { FactoryGirl.create :project_has_members }
+    it { FactoryGirl.create :project_has_records }
+    it { attributes_for :project_for_update, :member }
+    it { attributes_for :project_for_update, :setting }
+    it { attributes_for :project_for_update, :project_users }
   end
 
   describe "order by project_user sort" do

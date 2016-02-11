@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Project::UpdateProjectUsersContext, type: :context do
-  let!(:project) { project_created! }
+  let!(:project) { FactoryGirl.create :project, :with_project_user }
   let!(:project_user) { project.project_users.last }
   let(:params) { attributes_for(:project_for_update, :project_users) }
 

@@ -15,8 +15,8 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :request do
 
-  let!(:project) { project_created! }
-  let(:user) { @user }
+  let!(:project) { FactoryGirl.create :project_has_members }
+  let(:user) { project.owner }
 
   def remove_user_from_project!(project, user)
     project.project_users.where(user_id: user.id).first.try(:delete)
@@ -36,9 +36,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "has projects & records" do
-      before { project_created!(current_user) }
-      before { record_created!(current_user, project) }
-      before { record_created!(current_user, project) }
+      before { FactoryGirl.create :project_has_records, owner: current_user }
 
       before { subject }
 
@@ -56,9 +54,8 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "has member" do
-      let(:member) { FactoryGirl.create :user }
+      let(:member) { project.users.last }
 
-      before { project_invite!(project, member) }
       before { subject }
 
       it { expect(response).to be_success }
@@ -112,7 +109,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   describe "#update" do
-    let(:data) { attributes_for(:project, :update_project) }
+    let(:data) { attributes_for(:project_for_update, :member) }
     subject { put "/projects/#{project.id}", project: data }
 
     context "success" do
@@ -158,7 +155,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   describe "#update_setting" do
-    let(:data) { attributes_for(:project, :update_project_setting) }
+    let(:data) { attributes_for(:project_for_update, :setting) }
     subject { put "/projects/#{project.id}/setting", project: data }
 
     context "success" do
@@ -173,7 +170,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "update fail" do
-      let!(:data) { attributes_for(:project, :update_project_setting, name: "") }
+      let!(:data) { attributes_for(:project_for_update, :setting, name: "") }
       before { subject }
 
       it { expect(response).to be_success }

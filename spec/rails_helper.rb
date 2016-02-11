@@ -51,7 +51,6 @@ RSpec.configure do |config|
   config.include Util
   config.include Webmock
   config.include SidekiqHelper
-  config.include ContextMaker
   config.include RequestClient, type: :request
   config.include HtmlMatchers, type: :request
   config.include FactoryGirl::Syntax::Methods

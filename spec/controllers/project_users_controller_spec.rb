@@ -16,13 +16,13 @@ require 'rails_helper'
 RSpec.describe ProjectUsersController, type: :request do
 
   describe "#update" do
-    let(:data) { attributes_for(:project_user, :update_project_user) }
+    let(:data) { attributes_for(:project_user_for_update) }
     let!(:user) { FactoryGirl.create(:user) }
     let(:project_user) { user.project_users.first }
 
     before do
       signin_user(user)
-      project_created!(user)
+      FactoryGirl.create :project, :with_project_user, owner: user
     end
 
     context "success" do

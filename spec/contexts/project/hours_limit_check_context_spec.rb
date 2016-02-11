@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Project::HoursLimitCheckContext, type: :context do
-  let!(:project) { project_created! }
+  let!(:project) { FactoryGirl.create :project, :with_project_user }
   subject { described_class.new(project) }
 
   context "success" do

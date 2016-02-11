@@ -2,10 +2,8 @@ require 'rails_helper'
 
 describe ProjectRemoveUserContext do
   let(:owner) { FactoryGirl.create :user }
-  let(:user) { FactoryGirl.create :user }
-  let(:project) { project_created!(owner) }
-
-  before { project_invite!(project, user) }
+  let!(:project) { FactoryGirl.create :project_has_members, owner: owner }
+  let(:user) { project.users.find { |u| u.id != owner.id } }
 
   subject { described_class.new(owner, user, project) }
 

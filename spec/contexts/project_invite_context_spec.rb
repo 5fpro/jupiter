@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ProjectInviteContext do
   let(:me) { FactoryGirl.create :user }
   let(:user) { FactoryGirl.create :user }
-  let(:project) { project_created!(me) }
+  let(:project) { FactoryGirl.create :project, :with_project_user, owner: me }
 
   subject { described_class.new(me, user.email, project).perform }
 

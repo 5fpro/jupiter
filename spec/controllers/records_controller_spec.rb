@@ -16,8 +16,8 @@ require 'rails_helper'
 
 RSpec.describe RecordsController, type: :request do
   let!(:user) { FactoryGirl.create :user }
-  let!(:project) { project_created!(user) }
-  let!(:record) { record_created!(user, project) }
+  let!(:project) { FactoryGirl.create :project_has_records, owner: user }
+  let!(:record) { project.records.last }
   before { signin_user(user) }
 
   context "under /" do
@@ -31,9 +31,8 @@ RSpec.describe RecordsController, type: :request do
       it { expect(response.body).to match(/action="\/records"/) }
 
       context "different groups" do
-
-        let(:member) { FactoryGirl.create :user }
-        before { project_invite!(project, member) }
+        let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+        let(:member) { project.users.last }
         before { FactoryGirl.create :record, project: project, user: member }
         before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
@@ -86,9 +85,9 @@ RSpec.describe RecordsController, type: :request do
       end
 
       context "different groups" do
+        let!(:project) { FactoryGirl.create :project_has_members, :with_records, owner: user }
+        let(:member) { project.users.last }
 
-        let(:member) { FactoryGirl.create :user }
-        before { project_invite!(project, member) }
         before { FactoryGirl.create :record, project: project, user: member }
         before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
@@ -111,8 +110,8 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#show" do
-      let(:member) { FactoryGirl.create :user }
-      before { project_invite!(project, member) }
+      let!(:project) { FactoryGirl.create :project_has_members, :with_records, owner: user }
+      let(:member) { project.users.last }
 
       context "my record" do
         before { get "/projects/#{project.id}/records/#{record.id}" }
@@ -169,8 +168,8 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#edit" do
-      let(:member) { FactoryGirl.create :user }
-      before { project_invite!(project, member) }
+      let!(:project) { FactoryGirl.create :project_has_members, :with_records, owner: user }
+      let(:member) { project.users.last }
 
       context "my record" do
         before { get "/projects/#{project.id}/records/#{record.id}/edit" }
@@ -197,13 +196,16 @@ RSpec.describe RecordsController, type: :request do
       end
     end
 
-    it "#update" do
-      expect {
-        put "/projects/#{project.id}/records/#{record.id}", record: attributes_for(:record, :update_record)
-      }.to change { record.reload.minutes }.to(attributes_for(:record, :update_record)[:minutes])
-      expect(response).to be_redirect
-      follow_redirect!
-      expect(response).to be_success
+    describe "#update" do
+      let(:params) { attributes_for(:record_for_update) }
+      it do
+        expect {
+          put "/projects/#{project.id}/records/#{record.id}", record: params
+        }.to change { record.reload.minutes }.to(params[:minutes])
+        expect(response).to be_redirect
+        follow_redirect!
+        expect(response).to be_success
+      end
     end
 
     it "#destroy" do
