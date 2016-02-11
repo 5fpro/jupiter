@@ -21,6 +21,24 @@ RSpec.describe CollaboratorsController, type: :request do
     expect(response).to be_success
   end
 
+  describe "#update" do
+    let(:params) { attributes_for(:project_for_update, :project_users) }
+
+    it "success" do
+      put "/projects/#{@project.id}/collaborators", project: params
+      expect(response).to be_redirect
+    end
+
+    context "fail" do
+      before { @project.update_column :name, "" }
+
+      it do
+        put "/projects/#{@project.id}/collaborators", project: params
+        expect(response).to be_success
+      end
+    end
+  end
+
   it "#create" do
     user = FactoryGirl.create :user
     expect {

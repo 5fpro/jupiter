@@ -25,6 +25,12 @@ class CollaboratorsController < BaseController
 
   # PUT /projects/123/collaborators
   def update
+    context = Project::UpdateProjectUsersContext.new(@project, params[:project])
+    if context.perform
+      redirect_as_success(project_collaborators_path(project), "Update success")
+    else
+      render_as_fail(:edit, context.error_messages)
+    end
   end
 
   def destroy
