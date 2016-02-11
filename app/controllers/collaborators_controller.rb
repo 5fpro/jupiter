@@ -19,6 +19,14 @@ class CollaboratorsController < BaseController
     end
   end
 
+  # GET /projects/123/collaborators/edit
+  def edit
+  end
+
+  # PUT /projects/123/collaborators
+  def update
+  end
+
   def destroy
     context = ProjectRemoveUserContext.new(current_user, @project_user.user, @project)
     if context.perform
