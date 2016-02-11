@@ -47,17 +47,19 @@ FactoryGirl.define do
     factory :project_has_records, traits: [:with_project_user, :with_records]
   end
 
-  trait :update_project do
-    description "hahaha"
-  end
-
-  trait :update_project_setting do
-    name "blablabla"
-    price_of_hour 10_000_000
-    hours_limit 100
-  end
 
   factory :project_for_update, class: Project do
+
+    trait :member do
+      description "hahaha"
+    end
+
+    trait :setting do
+      name "blablabla"
+      price_of_hour 10_000_000
+      hours_limit 100
+    end
+
     trait :project_users do
       project_users_attributes { [{ slack_user: "haha", id: ProjectUser.last.try(:id) }] }
     end

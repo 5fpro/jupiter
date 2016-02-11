@@ -45,7 +45,7 @@ FactoryGirl.define do
     end
   end
 
-  trait :creating_user do
+  factory :user_for_create, class: User do
     name "5Fpro"
     sequence(:email) { |n| "user#{n}@5fpro.com" }
     password "12341234"

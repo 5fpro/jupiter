@@ -16,7 +16,7 @@ require 'rails_helper'
 RSpec.describe ProjectUsersController, type: :request do
 
   describe "#update" do
-    let(:data) { attributes_for(:project_user, :update_project_user) }
+    let(:data) { attributes_for(:project_user_for_update) }
     let!(:user) { FactoryGirl.create(:user) }
     let(:project_user) { user.project_users.first }
 

@@ -109,7 +109,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   describe "#update" do
-    let(:data) { attributes_for(:project, :update_project) }
+    let(:data) { attributes_for(:project_for_update, :member) }
     subject { put "/projects/#{project.id}", project: data }
 
     context "success" do
@@ -155,7 +155,7 @@ RSpec.describe ProjectsController, type: :request do
   end
 
   describe "#update_setting" do
-    let(:data) { attributes_for(:project, :update_project_setting) }
+    let(:data) { attributes_for(:project_for_update, :setting) }
     subject { put "/projects/#{project.id}/setting", project: data }
 
     context "success" do
@@ -170,7 +170,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "update fail" do
-      let!(:data) { attributes_for(:project, :update_project_setting, name: "") }
+      let!(:data) { attributes_for(:project_for_update, :setting, name: "") }
       before { subject }
 
       it { expect(response).to be_success }
