@@ -14,7 +14,7 @@ require 'rails_helper'
 
 RSpec.describe SlackChannelsController, type: :request do
   before { signin_user }
-  let!(:project) { project_created!(current_user) }
+  let!(:project) { FactoryGirl.create :project, :with_project_user, owner: current_user }
   let(:slack_channel) { FactoryGirl.create :slack_channel, :create, project: project }
 
   def remove_project_user!(project, user)

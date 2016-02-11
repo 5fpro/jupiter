@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ProjectRemoveUserContext do
   let(:owner) { FactoryGirl.create :user }
   let(:user) { FactoryGirl.create :user }
-  let(:project) { project_created!(owner) }
+  let(:project) { FactoryGirl.create :project, :with_project_user, owner: owner }
 
   before { project_invite!(project, user) }
 

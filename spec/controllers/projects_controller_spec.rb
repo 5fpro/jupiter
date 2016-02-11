@@ -15,8 +15,8 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :request do
 
-  let!(:project) { project_created! }
-  let(:user) { @user }
+  let!(:project) { FactoryGirl.create :project, :with_project_user }
+  let(:user) { project.owner }
 
   def remove_user_from_project!(project, user)
     project.project_users.where(user_id: user.id).first.try(:delete)
@@ -36,7 +36,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "has projects & records" do
-      before { project_created!(current_user) }
+      before { FactoryGirl.create :project, :with_project_user, owner: current_user }
       before { record_created!(current_user, project) }
       before { record_created!(current_user, project) }
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe RecordCreateContext do
   let(:user) { FactoryGirl.create :user }
-  let(:project) { project_created!(user) }
+  let(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
   let(:data) { attributes_for(:record) }
 
   subject { described_class.new(user, project) }
