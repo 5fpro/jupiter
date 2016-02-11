@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CollaboratorsController, type: :request do
-  let!(:project) { FactoryGirl.create :project, :with_project_user }
+  let!(:project) { FactoryGirl.create :project_has_members }
   let!(:user) { project.owner }
+  let(:user2) { project.users.last }
 
   before do
     signin_user(user)
@@ -52,7 +53,6 @@ RSpec.describe CollaboratorsController, type: :request do
   end
 
   it "#destroy" do
-    project_invite!(project)
     project_user = project.project_users.last
     expect {
       delete "/projects/#{project.id}/collaborators/#{project_user.id}"

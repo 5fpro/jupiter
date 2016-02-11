@@ -15,7 +15,7 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :request do
 
-  let!(:project) { FactoryGirl.create :project, :with_project_user }
+  let!(:project) { FactoryGirl.create :project_has_members }
   let(:user) { project.owner }
 
   def remove_user_from_project!(project, user)
@@ -56,9 +56,8 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "has member" do
-      let(:member) { FactoryGirl.create :user }
+      let(:member) { project.users.last }
 
-      before { project_invite!(project, member) }
       before { subject }
 
       it { expect(response).to be_success }
