@@ -10,6 +10,9 @@ table
       td ID
       td= @slack_channel.id
     tr
+      td Primary
+      td= "Y" if @slack_channel.primary?
+    tr
       td Name
       td= @slack_channel.name
     tr

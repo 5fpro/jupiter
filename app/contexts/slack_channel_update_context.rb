@@ -1,8 +1,9 @@
 class SlackChannelUpdateContext < BaseContext
-  PERMITS = SlackChannelCreateContext::PERMITS
+  PERMITS = SlackChannelCreateContext::PERMITS + [:primary]
 
   before_perform :validates_owner
   before_perform :assign_attributes
+  after_perform :set_primary!
 
   def initialize(user, slack_channel)
     @user = user
@@ -12,8 +13,11 @@ class SlackChannelUpdateContext < BaseContext
   def perform(params)
     @params = permit_params(params[:slack_channel] || params, PERMITS)
     run_callbacks :perform do
-      return @slack_channel if @slack_channel.save
-      add_error(:data_not_updated, @slack_channel.errors.full_messages.join("\n"))
+      if @slack_channel.save
+        @slack_channel
+      else
+        add_error(:data_not_updated, @slack_channel.errors.full_messages.join("\n"))
+      end
     end
   end
 
@@ -25,6 +29,15 @@ class SlackChannelUpdateContext < BaseContext
   end
 
   def assign_attributes
+    @set_primary = @params.delete(:primary)
     @slack_channel.assign_attributes @params
+  end
+
+  def set_primary!
+    if !false?(@set_primary)
+      @slack_channel.project.update_attribute :primary_slack_channel_id, @slack_channel.id
+    elsif @slack_channel.primary?
+      @slack_channel.project.update_attribute :primary_slack_channel_id, nil
+    end
   end
 end
