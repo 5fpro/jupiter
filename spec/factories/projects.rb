@@ -23,6 +23,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_other_user do
+      after(:create) do |project|
+        FactoryGirl.create :project_user, project: project
+      end
+    end
+
     trait :with_slack_channel do
       after(:create) do |project|
         slack_channel = FactoryGirl.create :slack_channel, project: project
@@ -31,6 +37,7 @@ FactoryGirl.define do
     end
 
     factory :project_for_slack_notify, traits: [:with_project_user, :with_slack_channel]
+    factory :project_has_members, traits: [:with_project_user, :with_other_user]
   end
 
   trait :update_project do

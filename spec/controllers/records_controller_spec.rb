@@ -31,9 +31,8 @@ RSpec.describe RecordsController, type: :request do
       it { expect(response.body).to match(/action="\/records"/) }
 
       context "different groups" do
-
-        let(:member) { FactoryGirl.create :user }
-        before { project_invite!(project, member) }
+        let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+        let(:member) { project.users.last }
         before { FactoryGirl.create :record, project: project, user: member }
         before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
@@ -86,9 +85,9 @@ RSpec.describe RecordsController, type: :request do
       end
 
       context "different groups" do
+        let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+        let(:member) { project.users.last }
 
-        let(:member) { FactoryGirl.create :user }
-        before { project_invite!(project, member) }
         before { FactoryGirl.create :record, project: project, user: member }
         before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
@@ -111,8 +110,8 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#show" do
-      let(:member) { FactoryGirl.create :user }
-      before { project_invite!(project, member) }
+      let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+      let(:member) { project.users.last }
 
       context "my record" do
         before { get "/projects/#{project.id}/records/#{record.id}" }
@@ -169,8 +168,8 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#edit" do
-      let(:member) { FactoryGirl.create :user }
-      before { project_invite!(project, member) }
+      let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+      let(:member) { project.users.last }
 
       context "my record" do
         before { get "/projects/#{project.id}/records/#{record.id}/edit" }
