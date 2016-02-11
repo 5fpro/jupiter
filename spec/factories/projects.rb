@@ -36,8 +36,15 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_records do
+      after(:create) do |project|
+        FactoryGirl.create_list :record, 2, project: project, user: project.owner
+      end
+    end
+
     factory :project_for_slack_notify, traits: [:with_project_user, :with_slack_channel]
     factory :project_has_members, traits: [:with_project_user, :with_other_user]
+    factory :project_has_records, traits: [:with_project_user, :with_records]
   end
 
   trait :update_project do

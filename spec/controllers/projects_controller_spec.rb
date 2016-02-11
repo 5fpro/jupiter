@@ -36,9 +36,7 @@ RSpec.describe ProjectsController, type: :request do
     end
 
     context "has projects & records" do
-      before { FactoryGirl.create :project, :with_project_user, owner: current_user }
-      before { record_created!(current_user, project) }
-      before { record_created!(current_user, project) }
+      before { FactoryGirl.create :project_has_records, owner: current_user }
 
       before { subject }
 

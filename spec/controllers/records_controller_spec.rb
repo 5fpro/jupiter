@@ -16,8 +16,8 @@ require 'rails_helper'
 
 RSpec.describe RecordsController, type: :request do
   let!(:user) { FactoryGirl.create :user }
-  let!(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
-  let!(:record) { record_created!(user, project) }
+  let!(:project) { FactoryGirl.create :project_has_records, owner: user }
+  let!(:record) { project.records.last }
   before { signin_user(user) }
 
   context "under /" do
@@ -85,7 +85,7 @@ RSpec.describe RecordsController, type: :request do
       end
 
       context "different groups" do
-        let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+        let!(:project) { FactoryGirl.create :project_has_members, :with_records, owner: user }
         let(:member) { project.users.last }
 
         before { FactoryGirl.create :record, project: project, user: member }
@@ -110,7 +110,7 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#show" do
-      let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+      let!(:project) { FactoryGirl.create :project_has_members, :with_records, owner: user }
       let(:member) { project.users.last }
 
       context "my record" do
@@ -168,7 +168,7 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#edit" do
-      let!(:project) { FactoryGirl.create :project_has_members, owner: user }
+      let!(:project) { FactoryGirl.create :project_has_members, :with_records, owner: user }
       let(:member) { project.users.last }
 
       context "my record" do
