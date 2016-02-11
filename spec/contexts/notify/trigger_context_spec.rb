@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Notify::TriggerContext do
-  let!(:project) { project_created! }
+  let!(:project) { FactoryGirl.create :project, :with_project_user }
   let!(:user) { project.owner }
   let!(:record) { record_created!(user, project) }
 

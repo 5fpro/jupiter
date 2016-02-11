@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ProjectUpdateContext do
   let(:user) { FactoryGirl.create :user }
   let(:user1) { FactoryGirl.create :user }
-  let(:project) { project_created!(user) }
+  let(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
   let(:data) { attributes_for(:project, :update_project) }
   subject { described_class.new(user, project) }
 

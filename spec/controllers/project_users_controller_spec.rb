@@ -22,7 +22,7 @@ RSpec.describe ProjectUsersController, type: :request do
 
     before do
       signin_user(user)
-      project_created!(user)
+      FactoryGirl.create :project, :with_project_user, owner: user
     end
 
     context "success" do

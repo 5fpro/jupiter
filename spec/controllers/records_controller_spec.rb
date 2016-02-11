@@ -16,7 +16,7 @@ require 'rails_helper'
 
 RSpec.describe RecordsController, type: :request do
   let!(:user) { FactoryGirl.create :user }
-  let!(:project) { project_created!(user) }
+  let!(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
   let!(:record) { record_created!(user, project) }
   before { signin_user(user) }
 

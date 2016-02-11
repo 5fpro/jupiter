@@ -3,9 +3,10 @@ require 'rails_helper'
 describe RecordUpdateContext do
   let(:user) { FactoryGirl.create :user }
   let(:user1) { FactoryGirl.create :user }
+  let!(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
+
   before do
-    project_created!(user)
-    record_created!(user, @project)
+    record_created!(user, project)
   end
 
   it "success" do
