@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   has_many :slack_channels
 
   store_accessor :data, :users_count, :description, :hours_limit,
-                 :approached_hours_limit
+                 :approached_hours_limit, :primary_slack_channel_id
 
   validates :name, :owner_id, presence: true
 
@@ -42,5 +42,10 @@ class Project < ActiveRecord::Base
 
   def approached_hours_limit
     super == "true"
+  end
+
+  def primary_slack_channel
+    return if primary_slack_channel_id.blank?
+    @primary_slack_channel ||= slack_channels.try(:find, primary_slack_channel_id)
   end
 end
