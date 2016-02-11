@@ -16,6 +16,11 @@ RSpec.describe CollaboratorsController, type: :request do
     expect(response).to be_success
   end
 
+  it "#edit" do
+    get "/projects/#{@project.id}/collaborators/edit"
+    expect(response).to be_success
+  end
+
   it "#create" do
     user = FactoryGirl.create :user
     expect {

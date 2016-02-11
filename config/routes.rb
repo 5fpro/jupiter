@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     end
     resources :records
     resources :collaborators, except: [:edit, :update, :show]
+    resource  :collaborators, only: [:edit, :update]
     resources :slack_channels do
       member do
         post :testing
