@@ -28,4 +28,9 @@ FactoryGirl.define do
     hours_limit 100
   end
 
+  factory :project_for_update, class: Project do
+    trait :project_users do
+      project_users_attributes { [{ slack_user: "haha", id: ProjectUser.last.try(:id)}] }
+    end
+  end
 end

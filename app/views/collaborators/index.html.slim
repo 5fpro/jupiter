@@ -13,6 +13,7 @@ table
       td 累積總時數
       td 本月總時數
       td 上月總時數
+      td slack user
       td Action
   tbody
     - @project_users.each do |project_user|
@@ -26,4 +27,5 @@ table
         td= render_hours(reocrds.total_time)
         td= render_hours(reocrds.this_month.total_time)
         td= render_hours(reocrds.last_month.total_time)
+        td= project_user.slack_user
         td= link_to "移除此成員", project_collaborator_path(@project, project_user), method: :delete, data: { confirm: "確定移除？"}
