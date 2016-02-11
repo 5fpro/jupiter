@@ -196,13 +196,16 @@ RSpec.describe RecordsController, type: :request do
       end
     end
 
-    it "#update" do
-      expect {
-        put "/projects/#{project.id}/records/#{record.id}", record: attributes_for(:record, :update_record)
-      }.to change { record.reload.minutes }.to(attributes_for(:record, :update_record)[:minutes])
-      expect(response).to be_redirect
-      follow_redirect!
-      expect(response).to be_success
+    describe "#update" do
+      let(:params) { attributes_for(:record_for_update) }
+      it do
+        expect {
+          put "/projects/#{project.id}/records/#{record.id}", record: params
+        }.to change { record.reload.minutes }.to(params[:minutes])
+        expect(response).to be_redirect
+        follow_redirect!
+        expect(response).to be_success
+      end
     end
 
     it "#destroy" do

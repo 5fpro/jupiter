@@ -3,7 +3,7 @@ require 'rails_helper'
 describe SlackChannelCreateContext do
   let(:project) { FactoryGirl.create :project }
   let(:user) { project.owner }
-  let(:params) { FactoryGirl.attributes_for(:slack_channel, :create) }
+  let(:params) { FactoryGirl.attributes_for(:slack_channel_for_create) }
 
   subject { described_class.new(user, project) }
 
