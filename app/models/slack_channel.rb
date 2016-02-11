@@ -26,4 +26,8 @@ class SlackChannel < ActiveRecord::Base
   def event?(e)
     events.include?(e.to_s)
   end
+
+  def primary?
+    id == project.primary_slack_channel_id.to_i
+  end
 end
