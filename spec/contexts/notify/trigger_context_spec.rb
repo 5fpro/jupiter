@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Notify::TriggerContext do
-  let!(:project) { FactoryGirl.create :project, :with_project_user }
+  let!(:project) { FactoryGirl.create :project_has_records }
   let!(:user) { project.owner }
-  let!(:record) { record_created!(user, project) }
+  let!(:record) { project.records.last }
 
   subject { described_class.new(project, :record_created) }
 
