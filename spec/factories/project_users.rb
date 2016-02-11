@@ -15,6 +15,7 @@ FactoryGirl.define do
   factory :project_user do
     user    { FactoryGirl.create :user }
     project { FactoryGirl.create :project }
+    sequence(:slack_user) { |n| "user-#{n}" }
   end
 
   trait :create_project_user do
