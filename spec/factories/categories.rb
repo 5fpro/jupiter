@@ -13,9 +13,10 @@
 FactoryGirl.define do
   factory :category do
     sequence(:name) { |n| "category #{n}" }
+  end
 
-    trait :creating_category do
-      tag_list "a,b,c"
-    end
+  factory :category_for_create, class: Category do
+    sequence(:name) { |n| "category #{n}" }
+    tag_list "a,b,c"
   end
 end
