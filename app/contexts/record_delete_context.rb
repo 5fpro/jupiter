@@ -15,7 +15,7 @@ class RecordDeleteContext < BaseContext
   private
 
   def validates_user!
-    return add_error(:user_is_not_owner) unless @record.user_id == @user.id
+    return add_error(:not_project_owner) unless @record.user_id == @user.id
     true
   end
 end

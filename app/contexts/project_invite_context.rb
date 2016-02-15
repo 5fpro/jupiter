@@ -35,7 +35,7 @@ class ProjectInviteContext < BaseContext
   end
 
   def validates_user_is_not_me!
-    return add_error(:user_cant_be_self) if @me.id == @user.id
+    return add_error(:cant_invite_youself) if @me.id == @user.id
     true
   end
 end
