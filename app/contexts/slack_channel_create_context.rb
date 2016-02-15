@@ -13,7 +13,7 @@ class SlackChannelCreateContext < BaseContext
     @params = permit_params(params[:slack_channel] || params, PERMITS)
     run_callbacks :perform do
       return @slack_channel if @slack_channel.save
-      add_error(:data_not_created, @slack_channel.errors.full_messages.join("\n"))
+      add_error(:data_create_fail, @slack_channel.errors.full_messages.join("\n"))
     end
   end
 
@@ -24,7 +24,7 @@ class SlackChannelCreateContext < BaseContext
   end
 
   def validates_owner
-    return add_error(:user_is_not_owner) unless @project.owner?(@user)
+    return add_error(:not_project_owner) unless @project.owner?(@user)
     true
   end
 end

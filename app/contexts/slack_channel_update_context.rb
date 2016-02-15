@@ -16,7 +16,7 @@ class SlackChannelUpdateContext < BaseContext
       if @slack_channel.save
         @slack_channel
       else
-        add_error(:data_not_updated, @slack_channel.errors.full_messages.join("\n"))
+        add_error(:data_update_fail, @slack_channel.errors.full_messages.join("\n"))
       end
     end
   end
@@ -24,7 +24,7 @@ class SlackChannelUpdateContext < BaseContext
   private
 
   def validates_owner
-    return add_error(:user_is_not_owner) unless @slack_channel.project.owner?(@user)
+    return add_error(:not_project_owner) unless @slack_channel.project.owner?(@user)
     true
   end
 

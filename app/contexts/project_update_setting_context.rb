@@ -15,7 +15,7 @@ class ProjectUpdateSettingContext < BaseContext
       if @project.save
         @project
       else
-        add_error(:update_project_fail, @project.errors.full_messages.join("\n"))
+        add_error(:data_update_fail, @project.errors.full_messages.join("\n"))
       end
     end
   end
@@ -23,7 +23,7 @@ class ProjectUpdateSettingContext < BaseContext
   private
 
   def validates_owner!
-    return add_error(:user_is_not_owner) unless @project.owner?(@user)
+    return add_error(:not_project_owner) unless @project.owner?(@user)
     true
   end
 

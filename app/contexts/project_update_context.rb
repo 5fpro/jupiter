@@ -13,7 +13,7 @@ class ProjectUpdateContext < BaseContext
     @params = permit_params(params[:project] || params, PERMITS)
     run_callbacks :perform do
       return @project if @project.save
-      add_error(:update_project_fail, @project.errors.full_messages.join("\n"))
+      add_error(:data_update_fail, @project.errors.full_messages.join("\n"))
     end
   end
 

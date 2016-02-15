@@ -16,7 +16,7 @@ class SlackChannelDeleteContext < BaseContext
   private
 
   def validates_owner
-    return add_error(:user_is_not_owner) unless @slack_channel.project.owner?(@user)
+    return add_error(:not_project_owner) unless @slack_channel.project.owner?(@user)
     true
   end
 end

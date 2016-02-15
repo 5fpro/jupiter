@@ -18,7 +18,7 @@ class RecordCreateContext < BaseContext
       if @record.save
         @record
       else
-        return add_error(:data_not_created, @record.errors.full_messages.join("\n"))
+        return add_error(:data_create_fail, @record.errors.full_messages.join("\n"))
       end
     end
   end

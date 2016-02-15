@@ -14,7 +14,7 @@ class UserCreateProjectContext < BaseContext
       if @project.save
         @project
       else
-        add_error(:create_fail, @project.errors.full_messages.join("\n"))
+        add_error(:data_create_fail, @project.errors.full_messages.join("\n"))
       end
     end
   end
