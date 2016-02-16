@@ -13,7 +13,7 @@ class Errors::Code
     value_blank: 400,
     data_create_fail: 400,
     data_update_fail: 400
-  }
+  }.freeze
 
   class << self
     def exists?(key)
@@ -25,7 +25,7 @@ class Errors::Code
     end
 
     def desc(key)
-      I18n.t("errors.#{@key}")
+      I18n.t("errors.#{key}")
     end
   end
 

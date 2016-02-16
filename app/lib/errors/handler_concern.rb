@@ -25,6 +25,6 @@ module Errors::HandlerConcern
   end
 
   def raise_error!(key, data = {})
-    raise ::Errors::Exception.new(key, data)
+    fail ::Errors::Exception.new(key, data)
   end
 end
