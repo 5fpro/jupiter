@@ -16,7 +16,7 @@ class Common::ProjectAddUserContext < BaseContext
   private
 
   def validates_user_not_in_project!
-    return add_error(:user_is_in_project) if @project.has_user?(@user)
+    return add_error(:user_already_in_project) if @project.has_user?(@user)
   end
 
   def update_users_count
