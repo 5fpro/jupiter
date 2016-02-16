@@ -1,4 +1,4 @@
-module Context::ErrorHandler
+module Errors::HandlerConcern
   extend ActiveSupport::Concern
 
   def errors
@@ -19,7 +19,7 @@ module Context::ErrorHandler
   def add_error(key, custom_message = nil)
     @errors ||= {}
     @errors[key.to_sym] ||= []
-    @errors[key.to_sym] << custom_message || I18n.t("errors.#{key}", default: key.to_s)
+    @errors[key.to_sym] << custom_message || message
     false
   end
 end
