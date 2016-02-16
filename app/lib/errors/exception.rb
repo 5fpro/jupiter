@@ -7,7 +7,7 @@ class Errors::Exception < ::Exception
   end
 
   def message
-    info.delete(:message) || ( Code.desc(key) + (Rails.env.production? ? "" : info.inspect) )
+    info.delete(:message) || (Code.desc(key) + (Rails.env.production? ? "" : info.inspect))
   end
 
   def to_hash
