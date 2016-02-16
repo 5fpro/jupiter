@@ -29,7 +29,7 @@ class ProjectRemoveUserContext < BaseContext
   end
 
   def validates_is_not_self!
-    return add_error(:cant_remove_youself) if @owner.id == @user.id
+    return add_error(:cant_do_for_yourself) if @owner.id == @user.id
     true
   end
 
