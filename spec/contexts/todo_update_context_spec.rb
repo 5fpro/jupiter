@@ -19,13 +19,13 @@ describe TodoUpdateContext do
     let(:params) { attributes_for(:todo_for_update, :params_with_project, project_id: project2.id) }
     subject { described_class.new(todo, params).perform }
 
-    it { expect { subject }.not_to change{ todo.project } }
+    it { expect { subject }.not_to change { todo.project } }
   end
 
   context "validates_desc!" do
     let(:params) { attributes_for(:todo_for_update, :params, desc: "") }
     subject { described_class.new(todo, params).perform }
 
-    it { expect { subject }.not_to change{ todo.desc } }
+    it { expect { subject }.not_to change { todo.desc } }
   end
 end

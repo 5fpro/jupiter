@@ -6,7 +6,7 @@ class TodoUpdateContext < BaseContext
 
   def initialize(todo, params)
     @todo = todo
-    @params = permit_params(params[:todo] || params, PERMITS) 
+    @params = permit_params(params[:todo] || params, PERMITS)
   end
 
   def perform
@@ -33,6 +33,6 @@ class TodoUpdateContext < BaseContext
   end
 
   def assign_value
-    @todo.assign_attributes @params 
+    @todo.assign_attributes @params
   end
 end
