@@ -12,7 +12,8 @@ class Errors::Code
     data_not_found: 404,
     value_blank: 400,
     data_create_fail: 400,
-    data_update_fail: 400
+    data_update_fail: 400,
+    todo_is_binding: 400
   }.freeze
 
   class << self
