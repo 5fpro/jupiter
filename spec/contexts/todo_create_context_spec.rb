@@ -19,10 +19,10 @@ describe TodoCreateContext do
     it { expect { subject }.not_to change { user.todos.count } }
   end
 
-  context "validates_desc!" do
-    let(:params) { attributes_for(:todo_for_create, :params, desc: "") }
-    subject { described_class.new(user, params).perform }
+  # context "validates_desc!" do
+  #   let(:params) { attributes_for(:todo_for_create, :params, desc: "") }
+  #   subject { described_class.new(user, params).perform }
 
-    it { expect { subject }.not_to change { user.todos.count } }
-  end
+  #   it { expect { subject }.not_to change { user.todos.count } }
+  # end
 end

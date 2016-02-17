@@ -1,7 +1,7 @@
 class TodoUpdateContext < BaseContext
   PERMITS = TodoCreateContext::PERMITS
   before_perform :validates_project!, if: :project_id?
-  before_perform :validates_desc!
+  # before_perform :validates_desc!
   before_perform :assign_value
 
   def initialize(todo, params)
@@ -27,10 +27,10 @@ class TodoUpdateContext < BaseContext
     true
   end
 
-  def validates_desc!
-    return add_error(:params_required) unless @params[:desc].present?
-    true
-  end
+  # def validates_desc!
+  #   return add_error(:params_required) unless @params[:desc].present?
+  #   true
+  # end
 
   def assign_value
     @todo.assign_attributes @params

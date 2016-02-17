@@ -22,10 +22,10 @@ describe TodoUpdateContext do
     it { expect { subject }.not_to change { todo.project } }
   end
 
-  context "validates_desc!" do
-    let(:params) { attributes_for(:todo_for_update, :params, desc: "") }
-    subject { described_class.new(todo, params).perform }
+  # context "validates_desc!" do
+  #   let(:params) { attributes_for(:todo_for_update, :params, desc: "") }
+  #   subject { described_class.new(todo, params).perform }
 
-    it { expect { subject }.not_to change { todo.desc } }
-  end
+  #   it { expect { subject }.not_to change { todo.desc } }
+  # end
 end
