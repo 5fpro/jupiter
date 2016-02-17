@@ -1,7 +1,7 @@
 class TodoCreateContext < BaseContext
   PERMITS = [:project_id, :desc].freeze
   before_perform :validates_project!
-  before_perform :validates_desc!
+  # before_perform :validates_desc!
   before_perform :build_todo
 
   def initialize(user, params)
@@ -23,10 +23,10 @@ class TodoCreateContext < BaseContext
     true
   end
 
-  def validates_desc!
-    return add_error(:params_required) unless @params[:desc].present?
-    true
-  end
+  # def validates_desc!
+  #   return add_error(:params_required) unless @params[:desc].present?
+  #   true
+  # end
 
   def build_todo
     @todo = @user.todos.new(@params)
