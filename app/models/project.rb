@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
   has_many :users, through: :project_users
   has_many :records
   has_many :slack_channels
+  has_many :todos
 
   store_accessor :data, :users_count, :description, :hours_limit,
                  :approached_hours_limit, :primary_slack_channel_id
