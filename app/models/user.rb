@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   has_many :owned_projects, foreign_key: :owner_id, class_name: "Project"
   has_many :records
   has_many :comments
+  has_many :todos
 
   def avatar_url
     return avatar.url if avatar?
