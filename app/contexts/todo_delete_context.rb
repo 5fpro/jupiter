@@ -14,7 +14,7 @@ class TodoDeleteContext < BaseContext
   private
 
   def valid_unbind!
-    return add_error(:todo_is_binding) if @todo.record_ids && @todo.record_ids.count > 0
+    return add_error(:data_delete_fail) if @todo.record_ids && @todo.record_ids.count > 0
     true
   end
 end

@@ -13,7 +13,7 @@ class Errors::Code
     value_blank: 400,
     data_create_fail: 400,
     data_update_fail: 400,
-    todo_is_binding: 400
+    data_delete_fail: 400
   }.freeze
 
   class << self

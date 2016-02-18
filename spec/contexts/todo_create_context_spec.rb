@@ -5,7 +5,7 @@ describe TodoCreateContext do
   let!(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
 
   context "success" do
-    let(:params) { attributes_for(:todo_for_create, :params, project_id: project.id) }
+    let(:params) { attributes_for(:todo_for_create, project_id: project.id) }
     subject { described_class.new(user, params).perform }
 
     it { expect { subject }.to change { user.todos.count }.by(1) }
@@ -13,16 +13,9 @@ describe TodoCreateContext do
   end
 
   context "validates_project!" do
-    let(:params) { attributes_for(:todo_for_create, :params) }
+    let(:params) { attributes_for(:todo_for_create, :has_project_id) }
     subject { described_class.new(user, params).perform }
 
     it { expect { subject }.not_to change { user.todos.count } }
   end
-
-  # context "validates_desc!" do
-  #   let(:params) { attributes_for(:todo_for_create, :params, desc: "") }
-  #   subject { described_class.new(user, params).perform }
-
-  #   it { expect { subject }.not_to change { user.todos.count } }
-  # end
 end
