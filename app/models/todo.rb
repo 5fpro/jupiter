@@ -17,7 +17,7 @@ class Todo < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
 
-  validates :user_id, :project_id, presence: true
+  validates :user_id, :project_id, :desc, presence: true
   serialize :record_ids
 
   store_accessor :data, :tmp
