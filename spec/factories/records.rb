@@ -21,7 +21,7 @@ FactoryGirl.define do
     minutes 100
   end
 
-  factory :record_for_update, class: Record do
+  factory :record_for_params, class: Record do
     record_type :etc
     minutes 10
     note "update minutes"
