@@ -1,0 +1,5 @@
+= simple_form_for @todo, as: :todo, method: :post, remote: true, url: todos_path(format: :js) do |f|
+  = f.input :project_id, as: :select, collection: collection_for_user_projects(current_user), label: "Project", include_blank: "Choose project" if f.object.new_record?
+  = f.input :desc, as: :text
+  = f.submit
+  = link_to "取消", "#", "data-close-form" => true
