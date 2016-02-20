@@ -55,7 +55,7 @@ RSpec.describe TodosController, type: :request do
     end
 
     context "not in project" do
-      let!(:project) { FactoryGirl.create :project}
+      let!(:project) { FactoryGirl.create :project }
       it { expect { subject }.not_to change { Todo.count } }
     end
   end
