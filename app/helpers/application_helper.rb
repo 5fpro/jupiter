@@ -9,6 +9,10 @@ module ApplicationHelper
     project.users.map { |user| [user.name, user.id] }
   end
 
+  def collection_for_project_todos(project)
+    project.todos.for_bind.map { |todo| [todo.desc, todo.id] }
+  end
+
   def collection_for_user_projects(user)
     user.projects.map { |project| [project.name, project.id] }
   end
