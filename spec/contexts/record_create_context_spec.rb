@@ -35,4 +35,9 @@ describe RecordCreateContext do
 
     it { expect { subject.perform(data) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
   end
+
+  describe "#copy_note_from_todo_desc" do
+    let!(:todo) { FactoryGirl.create :todo, project: project, desc: "hahaha" }
+    it { expect(subject.perform(data.merge(todo_id: todo.id)).note).to match(todo.desc) }
+  end
 end

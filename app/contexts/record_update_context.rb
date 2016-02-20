@@ -1,5 +1,5 @@
 class RecordUpdateContext < BaseContext
-  PERMITS = [:minutes, :note, :record_type].freeze
+  PERMITS = RecordCreateContext::PERMITS.freeze
 
   before_perform :validates_user!
   before_perform :assign_value

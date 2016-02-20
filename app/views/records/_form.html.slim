@@ -1,4 +1,5 @@
 = f.input :record_type, as: :radio_buttons, collection: collection_for_record_types
 = f.input :minutes
 = f.input :note, as: :text
+= f.input :todo_id, as: :select, collection: collection_for_project_todos(@project || f.object.project)
 = f.submit
