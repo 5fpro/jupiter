@@ -3,4 +3,4 @@ h2= link_to project.name, project_path(project)
 = link_to "記錄時間", new_project_record_path(project, format: :js), remote: true
 .form-new-record
 = link_to "新增 TODO", new_todo_path(project_id: project.id, format: :js), remote: true
-.js-new-todo-form
+div class="js-new-todo-form-#{project.id}"
