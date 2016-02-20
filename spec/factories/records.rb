@@ -10,6 +10,7 @@
 #  updated_at  :datetime         not null
 #  data        :hstore
 #  record_type :integer
+#  todo_id     :integer
 #
 
 FactoryGirl.define do

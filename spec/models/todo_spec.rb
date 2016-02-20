@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: todos
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  project_id :integer
+#  desc       :text
+#  date       :date
+#  data       :hstore
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'rails_helper'
 
 RSpec.describe Todo, type: :model do
@@ -19,5 +33,16 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo2.id) }
     it { expect(subject).not_to be_include(todo3.id) }
     it { expect(subject).not_to be_include(todo4.id) }
+  end
+
+  describe "has many records" do
+    let(:todo) { FactoryGirl.create :todo, :with_records }
+
+    it "destroy dependent" do
+      record = todo.records.last
+      expect {
+        todo.destroy
+      }.to change { record.reload.todo }.to(nil)
+    end
   end
 end
