@@ -47,5 +47,7 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  resources :todos, except: [:show]
+
   resources :project_users, only: [:update]
 end

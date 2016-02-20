@@ -10,7 +10,7 @@ describe TodoUpdateContext do
   context "success" do
     let(:params) { attributes_for(:todo_for_params, desc: "blablabla") }
 
-    it { expect(subject.perform.desc).to eq(params[:desc]) }
+    it { expect { subject.perform }.to change { todo.reload.desc }.to(params[:desc]) }
   end
 
   context "validates_project!" do
