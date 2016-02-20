@@ -6,3 +6,5 @@ if dom.length > 0
 <% else %>
   dom.append('<div class="error-messages"><%= j(render_html(@error_messages.join("\n"))) %></div>')
 <% end %>
+else
+  $('.js-new-todo-form').html('')
