@@ -26,4 +26,8 @@ class Todo < ActiveRecord::Base
   def total_time
     super.to_i.seconds
   end
+
+  def done?
+    date.present?
+  end
 end

@@ -43,6 +43,8 @@ describe RecordCreateContext do
 
     describe "#calculate_todo" do
       it { expect { subject.perform(data) }.to change { todo.reload.total_time } }
+      it { expect { subject.perform(data) }.to change { todo.reload.done? }.to(true) }
+      it { expect { subject.perform(data) }.to change { todo.reload.date } }
     end
   end
 
