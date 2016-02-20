@@ -18,6 +18,7 @@ class Record < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
+  belongs_to :todo
   has_many :comments, as: :item
 
   validates :user_id, :project_id, :record_type, :minutes, presence: true

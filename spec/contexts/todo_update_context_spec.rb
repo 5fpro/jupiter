@@ -1,23 +1,21 @@
 require 'rails_helper'
 
 describe TodoUpdateContext do
-  let!(:user) { FactoryGirl.create :user }
-  let!(:todo) { FactoryGirl.create :todo, user: user }
-  let!(:project) { FactoryGirl.create :project }
+  let(:project) { FactoryGirl.create :project, :with_project_user }
+  let(:user) { project.owner }
+  let(:todo) { FactoryGirl.create :todo, user: user }
 
-  before { FactoryGirl.create :project_user, project: project, user: user }
+  subject { described_class.new(todo, params) }
 
   context "success" do
-    let(:params) { attributes_for(:todo_for_update, desc: "blablabla") }
-    subject { described_class.new(todo, params).perform }
+    let(:params) { attributes_for(:todo_for_params, desc: "blablabla") }
 
-    it { expect(subject.desc).to eq(params[:desc]) }
+    it { expect(subject.perform.desc).to eq(params[:desc]) }
   end
 
   context "validates_project!" do
-    let(:params) { attributes_for(:todo_for_update, :has_project_id) }
-    subject { described_class.new(todo, params).perform }
+    let(:params) { attributes_for(:todo_for_params, :has_project_id) }
 
-    it { expect { subject }.not_to change { todo.project } }
+    it { expect { subject.perform }.not_to change { todo.project } }
   end
 end

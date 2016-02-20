@@ -1,5 +1,5 @@
 class TodoDeleteContext < BaseContext
-  before_perform :valid_unbind!
+  before_perform :validates_done_yet
 
   def initialize(todo)
     @todo = todo
@@ -13,8 +13,8 @@ class TodoDeleteContext < BaseContext
 
   private
 
-  def valid_unbind!
-    return add_error(:data_delete_fail) if @todo.record_ids && @todo.record_ids.count > 0
+  def validates_done_yet
+    return add_error(:data_delete_fail, "Todo ##{@todo.id} has done") if @todo.done?
     true
   end
 end

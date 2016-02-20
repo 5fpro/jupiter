@@ -10,6 +10,7 @@
 #  updated_at  :datetime         not null
 #  data        :hstore
 #  record_type :integer
+#  todo_id     :integer
 #
 
 FactoryGirl.define do
@@ -20,9 +21,13 @@ FactoryGirl.define do
     minutes 100
   end
 
-  factory :record_for_update, class: Record do
+  factory :record_for_params, class: Record do
     record_type :etc
     minutes 10
     note "update minutes"
+
+    trait :has_todo_id do
+      todo_id { FactoryGirl.create(:todo).id }
+    end
   end
 end

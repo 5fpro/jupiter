@@ -1,11 +1,13 @@
 class RecordCreateContext < BaseContext
-  PERMITS = [:record_type, :minutes, :note].freeze
+  PERMITS = [:record_type, :minutes, :note, :todo_id].freeze
   attr_accessor :project, :user, :record
 
   before_perform :init_params
   before_perform :validates_user_in_project!
   before_perform :build_record
+  before_perform :copy_note_from_todo_desc
   after_perform :notify_slack_channels
+  after_perform :calculate_todo
 
   def initialize(user, project)
     @user = user
@@ -41,5 +43,13 @@ class RecordCreateContext < BaseContext
 
   def notify_slack_channels
     Notify::TriggerContext.new(@project, :record_created).perform(record: @record)
+  end
+
+  def copy_note_from_todo_desc
+    @record.note = "#{@record.todo.desc}\n#{record.note}" if @record.todo
+  end
+
+  def calculate_todo
+    TodoCalculateContext.new(@record.todo).perform if @record.todo
   end
 end
