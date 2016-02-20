@@ -198,7 +198,7 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#update" do
-      let(:params) { attributes_for(:record_for_update) }
+      let(:params) { attributes_for(:record_for_params) }
       it do
         expect {
           put "/projects/#{project.id}/records/#{record.id}", record: params

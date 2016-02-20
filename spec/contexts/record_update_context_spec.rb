@@ -5,7 +5,7 @@ describe RecordUpdateContext do
   let(:user1) { FactoryGirl.create :user }
   let!(:project) { FactoryGirl.create :project_has_records, owner: user }
   let(:record) { project.records.last }
-  let(:params) { attributes_for(:record_for_update) }
+  let(:params) { attributes_for(:record_for_params) }
 
   it "success" do
     expect {
