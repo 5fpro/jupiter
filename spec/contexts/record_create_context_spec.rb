@@ -48,4 +48,7 @@ describe RecordCreateContext do
     end
   end
 
+  describe "#create_todo_if_not_choose" do
+    it { expect { subject.perform(data.merge(todo_id: "")) }.to change { user.todos.count } }
+  end
 end
