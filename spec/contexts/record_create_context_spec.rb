@@ -3,7 +3,7 @@ require 'rails_helper'
 describe RecordCreateContext do
   let(:user) { FactoryGirl.create :user }
   let(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
-  let(:data) { attributes_for(:record) }
+  let(:data) { attributes_for(:record_for_params) }
 
   subject { described_class.new(user, project) }
 
@@ -36,8 +36,17 @@ describe RecordCreateContext do
     it { expect { subject.perform(data) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
   end
 
-  describe "#copy_note_from_todo_desc" do
-    let!(:todo) { FactoryGirl.create :todo, project: project, desc: "hahaha" }
-    it { expect(subject.perform(data.merge(todo_id: todo.id)).note).to match(todo.desc) }
+  context "has todo" do
+    let(:data) { attributes_for(:record_for_params, :has_todo_id) }
+    let(:todo) { Todo.find(data[:todo_id]) }
+
+    describe "#copy_note_from_todo_desc" do
+      it { expect(subject.perform(data).note).to match(todo.desc) }
+    end
+
+    describe "#calculate_todo" do
+      it { expect { subject.perform(data) }.to change { todo.reload.total_time } }
+    end
   end
+
 end
