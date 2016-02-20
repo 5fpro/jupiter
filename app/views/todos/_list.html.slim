@@ -1,0 +1,22 @@
+table
+  thead
+    tr
+      th Project
+      th desc
+      th Total Time
+      th action
+  tbody
+    - list.each do |todo|
+      - project = todo.project
+      tr
+        td= link_to project.name, project_path(project)
+        td class="js-edit-todo-#{todo.id} js-update-todo-#{todo.id}"
+          = render_html todo.desc
+        td= render_hours todo.total_time
+        td
+          - if todo.user_id == current_user.id
+            = link_to "編輯", edit_todo_path(todo, format: :js), remote: true
+            - unless todo.done?
+              = " | "
+              = link_to "刪除", todo_path(todo, format: :js), remote: true, method: :delete, "data-confirm" => "確認"
+              span class="js-delete-todo-#{todo.id}"
