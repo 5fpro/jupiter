@@ -3,6 +3,7 @@ class RecordUpdateContext < BaseContext
 
   before_perform :validates_user!
   before_perform :assign_value
+  after_perform :calculate_todo
 
   def initialize(user, record)
     @user = user
@@ -29,5 +30,14 @@ class RecordUpdateContext < BaseContext
 
   def assign_value
     @record.assign_attributes @params
+    @changes = @record.changes
+  end
+
+  def calculate_todo
+    return true unless @changes[:todo_id]
+    @changes[:todo_id].each do |todo_id|
+      next unless todo_id
+      TodoCalculateContext.new(Todo.find(todo_id)).perform
+    end
   end
 end
