@@ -11,7 +11,8 @@ describe TodoDeleteContext do
   end
 
   context "valid_unbind!" do
-    before { todo.update_attributes(record_ids: ["1111"]) }
+    let!(:record) { FactoryGirl.create(:record) }
+    before { todo.update_attributes(record_ids: [record.id]) }
     subject { described_class.new(todo).perform }
     it { expect { subject }.not_to change { user.todos.count } }
   end
