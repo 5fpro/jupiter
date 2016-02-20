@@ -7,6 +7,7 @@ class RecordCreateContext < BaseContext
   before_perform :build_record
   before_perform :copy_note_from_todo_desc
   after_perform :notify_slack_channels
+  after_perform :calculate_todo
 
   def initialize(user, project)
     @user = user
@@ -46,5 +47,9 @@ class RecordCreateContext < BaseContext
 
   def copy_note_from_todo_desc
     @record.note = "#{@record.todo.desc}\n#{record.note}" if @record.todo
+  end
+
+  def calculate_todo
+    TodoCalculateContext.new(@record.todo).perform if @record.todo
   end
 end
