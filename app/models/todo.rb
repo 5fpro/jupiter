@@ -20,7 +20,7 @@ class Todo < ActiveRecord::Base
   validates :user_id, :project_id, :desc, presence: true
 
   scope :for_bind, -> { where(date: [nil, Time.zone.now.to_date]) }
-  scope :today_done, -> { where(date: Time.now.to_date) }
+  scope :today_done, -> { where(date: Time.zone.now.to_date) }
   scope :not_done, -> { where(date: nil) }
   scope :project_sorted, -> { order(project_id: :asc) }
 
