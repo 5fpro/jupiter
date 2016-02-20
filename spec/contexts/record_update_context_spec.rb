@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 describe RecordUpdateContext do
-  let(:user) { FactoryGirl.create :user }
-  let(:user1) { FactoryGirl.create :user }
-  let!(:project) { FactoryGirl.create :project_has_records, owner: user }
-  let(:record) { project.records.last }
+  let(:record) { FactoryGirl.create(:record) }
+  let(:project) { record.project }
+  let(:user) { record.user }
   let(:params) { attributes_for(:record_for_params) }
 
   subject { described_class.new(user, record) }
@@ -15,10 +14,16 @@ describe RecordUpdateContext do
     }.to change { record.reload.note }.to(params[:note])
   end
 
-  it "not owner" do
-    expect {
-      described_class.new(user1, record).perform(params)
-    }.not_to change { record.reload.note }
+  context "not owner" do
+    let(:user1) { FactoryGirl.create :user }
+
+    subject { described_class.new(user1, record) }
+
+    it do
+      expect {
+        subject.perform(params)
+      }.not_to change { record.reload.note }
+    end
   end
 
   describe "#calculate_todo" do
