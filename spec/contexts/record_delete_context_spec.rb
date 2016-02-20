@@ -21,8 +21,10 @@ describe RecordDeleteContext do
   end
 
   describe "#calculate_todo" do
-    let!(:todo) { FactoryGirl.create :todo, total_time: 123, project: project }
+    let!(:todo) { FactoryGirl.create :todo, :done, total_time: 123, project: project }
     before { record.update_attribute :todo, todo }
     it { expect { subject.perform }.to change { todo.reload.total_time }.to(0) }
+    it { expect { subject.perform }.to change { todo.reload.done? }.to(false) }
+    it { expect { subject.perform }.to change { todo.reload.date }.to(nil) }
   end
 end

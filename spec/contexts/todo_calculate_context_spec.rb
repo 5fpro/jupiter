@@ -11,4 +11,9 @@ describe TodoCalculateContext do
     before { todo.records.last.destroy }
     it { expect { subject.perform }.to change { todo.reload.total_time } }
   end
+
+  describe "#calculate_date" do
+    it { expect { subject.perform }.to change { todo.reload.date } }
+    it { expect { subject.perform }.to change { todo.reload.done? }.to(true) }
+  end
 end

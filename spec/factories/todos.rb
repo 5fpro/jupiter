@@ -23,6 +23,10 @@ FactoryGirl.define do
         FactoryGirl.create_list(:record, 2, todo: todo)
       end
     end
+
+    trait :done do
+      date { Time.now }
+    end
   end
 
   factory :todo_for_params, class: Todo do
