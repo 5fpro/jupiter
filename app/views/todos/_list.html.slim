@@ -20,3 +20,7 @@ table
               = " | "
               = link_to "刪除", todo_path(todo, format: :js), remote: true, method: :delete, "data-confirm" => "確認"
               span class="js-delete-todo-#{todo.id}"
+            - else
+              = " | "
+              = link_to "還沒做完", clone_todo_path(todo, format: :js), remote: true, method: :post
+              span class="js-clone-todo-#{todo.id}"
