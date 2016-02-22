@@ -11,6 +11,7 @@ class Errors::Code
     params_required: 400,
     data_not_found: 404,
     value_blank: 400,
+    validates_fail: 400,
     data_create_fail: 400,
     data_update_fail: 400,
     data_delete_fail: 400

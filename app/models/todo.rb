@@ -24,7 +24,7 @@ class Todo < ActiveRecord::Base
   scope :not_done, -> { where(date: nil) }
   scope :project_sorted, -> { order(project_id: :asc) }
 
-  store_accessor :data, :total_time
+  store_accessor :data, :total_time, :original_id
 
   def total_time
     super.to_i.seconds
@@ -32,5 +32,9 @@ class Todo < ActiveRecord::Base
 
   def done?
     date.present?
+  end
+
+  def original_id
+    super.to_i
   end
 end
