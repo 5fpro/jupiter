@@ -9,7 +9,7 @@ class TodoCloneContext < BaseContext
   def perform
     run_callbacks :perform do
       return add_error(:data_create_fail, @new_todo.errors.full_messages.join("\n")) unless @new_todo.save
-      @new_todo
+      return @new_todo
     end
   end
 
@@ -21,7 +21,7 @@ class TodoCloneContext < BaseContext
   end
 
   def build_todo
-    @new_todo = Todo.new(todo_attrs)
+    @new_todo = ::Todo.new(todo_attrs)
   end
 
   def todo_attrs
