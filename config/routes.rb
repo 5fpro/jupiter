@@ -47,7 +47,11 @@ Rails.application.routes.draw do
     resources :comments
   end
 
-  resources :todos, except: [:show]
+  resources :todos, except: [:show] do
+    member do
+      post :clone
+    end
+  end
 
   resources :project_users, only: [:update]
 end

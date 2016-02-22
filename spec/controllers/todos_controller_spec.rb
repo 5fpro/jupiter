@@ -89,4 +89,22 @@ RSpec.describe TodosController, type: :request do
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
+
+  context "POST /todos/123/clone.js" do
+    subject { xhr :post, "/todos/#{todo.id}/clone.js" }
+    context "success" do
+      let!(:todo) { FactoryGirl.create :todo, :done, user: user }
+      it { expect { subject }.to change { user.reload.todos.count }.by(1) }
+    end
+
+    context "fail" do
+      let!(:todo) { FactoryGirl.create :todo, user: user }
+      it { expect { subject }.not_to change { user.todos.count } }
+    end
+
+    context "not my todo" do
+      let!(:todo) { FactoryGirl.create :todo }
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
+  end
 end
