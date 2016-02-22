@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def collection_for_project_todos(project)
-    project.todos.for_bind.map { |todo| [todo.desc, todo.id] }
+    project.todos.merge(current_user.todos).for_bind.map { |todo| [todo.desc, todo.id] }
   end
 
   def collection_for_user_projects(user)
