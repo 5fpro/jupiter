@@ -51,4 +51,9 @@ class User < ActiveRecord::Base
     nil
   end
 
+  # overwrite devise method
+  def send_on_create_confirmation_instructions
+    # send_devise_notification(:confirmation_instructions)
+  end
+
 end
