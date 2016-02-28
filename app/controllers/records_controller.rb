@@ -24,7 +24,6 @@ class RecordsController < BaseController
         send_data data, type: Mime::CSV, disposition: "attachment"
       end
     end
-
   end
 
   # GET /projects/:project_id/records/:id
