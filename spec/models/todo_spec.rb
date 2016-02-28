@@ -23,7 +23,7 @@ RSpec.describe Todo, type: :model do
 
   describe ".for_bind" do
     let!(:todo1) { FactoryGirl.create :todo, date: nil }
-    let!(:todo2) { FactoryGirl.create :todo, date: Time.now.to_date }
+    let!(:todo2) { FactoryGirl.create :todo, date: Time.zone.now.to_date }
     let!(:todo3) { FactoryGirl.create :todo, date: 1.day.ago }
     let!(:todo4) { FactoryGirl.create :todo, date: 1.day.from_now }
 
