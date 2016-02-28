@@ -6,6 +6,8 @@ hr/
 
 = render partial: "filtering", as: :q, object: @q
 
+= link_to "分享用連結", url_for(params.merge(action: :share)) if @project
+br/
 = "總工時: #{render_hours(@total_time)}"
 table
   thead

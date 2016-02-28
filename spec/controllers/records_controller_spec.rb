@@ -66,6 +66,24 @@ RSpec.describe RecordsController, type: :request do
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
+    describe "#share" do
+      subject { get "/projects/#{project.id}/records/share" }
+      before { FactoryGirl.create :record, project: project, user: user }
+      context "success with signed in" do
+        before { subject }
+        it { expect(response).to be_success }
+      end
+      context "success with signed out" do
+        before { signout_user }
+        before { subject }
+        it { expect(response).to be_success }
+      end
+      context "csv" do
+        subject { get "/projects/#{project.id}/records/share.csv" }
+        before { subject }
+        it { expect(response).to be_success }
+      end
+    end
     describe "#index" do
 
       subject { get "/projects/#{project.id}/records" }

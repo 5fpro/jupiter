@@ -33,7 +33,11 @@ Rails.application.routes.draw do
     collection do
       get :edit, action: :edit_collection
     end
-    resources :records
+    resources :records do
+      collection do
+        get :share
+      end
+    end
     resources :collaborators, except: [:edit, :update, :show]
     resource  :collaborators, only: [:edit, :update]
     resources :slack_channels do

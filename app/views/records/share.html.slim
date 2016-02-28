@@ -1,0 +1,22 @@
+= render partial: "filtering", as: :q, object: @q, locals: { disabled: true }
+= link_to "Download", url_for(params.merge(format: :csv))
+br/
+= "總工時: #{render_hours(@total_time)}"
+table
+  thead
+    tr
+      td ID
+      td User
+      td Type
+      td minutes
+      td note
+      td Time
+  tbody
+    - @records.each do |record|
+      tr
+        td= record.try(:id)
+        td= record.try(:user).try(:name)
+        td= record_type_name(record.try(:record_type))
+        td= record.minutes
+        td= record.try(:note) if record.try(:data)
+        td= record.try(:created_at)
