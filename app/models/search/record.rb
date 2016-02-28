@@ -19,6 +19,8 @@ class Search::Record < ::Record
   GROUPS = [:day, :week, :month, :record_type, :user, :project].freeze
 
   class << self
+    include RecordHelper
+
     def ransackable_scopes(_auth_object = nil)
       [:record_type_key_in, :created_at_period_is, :group_by]
     end
@@ -55,6 +57,15 @@ class Search::Record < ::Record
 
     def group_collection
       GROUPS.map { |key| [I18n.t("models.record.groups.#{key}"), key] }
+    end
+
+    def to_csv(opts = {})
+      CSV.generate(opts) do |csv|
+        csv << ["ID", "User", "Type", "minutes", "note", "time"]
+        all.find_each do |o| # reset pagination
+          csv << [o.id, o.user.try(:name), record_type_name(o.record_type), o.minutes, o.note, o.created_at]
+        end
+      end
     end
   end
 end
