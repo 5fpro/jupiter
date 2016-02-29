@@ -55,6 +55,9 @@ Rails.application.routes.draw do
     member do
       post :toggle_done
     end
+    collection do
+      post :publish
+    end
   end
 
   resources :project_users, only: [:update]
