@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def collection_for_users(project = nil)
-    # TODO team
+    # TODO: team
     users = project ? project.users : User.all
     users.map { |user| [user.name, user.id] }
   end
