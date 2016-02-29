@@ -1,5 +1,5 @@
 class RecordCreateContext < BaseContext
-  PERMITS = [:record_type, :minutes, :note, :todo_id].freeze
+  PERMITS = [:record_type, :minutes, :note, :todo_id, :todo_done].freeze
   attr_accessor :project, :user, :record
 
   before_perform :init_params
@@ -7,8 +7,8 @@ class RecordCreateContext < BaseContext
   before_perform :build_record
   before_perform :copy_note_from_todo_desc
   after_perform :notify_slack_channels
-  after_perform :calculate_todo
   after_perform :create_todo_if_not_choose
+  after_perform :calculate_todo
 
   def initialize(user, project)
     @user = user
@@ -30,6 +30,8 @@ class RecordCreateContext < BaseContext
 
   def init_params
     @params = permit_params(@params, PERMITS)
+    @todo_done = !false?(@params.delete(:todo_done))
+    true
   end
 
   def validates_user_in_project!
@@ -55,7 +57,7 @@ class RecordCreateContext < BaseContext
   end
 
   def calculate_todo
-    TodoCalculateContext.new(@record.todo).perform if @record.todo
+    TodoCalculateContext.new(@record.todo).perform(done: @todo_done) if @record.todo
   end
 
 end

@@ -7,7 +7,8 @@ class TodoCalculateContext < BaseContext
     @todo = todo
   end
 
-  def perform
+  def perform(done: nil)
+    @done = done
     run_callbacks :perform do
       if @todo.save
         true
@@ -29,7 +30,8 @@ class TodoCalculateContext < BaseContext
   end
 
   def set_done
-    @todo.done = @todo.last_recorded_at.present?
+    @todo.done = @done if @done != nil
+    @todo.done = false if !@todo.last_recorded_at
     true
   end
 end
