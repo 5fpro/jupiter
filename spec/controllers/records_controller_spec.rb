@@ -52,6 +52,11 @@ RSpec.describe RecordsController, type: :request do
           get "/records", q: { group_by: "week" }
           expect(response).to be_success
         end
+
+        it "by user" do
+          get "/records", q: { user_id_eq: member.id }
+          expect(response).to be_success
+        end
       end
 
     end
@@ -101,6 +106,13 @@ RSpec.describe RecordsController, type: :request do
         before { subject }
 
         it { expect(response).to be_success }
+      end
+
+      context "by user" do
+        let!(:record2) { FactoryGirl.create(:record, note: "4567") }
+        before { get "/records", q: { user_id_eq: record2.user.id } }
+        it { expect(response).to be_success }
+        it { expect(response.body).to match(record2.note) }
       end
 
       context "different groups" do
