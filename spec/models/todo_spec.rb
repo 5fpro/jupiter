@@ -26,8 +26,10 @@ RSpec.describe Todo, type: :model do
   describe ".for_bind" do
     let!(:todo1) { FactoryGirl.create :todo, last_recorded_at: nil }
     let!(:todo2) { FactoryGirl.create :todo, last_recorded_at: Time.zone.now.to_date }
-    let!(:todo3) { FactoryGirl.create :todo, last_recorded_at: 1.day.ago }
-    let!(:todo4) { FactoryGirl.create :todo, last_recorded_at: 1.day.from_now }
+    let!(:todo3) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.ago }
+    let!(:todo4) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.from_now }
+    let!(:todo5) { FactoryGirl.create :todo, done: true, last_recorded_at: Time.zone.now.to_date }
+    let!(:todo6) { FactoryGirl.create :todo, last_recorded_at: 1.day.from_now }
 
     subject { described_class.for_bind.map(&:id) }
 
@@ -35,6 +37,8 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo2.id) }
     it { expect(subject).not_to be_include(todo3.id) }
     it { expect(subject).not_to be_include(todo4.id) }
+    it { expect(subject).to be_include(todo5.id) }
+    it { expect(subject).to be_include(todo6.id) }
   end
 
   describe "has many records" do
