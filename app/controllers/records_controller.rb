@@ -87,7 +87,12 @@ class RecordsController < BaseController
   end
 
   def find_scoped
-    @scoped ||= current_user.records
+    # TODO team
+    unless @scoped
+      user_id = params[:q].try(:[], :user_id_eq)
+      user = user_id.present? ? User.find(user_id) : current_user
+      @scoped = user.records
+    end
     @scoped_with_user = current_user.records.merge(@scoped)
   end
 
