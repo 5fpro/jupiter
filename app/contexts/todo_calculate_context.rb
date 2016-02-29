@@ -30,8 +30,8 @@ class TodoCalculateContext < BaseContext
   end
 
   def set_done
-    @todo.done = @done if @done != nil
-    @todo.done = false if !@todo.last_recorded_at
+    @todo.done = @done unless @done.nil?
+    @todo.done = false unless @todo.last_recorded_at
     true
   end
 end
