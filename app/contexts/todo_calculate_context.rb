@@ -1,6 +1,6 @@
 class TodoCalculateContext < BaseContext
   before_perform :calculate_total_time
-  before_perform :calculate_date
+  before_perform :calculate_last_recorded_time
   before_perform :set_done
 
   def initialize(todo)
@@ -23,13 +23,13 @@ class TodoCalculateContext < BaseContext
     @todo.total_time = @todo.records.select(:minutes).map(&:total_time).map(&:to_i).inject(&:+)
   end
 
-  def calculate_date
-    @todo.date = @todo.records.order(id: :asc).first.try(:created_at).try(:to_date)
+  def calculate_last_recorded_time
+    @todo.last_recorded_at = @todo.records.order(id: :desc).first.try(:created_at)
     true
   end
 
   def set_done
-    @todo.done = @todo.date.present?
+    @todo.done = @todo.last_recorded_at.present?
     true
   end
 end

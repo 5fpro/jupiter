@@ -41,25 +41,26 @@ describe RecordUpdateContext do
 
       it { expect { subject.perform(params) }.to change { todo.reload.total_time }.to(0) }
 
-      context "todo.date & done?" do
+      context "todo.last_recorded_at & done?" do
         it { expect { subject.perform(params) }.to change { todo.reload.done? }.to(false) }
-        it { expect { subject.perform(params) }.to change { todo.reload.date }.to(nil) }
+        it { expect { subject.perform(params) }.to change { todo.reload.last_recorded_at }.to(nil) }
       end
     end
 
     context "int -> int" do
       let!(:record) { FactoryGirl.create(:record, todo: todo) }
-      let!(:todo2) { FactoryGirl.create :todo, :done, date: 1.day.ago.to_date }
+      let!(:todo2) { FactoryGirl.create :todo, :done, last_recorded_at: 1.day.ago }
       let(:params) { { todo_id: todo2.id } }
 
       it { expect { subject.perform(params) }.to change { todo.reload.total_time }.to(0) }
       it { expect { subject.perform(params) }.to change { todo2.reload.total_time }.to(record.total_time) }
 
-      context "todo.date & done?" do
-        before { todo.update_attribute :date, record.created_at }
+      context "todo.last_recorded_on & done?" do
+        let(:todo) { FactoryGirl.create :todo, :done }
 
         it { expect { subject.perform(params) }.not_to change { todo2.reload.done? } }
-        it { expect { subject.perform(params) }.to change { todo2.reload.date }.to(record.created_at.to_date) }
+        it { expect { subject.perform(params) }.to change { todo2.reload.last_recorded_on }.to(record.created_at.to_date) }
+        it { expect { subject.perform(params) }.to change { todo2.reload.last_recorded_at }.to(record.created_at) }
       end
     end
   end

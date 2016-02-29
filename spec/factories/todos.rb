@@ -2,14 +2,16 @@
 #
 # Table name: todos
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer
-#  project_id :integer
-#  desc       :text
-#  date       :date
-#  data       :hstore
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  project_id       :integer
+#  desc             :text
+#  last_recorded_on :date
+#  data             :hstore
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  done             :boolean          default(FALSE)
+#  last_recorded_at :datetime
 #
 
 FactoryGirl.define do
@@ -25,7 +27,7 @@ FactoryGirl.define do
     end
 
     trait :done do
-      date { Time.now }
+      last_recorded_at { Time.zone.now }
       done true
     end
   end

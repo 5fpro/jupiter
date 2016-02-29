@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: todos
+#
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  project_id       :integer
+#  desc             :text
+#  last_recorded_on :date
+#  data             :hstore
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  done             :boolean          default(FALSE)
+#  last_recorded_at :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe TodosController, type: :request do
