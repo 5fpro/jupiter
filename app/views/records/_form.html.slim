@@ -1,5 +1,10 @@
 = f.input :record_type, as: :radio_buttons, collection: collection_for_record_types
 = f.input :minutes
 = f.input :note, as: :text
-= f.input :todo_id, as: :select, collection: collection_for_project_todos(@project || f.object.project)
+
+- disabled = !f.object.new_record?
+= f.input :todo_id, as: :select, collection: collection_for_project_todos(@project || f.object.project), disabled: disabled
+- unless disabled
+  = f.input :id, as: :boolean, label: "已完成 todo", input_html: { name: "record[todo_done]", checked: true }
+
 = f.submit

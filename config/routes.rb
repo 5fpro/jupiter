@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
   resources :todos, except: [:show] do
     member do
-      post :clone
+      post :toggle_done
     end
   end
 

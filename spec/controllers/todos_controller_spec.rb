@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: todos
+#
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  project_id       :integer
+#  desc             :text
+#  last_recorded_on :date
+#  data             :hstore
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  done             :boolean          default(FALSE)
+#  last_recorded_at :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe TodosController, type: :request do
@@ -90,16 +106,16 @@ RSpec.describe TodosController, type: :request do
     end
   end
 
-  context "POST /todos/123/clone.js" do
-    subject { xhr :post, "/todos/#{todo.id}/clone.js" }
+  context "POST /todos/123/toggle_done.js" do
+    subject { xhr :post, "/todos/#{todo.id}/toggle_done.js" }
     context "success" do
       let!(:todo) { FactoryGirl.create :todo, :done, user: user }
-      it { expect { subject }.to change { user.reload.todos.count }.by(1) }
+      it { expect { subject }.to change { todo.reload.done? }.to(false) }
     end
 
     context "fail" do
       let!(:todo) { FactoryGirl.create :todo, user: user }
-      it { expect { subject }.not_to change { user.todos.count } }
+      it { expect { subject }.not_to change { todo.reload.done? } }
     end
 
     context "not my todo" do

@@ -1,7 +1,7 @@
 class TodosController < BaseController
   before_action :authenticate_user!
   before_action :find_todos
-  before_action :find_todo, only: [:edit, :update, :destroy, :clone]
+  before_action :find_todo, only: [:edit, :update, :destroy, :toggle_done]
 
   def index
     @done_todos = @todos.today_done
@@ -44,14 +44,11 @@ class TodosController < BaseController
     end
   end
 
-  def clone
-    context = TodoCloneContext.new(@todo)
-    if context.perform
-      @not_done_todos = not_done_todos
-      # render js
-    else
-      @error_messages = context.error_messages
-    end
+  def toggle_done
+    context = TodoToggleDoneContext.new(@todo)
+    context.perform
+    @not_done_todos = not_done_todos
+    @done_todos = @todos.today_done
   end
 
   private

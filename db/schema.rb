@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160220075305) do
+ActiveRecord::Schema.define(version: 20160229042422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,16 +132,20 @@ ActiveRecord::Schema.define(version: 20160220075305) do
     t.integer  "user_id"
     t.integer  "project_id"
     t.text     "desc"
-    t.date     "date"
+    t.date     "last_recorded_on"
     t.hstore   "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "done",             default: false
+    t.datetime "last_recorded_at"
   end
 
-  add_index "todos", ["date"], name: "index_todos_on_date", using: :btree
-  add_index "todos", ["project_id", "date"], name: "index_todos_on_project_id_and_date", using: :btree
+  add_index "todos", ["done"], name: "index_todos_on_done", using: :btree
+  add_index "todos", ["last_recorded_on"], name: "index_todos_on_last_recorded_on", using: :btree
+  add_index "todos", ["project_id", "last_recorded_on"], name: "index_todos_on_project_id_and_last_recorded_on", using: :btree
   add_index "todos", ["project_id"], name: "index_todos_on_project_id", using: :btree
-  add_index "todos", ["user_id", "date"], name: "index_todos_on_user_id_and_date", using: :btree
+  add_index "todos", ["user_id", "done"], name: "index_todos_on_user_id_and_done", using: :btree
+  add_index "todos", ["user_id", "last_recorded_on"], name: "index_todos_on_user_id_and_last_recorded_on", using: :btree
   add_index "todos", ["user_id", "project_id"], name: "index_todos_on_user_id_and_project_id", using: :btree
   add_index "todos", ["user_id"], name: "index_todos_on_user_id", using: :btree
 

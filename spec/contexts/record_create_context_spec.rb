@@ -43,12 +43,18 @@ describe RecordCreateContext do
 
     describe "#calculate_todo" do
       it { expect { subject.perform(data) }.to change { todo.reload.total_time } }
-      it { expect { subject.perform(data) }.to change { todo.reload.done? }.to(true) }
-      it { expect { subject.perform(data) }.to change { todo.reload.date } }
+      it { expect { subject.perform(data.merge(todo_done: "yes")) }.to change { todo.reload.done? }.to(true) }
+      it { expect { subject.perform(data.merge(todo_done: "no")) }.not_to change { todo.reload.done? } }
+      it { expect { subject.perform(data) }.to change { todo.reload.last_recorded_on } }
+      it { expect { subject.perform(data) }.to change { todo.reload.last_recorded_at } }
     end
   end
 
   describe "#create_todo_if_not_choose" do
     it { expect { subject.perform(data.merge(todo_id: "")) }.to change { user.todos.count } }
+    context "new todo should be done if checked" do
+      before { subject.perform(data.merge(todo_id: "", todo_done: "yes")) }
+      it { expect(user.reload.todos.last.done?).to eq true }
+    end
   end
 end
