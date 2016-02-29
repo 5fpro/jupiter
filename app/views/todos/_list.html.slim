@@ -15,6 +15,8 @@ table
         td= render_hours todo.total_time
         td
           - if todo.user_id == current_user.id
+            = link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".new-record#todo-#{todo.id}", todo_id: todo.id), remote: true
+            = " | "
             = link_to "編輯", edit_todo_path(todo, format: :js), remote: true
             - unless todo.done?
               = " | "
@@ -23,3 +25,4 @@ table
             = " | "
             - toggle_label = todo.done? ? "還沒做完" : "已做完"
             = link_to toggle_label, toggle_done_todo_path(todo, format: :js), remote: true, method: :post
+            .new-record id="todo-#{todo.id}"

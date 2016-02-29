@@ -1,6 +1,6 @@
 h2= link_to project.name, project_path(project)
 = render partial: "projects/record_stats", as: :records, object: project.records.merge(records)
-= link_to "記錄時間", new_project_record_path(project, format: :js), remote: true
+= link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".projects .project#project-#{project.id} .form-new-record"), remote: true
 .form-new-record
 = link_to "新增 TODO", new_todo_path(project_id: project.id, format: :js), remote: true
 div class="js-new-todo-form-#{project.id}"

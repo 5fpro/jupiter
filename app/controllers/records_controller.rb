@@ -34,10 +34,13 @@ class RecordsController < BaseController
   # GET /projects/:project_id/records/new
   def new
     @record = @scoped_with_user.new(params[:record])
+    @record.todo_id = params[:todo_id] if params[:todo_id]
+    @dom_selector = params[:dom_selector]
   end
 
   # POST /projects/:project_id/records
   def create
+    @dom_selector = params[:dom_selector]
     context = RecordCreateContext.new(current_user, @project)
     if @record = context.perform(params)
       respond_to do |f|

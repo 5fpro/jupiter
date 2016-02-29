@@ -1,5 +1,5 @@
-form = $(".project#project-<%= @project.id %> .form-new-record")
+form = $("<%= @dom_selector %>")
 form.html('<%= j(render(partial: "remote_new")) %>')
 form.find("[data-close-form]").on 'click', ->
-  $(@).parents('.form-new-record').html('')
+  form.html('')
   false
