@@ -5,3 +5,5 @@ hr/
   = render partial: "list", object: @not_done_todos
 .js-new-todo-form
 = link_to "新增 TODO", new_todo_path(format: :js), remote: true
+br/
+= link_to "發佈到 Slack", publish_todos_path, "data-confirm" => "確定發佈", method: :post
