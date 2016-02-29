@@ -27,6 +27,7 @@ class Record < ActiveRecord::Base
   scope :last_month, -> { where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month) }
   scope :this_week, -> { where(created_at: Time.zone.now.beginning_of_week..Time.zone.now) }
   scope :last_week, -> { where(created_at: 1.week.ago.beginning_of_week..1.week.ago.end_of_week) }
+  scope :today, -> { where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day) }
 
   store_accessor :data, :note
 

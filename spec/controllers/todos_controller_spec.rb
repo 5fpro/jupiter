@@ -123,4 +123,11 @@ RSpec.describe TodosController, type: :request do
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
+
+  context "POST /todos/publish" do
+    subject { post "/todos/publish", nil, "HTTP_REFERER" => "/todos" }
+    before { subject }
+    it { expect(response).to redirect_to("/todos") }
+  end
+
 end

@@ -51,6 +51,11 @@ class TodosController < BaseController
     @done_todos = @todos.today_done
   end
 
+  def publish
+    TodoPublishContext.new(current_user).perform
+    redirect_to :back, flash: { success: "已發佈" }
+  end
+
   private
 
   def find_todos
