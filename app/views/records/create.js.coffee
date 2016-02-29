@@ -7,7 +7,7 @@ $("<%= @dom_selector %>").append('<div class="error-messages"><%= j(simple_forma
 
 dom = $(".project#project-<%= @project.id %>")
 if dom.length > 0
-  dom.html('<%= j(render(partial: "projects/project", object: @project, locals: { records: current_user.records })) %>')
+  dom.html('<%= j(render(partial: "projects/project", object: @project, locals: { my_records: current_user.records })) %>')
 
 dom = $(".new-record#todo-<%= @record.todo_id %>")
 if dom.length > 0
