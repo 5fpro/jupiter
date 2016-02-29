@@ -5,8 +5,10 @@ module ApplicationHelper
     end
   end
 
-  def collection_for_project_users(project)
-    project.users.map { |user| [user.name, user.id] }
+  def collection_for_users(project = nil)
+    # TODO team
+    users = project ? project.users : User.all
+    users.map { |user| [user.name, user.id] }
   end
 
   def collection_for_project_todos(project)
