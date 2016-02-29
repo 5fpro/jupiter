@@ -25,6 +25,7 @@ describe RecordDeleteContext do
     before { record.update_attribute :todo, todo }
     it { expect { subject.perform }.to change { todo.reload.total_time }.to(0) }
     it { expect { subject.perform }.to change { todo.reload.done? }.to(false) }
-    it { expect { subject.perform }.to change { todo.reload.date }.to(nil) }
+    it { expect { subject.perform }.to change { todo.reload.last_recorded_on }.to(nil) }
+    it { expect { subject.perform }.to change { todo.reload.last_recorded_at }.to(nil) }
   end
 end
