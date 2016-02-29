@@ -35,14 +35,13 @@ describe RecordUpdateContext do
     end
 
     context "int -> nil" do
+      let(:todo) { FactoryGirl.create :todo, :done, total_time: 1234 }
       let(:params) { { todo_id: nil } }
       let!(:record) { FactoryGirl.create(:record, todo: todo) }
 
       it { expect { subject.perform(params) }.to change { todo.reload.total_time }.to(0) }
 
       context "todo.date & done?" do
-        before { todo.update_attribute :date, record.created_at }
-
         it { expect { subject.perform(params) }.to change { todo.reload.done? }.to(false) }
         it { expect { subject.perform(params) }.to change { todo.reload.date }.to(nil) }
       end
@@ -50,7 +49,7 @@ describe RecordUpdateContext do
 
     context "int -> int" do
       let!(:record) { FactoryGirl.create(:record, todo: todo) }
-      let!(:todo2) { FactoryGirl.create :todo, date: 1.day.ago.to_date }
+      let!(:todo2) { FactoryGirl.create :todo, :done, date: 1.day.ago.to_date }
       let(:params) { { todo_id: todo2.id } }
 
       it { expect { subject.perform(params) }.to change { todo.reload.total_time }.to(0) }

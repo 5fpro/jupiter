@@ -10,6 +10,7 @@
 #  data       :hstore
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  done       :boolean          default(FALSE)
 #
 
 class Todo < ActiveRecord::Base
@@ -28,10 +29,6 @@ class Todo < ActiveRecord::Base
 
   def total_time
     super.to_i.seconds
-  end
-
-  def done?
-    date.present?
   end
 
   def original_id

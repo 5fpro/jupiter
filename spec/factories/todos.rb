@@ -26,6 +26,7 @@ FactoryGirl.define do
 
     trait :done do
       date { Time.now }
+      done true
     end
   end
 
