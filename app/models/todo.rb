@@ -21,7 +21,7 @@ class Todo < ActiveRecord::Base
 
   validates :user_id, :project_id, :desc, presence: true
 
-  scope :for_bind, -> { where(last_recorded_on: [nil, Time.zone.now.to_date]) }
+  scope :for_bind, -> { where("done = ? OR last_recorded_on = ?", false, Time.zone.now.to_date).order(done: :asc) }
   scope :today_done, -> { where(last_recorded_on: Time.zone.now.to_date) }
   scope :not_done, -> { where(done: false) }
   scope :project_sorted, -> { order(project_id: :asc) }
