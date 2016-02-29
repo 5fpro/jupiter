@@ -24,12 +24,15 @@ class TodoPublishContext < BaseContext
   end
 
   def to_messages
-    @messages = ["#{@user.name} 本日工作報告:"]
-    { "[已完成]" => @done_todos, "[未完成]" => @not_done_todos }.each do |title, todos|
+    @messages = ["#{@user.name} 本日工作報告:", ""]
+    { "[今日已完成]" => @done_todos, "[明日預定]" => @not_done_todos }.each do |title, todos|
       @messages << title
       todos.each do |todo|
-        @messages << "#{todo.project.name} - #{todo.desc} (#{render_hours(todo.total_time)})"
+        msg = "#{todo.project.name} - #{todo.desc}"
+        msg = "#{msg} (#{render_hours(todo.total_time)})" if todo.total_time > 0
+        @messages << msg
       end
+      @messages << ""
     end
   end
 
