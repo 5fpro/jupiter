@@ -5,4 +5,7 @@ if dom.length > 0
   dom.append('<div class="error-messages"><%= j(render_html(@error_messages.join("\n"))) %></div>')
 <% else %>
   form.html('<%= j(render_html(@todo.desc)) %>')
+  `
+  <%= raw render(partial: "not_done_todos", object: @not_done_todos) %>
+  `
 <% end %>

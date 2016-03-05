@@ -5,11 +5,15 @@ table
       th desc
       th Total Time
       th action
+      - if local_assigns[:not_done]
+        th sorting
   tbody
     - list.each do |todo|
       - project = todo.project
       tr
-        td= link_to project.name, project_path(project)
+        td
+          = todo.sort.inspect
+          = link_to project.name, project_path(project)
         td class="js-edit-todo-#{todo.id} js-update-todo-#{todo.id}"
           = render_html todo.desc
         td= render_hours todo.total_time
@@ -26,3 +30,9 @@ table
             - toggle_label = todo.done? ? "還沒做完" : "已做完"
             = link_to toggle_label, toggle_done_todo_path(todo, format: :js), remote: true, method: :post
             .new-record id="todo-#{todo.id}"
+        - if local_assigns[:not_done]
+          td
+            - { first: "頂", up: "上", down: "下", last: "底"}.each do |sort, label|
+              | &nbsp;
+              = link_to label, todo_path(todo, format: :js, todo: { sort: sort }), remote: true, method: :put
+              = " |" unless sort == :last

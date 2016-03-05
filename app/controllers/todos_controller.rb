@@ -28,6 +28,7 @@ class TodosController < BaseController
   def update
     context = TodoUpdateContext.new(@todo, params[:todo])
     if context.perform
+      @not_done_todos = not_done_todos
       # render js
     else
       @error_messages = context.error_messages
@@ -59,7 +60,7 @@ class TodosController < BaseController
   private
 
   def find_todos
-    @todos = current_user.todos.project_sorted.includes(:project, :records)
+    @todos = current_user.todos.sorted.includes(:project, :records)
   end
 
   def not_done_todos

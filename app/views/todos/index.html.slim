@@ -2,7 +2,7 @@
   = render partial: "list", object: @done_todos
 hr/
 .js-todos-not-done
-  = render partial: "list", object: @not_done_todos
+  = render partial: "list", object: @not_done_todos, locals: { not_done: true }
 .js-new-todo-form
 = link_to "新增 TODO", new_todo_path(format: :js), remote: true
 br/

@@ -13,7 +13,7 @@ dom = $(".new-record#todo-<%= @record.todo_id %>")
 if dom.length > 0
   dom.html('')
   `
-  <%=raw render(partial: "todos/not_done_todos", object: current_user.todos.project_sorted.not_done) %>
-  <%=raw render(partial: "todos/done_todos", object: current_user.todos.project_sorted.today_done) %>
+  <%=raw render(partial: "todos/not_done_todos", object: current_user.todos.sorted.not_done) %>
+  <%=raw render(partial: "todos/done_todos", object: current_user.todos.sorted.today_done) %>
   `
 <% end %>

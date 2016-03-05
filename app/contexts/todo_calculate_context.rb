@@ -2,6 +2,8 @@ class TodoCalculateContext < BaseContext
   before_perform :calculate_total_time
   before_perform :calculate_last_recorded_time
   before_perform :set_done
+  after_perform :remove_sort
+  after_perform :add_to_sort
 
   def initialize(todo)
     @todo = todo
@@ -33,5 +35,18 @@ class TodoCalculateContext < BaseContext
     @todo.done = @done unless @done.nil?
     @todo.done = false unless @todo.last_recorded_at
     true
+  end
+
+  def remove_sort
+    if @todo.done? && @todo.in_list?
+      @todo.remove_from_list
+    end
+  end
+
+  def add_to_sort
+    if !@todo.done? && @todo.not_in_list?
+      @todo.insert_at(1)
+      @todo.move_to_bottom
+    end
   end
 end
