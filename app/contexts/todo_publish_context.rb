@@ -33,7 +33,7 @@ class TodoPublishContext < BaseContext
         msg = "#{msg} (#{render_hours(todo.records.today.total_time)} / #{render_hours(todo.total_time)})" if todo.total_time > 0
         @messages << msg
       end
-      @messages << "無" if todos.count
+      @messages << "無" if todos.count == 0
       @messages << ""
     end
   end
