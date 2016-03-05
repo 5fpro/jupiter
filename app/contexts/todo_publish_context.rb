@@ -30,7 +30,11 @@ class TodoPublishContext < BaseContext
       @messages << title
       todos.includes(:project, :records).each do |todo|
         msg = "#{todo.project.name} - #{todo.desc}"
-        msg = "#{msg} (#{render_hours(todo.records.today.total_time)} / #{render_hours(todo.total_time)})" if todo.total_time > 0
+        if todo.total_time > 0
+          today_hours = render_hours(todo.records.today.total_time)
+          today_hours = "#{today_hours} / " if today_hours.present?
+          msg = "#{msg} (#{today_hours}#{render_hours(todo.total_time)})"
+        end
         @messages << msg
       end
       @messages << "無" if todos.count == 0
