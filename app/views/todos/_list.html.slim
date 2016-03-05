@@ -1,6 +1,7 @@
 table
   thead
     tr
+      th 序
       th Project
       th desc
       th Total Time
@@ -11,9 +12,8 @@ table
     - list.each do |todo|
       - project = todo.project
       tr
-        td
-          = todo.sort.inspect
-          = link_to project.name, project_path(project)
+        td= todo.sort
+        td= link_to project.name, project_path(project)
         td class="js-edit-todo-#{todo.id} js-update-todo-#{todo.id}"
           = render_html todo.desc
         td= render_hours todo.total_time
