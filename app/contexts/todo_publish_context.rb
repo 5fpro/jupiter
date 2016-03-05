@@ -19,19 +19,21 @@ class TodoPublishContext < BaseContext
   private
 
   def find_todos
-    @done_todos = @user.todos.project_sorted.today_done.includes(:project)
-    @not_done_todos = @user.todos.project_sorted.not_done.includes(:project)
+    @done_todos = @user.todos.project_sorted.today_done
+    @today_not_done_todos = @user.todos.project_sorted.not_done.today
+    @not_done_todos = @user.todos.project_sorted.not_done.not_today
   end
 
   def to_messages
     @messages = ["#{@user.name} 本日工作報告:", ""]
-    { "[今日已完成]" => @done_todos, "[明日預定]" => @not_done_todos }.each do |title, todos|
+    { "[今日已完成]" => @done_todos, "[今日有做 & 未完成]" => @today_not_done_todos, "[明日預定]" => @not_done_todos }.each do |title, todos|
       @messages << title
-      todos.each do |todo|
+      todos.includes(:project, :records).each do |todo|
         msg = "#{todo.project.name} - #{todo.desc}"
-        msg = "#{msg} (#{render_hours(todo.total_time)})" if todo.total_time > 0
+        msg = "#{msg} (#{render_hours(todo.records.today.total_time)} / #{render_hours(todo.total_time)})" if todo.total_time > 0
         @messages << msg
       end
+      @messages << "無" if todos.count
       @messages << ""
     end
   end
