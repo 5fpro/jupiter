@@ -21,4 +21,13 @@ describe TodoToggleDoneContext do
     before { Timecop.freeze 1.hour.from_now }
     it { expect { subject.perform }.to change { todo.reload.last_recorded_at } }
   end
+
+  context "remove sort if done" do
+    let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
+    it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
+    context "add sort if not done" do
+      before { subject.perform }
+      it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }
+    end
+  end
 end

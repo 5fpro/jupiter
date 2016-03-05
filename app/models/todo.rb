@@ -12,9 +12,12 @@
 #  updated_at       :datetime         not null
 #  done             :boolean          default(FALSE)
 #  last_recorded_at :datetime
+#  sort             :integer
 #
 
 class Todo < ActiveRecord::Base
+  sortable column: :sort, scope: :user, add_new_at: :bottom
+
   belongs_to :project
   belongs_to :user
   has_many :records, dependent: :nullify

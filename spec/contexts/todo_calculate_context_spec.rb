@@ -37,4 +37,16 @@ describe TodoCalculateContext do
       it { expect { subject.perform(done: true) }.not_to change { todo.reload.done? } }
     end
   end
+
+  describe "#remove_sort" do
+    let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
+    before { subject.perform(done: true) }
+    it { expect(todo.reload.sort).to be_nil }
+  end
+
+  describe "#add_to_sort" do
+    let!(:todo) { FactoryGirl.create :todo, :with_records, done: true, sort: nil }
+    before { subject.perform(done: false) }
+    it { expect(todo.reload.sort).to be_present }
+  end
 end

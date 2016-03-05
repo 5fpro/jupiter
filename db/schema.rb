@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229042422) do
+ActiveRecord::Schema.define(version: 20160305071327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,12 +138,14 @@ ActiveRecord::Schema.define(version: 20160229042422) do
     t.datetime "updated_at",                       null: false
     t.boolean  "done",             default: false
     t.datetime "last_recorded_at"
+    t.integer  "sort"
   end
 
   add_index "todos", ["done"], name: "index_todos_on_done", using: :btree
   add_index "todos", ["last_recorded_on"], name: "index_todos_on_last_recorded_on", using: :btree
   add_index "todos", ["project_id", "last_recorded_on"], name: "index_todos_on_project_id_and_last_recorded_on", using: :btree
   add_index "todos", ["project_id"], name: "index_todos_on_project_id", using: :btree
+  add_index "todos", ["user_id", "done", "sort"], name: "index_todos_on_user_id_and_done_and_sort", using: :btree
   add_index "todos", ["user_id", "done"], name: "index_todos_on_user_id_and_done", using: :btree
   add_index "todos", ["user_id", "last_recorded_on"], name: "index_todos_on_user_id_and_last_recorded_on", using: :btree
   add_index "todos", ["user_id", "project_id"], name: "index_todos_on_user_id_and_project_id", using: :btree
