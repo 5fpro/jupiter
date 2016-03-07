@@ -28,5 +28,5 @@ en:
   contexts:
     notify:
       event-messages:
-        record_created: "Record#%{record_id}(%{record_type_name}) created for %{time} by %{user_name} on %{project_name}"
+        record_created: "Project: %{project_name}\nUser: %{user_name}\n Time: %{time}\nRecord: #%{record_id} - %{record_type_name}\nNote:\n%{record_note}"
         approach_hours_limit: "Hours of %{project_name} is approached to limit: %{current_hours} / %{limit_hours}"
