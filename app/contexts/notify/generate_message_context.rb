@@ -27,7 +27,8 @@ class Notify::GenerateMessageContext < BaseContext
       project_name: record.project.name,
       user_name: record.user.name,
       time: render_hours(record.total_time),
-      record_type_name: record_type_name(record.record_type)
+      record_type_name: record_type_name(record.record_type),
+      record_note: record.note
     }
   end
 
