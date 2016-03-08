@@ -41,6 +41,18 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo6.id) }
   end
 
+  describe ".not_today" do
+    let!(:todo1) { FactoryGirl.create :todo, last_recorded_on: nil }
+    let!(:todo2) { FactoryGirl.create :todo, last_recorded_on: Time.zone.now.to_date }
+    let!(:todo3) { FactoryGirl.create :todo, last_recorded_on: 1.day.ago }
+
+    subject { described_class.not_today.map(&:id) }
+
+    it { expect(subject).to be_include(todo1.id) }
+    it { expect(subject).not_to be_include(todo2.id) }
+    it { expect(subject).to be_include(todo3.id) }
+  end
+
   describe "has many records" do
     let(:todo) { FactoryGirl.create :todo, :with_records }
 

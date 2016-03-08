@@ -29,7 +29,7 @@ class Todo < ActiveRecord::Base
   scope :not_done, -> { where(done: false) }
   scope :done, -> { where(done: true) }
   scope :today, -> { where(last_recorded_on: Time.zone.now.to_date) }
-  scope :not_today, -> { where.not(last_recorded_on: Time.zone.now.to_date) }
+  scope :not_today, -> { where("last_recorded_on != ? OR last_recorded_on is ?", Time.zone.now.to_date, nil) }
   scope :project_sorted, -> { order(project_id: :asc) }
 
   store_accessor :data, :total_time, :original_id
