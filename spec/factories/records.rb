@@ -19,6 +19,10 @@ FactoryGirl.define do
     user    { FactoryGirl.create :user }
     record_type :coding
     minutes 100
+
+    trait :with_todo do
+      todo_id { FactoryGirl.create(:todo).id }
+    end
   end
 
   factory :record_for_params, class: Record do
