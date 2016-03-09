@@ -31,6 +31,6 @@ describe RecordUpdateContext do
     let(:todo) { Todo.last }
     subject { described_class.new(user, record).perform(params) }
 
-    it { expect{ subject }.to change{ todo.reload.total_time } }
+    it { expect { subject }.to change { todo.reload.total_time } }
   end
 end
