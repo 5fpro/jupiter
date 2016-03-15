@@ -1,0 +1,6 @@
+- url = @project.bind? ? unbind_repo_project_path(@project) : binding_repo_project_path(@project)
+- disabled = @project.bind?
+= simple_form_for @project, url: url, method: :put do |f|
+  = f.input :repo_fullname, as: :select, label: "選擇綁定github", collection: repos, disabled: disabled
+  = f.input :hook_url, label: "Webhook", disabled: disabled
+  = f.submit @project.bind? ? "Unbind" : "Bind"
