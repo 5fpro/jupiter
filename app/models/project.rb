@@ -50,6 +50,10 @@ class Project < ActiveRecord::Base
     super == "true"
   end
 
+  def bind?
+    repo_fullname.present? && hook_id.present? && hook_url.present?
+  end
+
   def primary_slack_channel
     return if primary_slack_channel_id.blank?
     @primary_slack_channel ||= slack_channels.try(:find, primary_slack_channel_id)
