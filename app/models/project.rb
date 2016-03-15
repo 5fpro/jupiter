@@ -21,7 +21,8 @@ class Project < ActiveRecord::Base
   has_many :todos
 
   store_accessor :data, :users_count, :description, :hours_limit,
-                 :approached_hours_limit, :primary_slack_channel_id
+                 :approached_hours_limit, :primary_slack_channel_id,
+                 :repo_fullname, :hook_id, :hook_url
 
   validates :name, :owner_id, presence: true
 
@@ -38,6 +39,10 @@ class Project < ActiveRecord::Base
   end
 
   def hours_limit
+    super.to_i
+  end
+
+  def hook_id
     super.to_i
   end
 

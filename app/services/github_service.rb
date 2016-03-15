@@ -22,7 +22,6 @@ class GithubService
   end
 
   def auto_create_hook(repo_fullname, hook_url, hook_name = "web")
-    # TODO context need record hook_id
     @client.create_hook(repo_fullname, hook_name, { url: hook_url, content_type: "json" }, { events: HookEventPolicy })
   end
 
