@@ -21,7 +21,7 @@ class TodoPublishContext < BaseContext
   def find_todos
     @done_todos = @user.todos.project_sorted.today_done
     @today_not_done_todos = @user.todos.project_sorted.not_done.today
-    @not_done_todos = @user.todos.project_sorted.not_done.not_today
+    @not_done_todos = @user.todos.sorted.not_done.not_today
   end
 
   def to_messages
