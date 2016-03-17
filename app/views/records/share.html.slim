@@ -20,4 +20,5 @@ table
         td= record.minutes
         td= record.try(:note) if record.try(:data)
         td= record.try(:created_at)
-= paginate @records
+- # TODO: fix for grouped results
+= paginate @records rescue nil
