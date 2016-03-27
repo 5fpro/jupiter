@@ -1,0 +1,63 @@
+// -----------------------
+// Header - layouts
+// -----------------------
+.navbar-inverse {
+  background-color: $nav-bg;
+  border-color: $nav-bg;
+
+  .navbar-brand {
+    &:hover,
+    &:focus {
+      color: $nav-brand-hover;
+    }
+  }
+
+  .navbar-nav > li > a {
+    color: $nav-text;
+  }
+
+  .navbar-nav > li > a:hover,
+  .navbar-nav > .active > a {
+    &,
+    &:hover,
+    &:focus {
+      background-color: $nav-hover-bg;
+      color: $nav-hover-text;
+    }
+  }
+}
+
+.glyphicon {
+  font-family: inherit;
+
+  &::before {
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    margin-right: 5px;
+    vertical-align: top;
+    width: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-inverse {
+    padding-right: 15px;
+  }
+  
+  .side-nav {
+    background-color: $nav-side-nav-bg;
+    border: none;
+    border-radius: 0;
+    height: 100%;
+    left: 180px;
+    margin-left: -180px;
+    overflow-y: auto;
+    position: fixed;
+    top: 51px;
+    width: 180px;
+
+    li > a {
+      width: 180px;
+    }
+  }
+}
