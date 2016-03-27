@@ -27,23 +27,11 @@
   }
 }
 
-.glyphicon {
-  font-family: inherit;
-
-  &::before {
-    display: inline-block;
-    font-family: "Glyphicons Halflings";
-    margin-right: 5px;
-    vertical-align: top;
-    width: 14px;
-  }
-}
-
 @media (min-width: 768px) {
   .navbar-inverse {
     padding-right: 15px;
   }
-  
+
   .side-nav {
     background-color: $nav-side-nav-bg;
     border: none;

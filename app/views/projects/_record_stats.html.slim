@@ -1,18 +1,19 @@
-table
-  thead
-    tr
-      th
-      th 累積
-      th 本週
-      th 上週
-      th 本月
-      th 上月
-  tbody
-    - record_stats.each do |label, records|
+.table-responsive
+  table.table.table-bordered.table-striped
+    thead
       tr
-        td= label
-        td= render_hours records.total_time
-        td= render_hours records.this_week.total_time
-        td= render_hours records.last_week.total_time
-        td= render_hours records.this_month.total_time
-        td= render_hours records.last_month.total_time
+        th
+        th 累積
+        th 本週
+        th 上週
+        th 本月
+        th 上月
+    tbody
+      - record_stats.each do |label, records|
+        tr
+          td= label
+          td= render_hours records.total_time
+          td= render_hours records.this_week.total_time
+          td= render_hours records.last_week.total_time
+          td= render_hours records.this_month.total_time
+          td= render_hours records.last_month.total_time
