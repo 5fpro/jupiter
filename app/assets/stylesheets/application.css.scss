@@ -5,6 +5,13 @@
  *= require_self
  */
 
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "variables";
+@import "layouts";
+@import "basics";
+
 th, td {
   border: 1px solid #000000;
 }
