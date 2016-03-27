@@ -25,6 +25,14 @@
   }
 }
 
+.form-new-record,
+.filter-form {
+  .form-group {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .form-new-record {
   .control-label,
   .form-control {
@@ -42,11 +50,6 @@
 
   .form-control {
     width: 75%;
-  }
-
-  .form-group {
-    margin-left: 0;
-    margin-right: 0;
   }
 
   .radio {
@@ -71,10 +74,17 @@
         float: left;
         width: 20px;
       }
-      
+
       input {
         box-shadow: none;
       }
     }
+  }
+}
+
+.filter-form {
+  .check_boxes {
+    box-shadow: none;
+    margin-top: -7px;
   }
 }
