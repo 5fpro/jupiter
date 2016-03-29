@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :projects, except: :destroy do
+  resources :projects do
     member do
       get :setting
       put :setting, action: "update_setting"
