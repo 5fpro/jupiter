@@ -14,7 +14,9 @@ class Errors::Code
     validates_fail: 400,
     data_create_fail: 400,
     data_update_fail: 400,
-    data_delete_fail: 400
+    data_delete_fail: 400,
+    project_have_todo: 400,
+    project_have_record: 400
   }.freeze
 
   class << self
