@@ -35,6 +35,12 @@ FactoryGirl.define do
         project.update_attribute :primary_slack_channel_id, slack_channel.id
       end
     end
+    
+    trait :with_todos do 
+      after(:create) do |project|
+        FactoryGirl.create_list :todo, 2, project: project, user: project.owner
+      end
+    end  
 
     trait :with_records do
       after(:create) do |project|
@@ -44,7 +50,10 @@ FactoryGirl.define do
 
     factory :project_for_slack_notify, traits: [:with_project_user, :with_slack_channel]
     factory :project_has_members, traits: [:with_project_user, :with_other_user]
+    factory :project_has_todos, traits: [:with_project_user, :with_todos]
     factory :project_has_records, traits: [:with_project_user, :with_records]
+
+
   end
 
   factory :project_for_update, class: Project do
