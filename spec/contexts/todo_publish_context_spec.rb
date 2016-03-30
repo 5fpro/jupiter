@@ -15,4 +15,8 @@ describe TodoPublishContext, type: :context do
     let!(:done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
     it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify) }
   end
+
+  describe "#update_user_todos_published" do
+    it { expect { subject.perform }.to change { user.reload.todos_published? }.to(true) }
+  end
 end

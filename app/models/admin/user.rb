@@ -23,6 +23,7 @@
 #  admin                  :boolean          default(FALSE)
 #  avatar                 :string
 #  data                   :hstore
+#  todos_published        :boolean          default(FALSE)
 #
 
 class Admin::User < ::User
