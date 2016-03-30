@@ -4,7 +4,7 @@ class TodosAutoPublishWorker
 
   recurrence backfill: true do
     # TODO: fix time zone, should 23:50
-    daily(15).minute_of_hour(50)
+    daily.hour_of_day(15).minute_of_hour(50)
   end
 
   def perform
