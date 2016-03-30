@@ -10,7 +10,7 @@ class TodoPublishContext < BaseContext
   class << self
     def perform(user_id, opts = {})
       user = User.find(user_id)
-      self.new(user).perform(opts)
+      new(user).perform(opts)
     end
   end
 
