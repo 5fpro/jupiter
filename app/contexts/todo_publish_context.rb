@@ -21,6 +21,7 @@ class TodoPublishContext < BaseContext
   def perform(skip_user_update: false)
     @skip_user_update = skip_user_update
     run_callbacks :perform do
+      @messages << "---------------------------------------"
       SlackService.notify_async(@messages.join("\n"), @slack_setting)
     end
   end
@@ -47,7 +48,6 @@ class TodoPublishContext < BaseContext
         @messages << msg
       end
       @messages << "無" if todos.count == 0
-      @messages << "---------------------------------------"
       @messages << ""
     end
   end
