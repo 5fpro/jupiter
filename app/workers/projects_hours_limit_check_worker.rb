@@ -3,6 +3,7 @@ class ProjectsHoursLimitCheckWorker
   include Sidetiq::Schedulable
 
   recurrence backfill: true do
+    # TODO: fix time zone
     daily.hour_of_day(9)
   end
 
