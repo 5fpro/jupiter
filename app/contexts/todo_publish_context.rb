@@ -38,6 +38,7 @@ class TodoPublishContext < BaseContext
         @messages << msg
       end
       @messages << "無" if todos.count == 0
+      @messages << "---------------------------------------"
       @messages << ""
     end
   end
