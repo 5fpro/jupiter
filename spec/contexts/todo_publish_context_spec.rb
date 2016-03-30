@@ -18,5 +18,8 @@ describe TodoPublishContext, type: :context do
 
   describe "#update_user_todos_published" do
     it { expect { subject.perform }.to change { user.reload.todos_published? }.to(true) }
+    context "skip_user_update" do
+      it { expect { subject.perform(skip_user_update: true) }.not_to change { user.reload.todos_published? } }
+    end
   end
 end

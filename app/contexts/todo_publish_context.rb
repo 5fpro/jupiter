@@ -8,9 +8,9 @@ class TodoPublishContext < BaseContext
   after_perform :update_user_todos_published
 
   class << self
-    def perform(user_id)
+    def perform(user_id, opts = {})
       user = User.find(user_id)
-      self.new(user).perform
+      self.new(user).perform(opts)
     end
   end
 
@@ -18,7 +18,8 @@ class TodoPublishContext < BaseContext
     @user = user
   end
 
-  def perform
+  def perform(skip_user_update: false)
+    @skip_user_update = skip_user_update
     run_callbacks :perform do
       SlackService.notify_async(@messages.join("\n"), @slack_setting)
     end
@@ -62,6 +63,7 @@ class TodoPublishContext < BaseContext
   end
 
   def update_user_todos_published
+    return true if @skip_user_update
     @user.update(todos_published: true)
   end
 end
