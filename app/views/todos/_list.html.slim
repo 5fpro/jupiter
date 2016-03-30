@@ -2,6 +2,7 @@ table
   thead
     tr
       th 序
+      th id
       th Project
       th desc
       th Total Time
@@ -13,6 +14,7 @@ table
       - project = todo.project
       tr
         td= todo.sort
+        td= todo.id
         td= link_to project.name, project_path(project)
         td class="js-edit-todo-#{todo.id} js-update-todo-#{todo.id}"
           = render_html todo.desc
