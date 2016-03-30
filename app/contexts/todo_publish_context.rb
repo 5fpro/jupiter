@@ -5,6 +5,14 @@ class TodoPublishContext < BaseContext
   before_perform :to_messages
   before_perform :append_total_hours
   before_perform :slack_setting
+  after_perform :update_user_todos_published
+
+  class << self
+    def perform(user_id)
+      user = User.find(user_id)
+      self.new(user).perform
+    end
+  end
 
   def initialize(user)
     @user = user
@@ -51,5 +59,9 @@ class TodoPublishContext < BaseContext
   # TODO: team
   def slack_setting
     @slack_setting = { channel: "#standup-meeting", webhook: "https://hooks.slack.com/services/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" }
+  end
+
+  def update_user_todos_published
+    @user.update(todos_published: true)
   end
 end
