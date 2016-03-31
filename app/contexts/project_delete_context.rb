@@ -1,6 +1,6 @@
 class ProjectDeleteContext < BaseContext
   before_perform :validates_user!
-  before_perform :check_todo
+  before_perform :check_todo_empty
 
   def initialize(user, project)
     @user = user
@@ -18,8 +18,8 @@ class ProjectDeleteContext < BaseContext
     true
   end
 
-  def check_todo
-    return add_error(:project_have_todo, "You can't delete project have todos") if @project.todos.first
+  def check_todo_empty
+    return add_error(:data_delete_fail) if @project.todos.present?
     true
   end
 

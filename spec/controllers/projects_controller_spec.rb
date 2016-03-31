@@ -184,12 +184,9 @@ RSpec.describe ProjectsController, type: :request do
     it { expect(response).to be_success }
   end
 
-  it "#destroy" do
-    expect {
-      delete "/projects/#{project.id}"
-    }.to change { Project.count }.by(-1)
-    expect(response).to be_redirect
-    follow_redirect!
-    expect(response).to be_success
+  describe "#destroy" do
+    subject { delete "/projects/#{project.id}" }
+    it { expect { subject }.to change { Project.count }.by(-1) }
+    it { expect(response).to be_redirect }
   end
 end

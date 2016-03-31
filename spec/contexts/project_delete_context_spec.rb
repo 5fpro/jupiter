@@ -2,28 +2,25 @@ require 'rails_helper'
 
 describe ProjectDeleteContext do
   let(:user) { FactoryGirl.create :user }
-  let(:user1) { FactoryGirl.create :user }
   let!(:project) { FactoryGirl.create :project_has_members, owner: user }
-  let(:project_has_todos) { FactoryGirl.create :project_has_todos, owner: user }
 
-  subject { described_class.new(user, project) }
+  describe "#perform" do
+    context "success" do
+      subject { described_class.new(user, project) }
+      it { expect { subject.perform }.to change { user.projects.count }.by(-1) }
+    end
 
-  it "success" do
-    expect {
-      subject.perform
-    }.to change { user.projects.count }.by(-1)
+    context "not owner" do
+      let(:user1) { FactoryGirl.create :user }
+      subject { described_class.new(user1, project) }
+      it { expect { subject.perform }.not_to change { project.records.count } }
+    end
+
+    context "has todo" do
+      let(:project_has_todos) { FactoryGirl.create :project_has_todos, owner: user }
+      subject { described_class.new(user, project_has_todos) }
+      it { expect { subject.perform }.not_to change { project.records.count } }
+    end
+
   end
-
-  it "not owner" do
-    expect {
-      described_class.new(user1, project).perform
-    }.not_to change { project.records.count }
-  end
-
-  it "has todo" do
-    expect {
-      described_class.new(user, project_has_todos).perform
-    }.not_to change { project.records.count }
-  end
-
 end
