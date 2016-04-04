@@ -37,6 +37,7 @@ RSpec.describe RecordsController, type: :request do
         before { FactoryGirl.create :record, project: project, user: member }
         before { FactoryGirl.create :record, project: project, user: user, record_type: :meeting }
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
+        before { FactoryGirl.create :record, :with_todo, user: user, record_type: :meeting }
 
         it "by project" do
           get "/records", q: { group_by: "project" }
@@ -55,6 +56,11 @@ RSpec.describe RecordsController, type: :request do
 
         it "by user" do
           get "/records", q: { user_id_eq: member.id }
+          expect(response).to be_success
+        end
+
+        it "by todo" do
+          get "/records", q: { group_by: "todo" }
           expect(response).to be_success
         end
       end
