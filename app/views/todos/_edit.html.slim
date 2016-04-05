@@ -1,4 +1,4 @@
-= simple_form_for todo, as: :todo, method: :put, remote: true, url: todo_path(todo, format: :js) do |f|
-  = f.input_field :desc, as: :text
+= simple_form_for todo, as: :todo, method: :put, remote: true, url: todo_path(todo, format: :js), wrapper: :horizontal_form do |f|
+  = f.input_field :desc, as: :text, class: "form-control"
   = f.submit
   = link_to "取消", "#", "data-close-form" => true
