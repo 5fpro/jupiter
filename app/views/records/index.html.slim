@@ -6,7 +6,7 @@ hr/
 
 = render partial: "filtering", as: :q, object: @q
 
-= link_to "分享用連結", url_for(params.merge(action: :share)) if @project
+= link_to "分享用連結", url_for(params.merge(action: :share)), class: "link-to-share" if @project
 br/
 h4 總工時: #{render_hours(@total_time)}
 table.table.table-bordered.table-striped

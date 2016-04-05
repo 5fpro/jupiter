@@ -1,5 +1,7 @@
-= "請輸入User Email : "
-= email_field_tag "project_user[email]"
+.form-group
+  = label_tag "請輸入User Email : ", nil, class: "col-sm-3 control-label"
+  .col-sm-9
+    = email_field_tag "project_user[email]", nil, class: "form-control"
 
 .form-actions
-  = submit_tag("邀請")
+  = submit_tag("邀請", class: "btn btn-default")

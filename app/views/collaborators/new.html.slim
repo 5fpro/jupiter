@@ -1,4 +1,5 @@
 = render partial: "projects/menu", as: :project, object: @project
 
-= form_tag( project_collaborators_path(@project), method: :post) do
-  = render partial: "form"
+.row
+  = form_tag( project_collaborators_path(@project), method: :post, class: "form form-horizontal collaborators") do
+    = render partial: "form"

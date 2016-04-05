@@ -1,6 +1,15 @@
 // -----------------------
 // Form - basics
 // -----------------------
+
+%form-background {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  padding: 15px;
+}
+
 .form-horizontal {
   width: 60%;
 
@@ -9,14 +18,19 @@
   }
 }
 
+.form-new-record form,
+.form-new-todo form,
+.filter-form,
+.edit_record,
+.edit_project,
+.new_slack_channel,
+.collaborators {
+  @extend %form-background;
+}
+
 .form-new-record,
 .form-new-todo {
   form {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    margin-bottom: 30px;
-    margin-top: 10px;
-    padding: 15px;
     width: 80%;
   }
 
@@ -83,8 +97,44 @@
 }
 
 .filter-form {
+  margin-bottom: 0;
+
   .check_boxes {
     box-shadow: none;
     margin-top: -7px;
+  }
+}
+
+// projects/2/records/2/edit
+.edit_record {
+  label {
+    line-height: 33px;
+  }
+
+  .radio_buttons {
+    box-shadow: none;
+    margin-top: 0;
+  }
+}
+
+// slack_channels/new
+.new_slack_channel {
+  .boolean {
+    label:not(.boolean) {
+      width: 20px;
+    }
+
+    input {
+      box-shadow: none;
+    }
+  }
+
+  .checkbox {
+    line-height: 34px;
+
+    input {
+      box-shadow: none;
+      margin-top: 0;
+    }
   }
 }
