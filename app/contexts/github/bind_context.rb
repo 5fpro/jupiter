@@ -31,7 +31,7 @@ class Github::BindContext < BaseContext
   end
 
   def create_webhook_token
-    Webhook::CreateTokenContext.new(@github).perform
+    Webhook::GenerateTokenContext.new(@github).perform
   end
 
   def binding_github
