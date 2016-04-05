@@ -13,7 +13,12 @@
   }
 
   .navbar-nav > li > a {
-    color: $nav-text;
+    font-size: 15px;
+    
+    &,
+    &:focus {
+      color: $nav-text;
+    }
   }
 
   .navbar-nav > li > a:hover,

@@ -26,7 +26,8 @@
 .new_slack_channel,
 .collaborators,
 .new-todo,
-.new_record {
+.new_record,
+.edit_slack_channel {
   @extend %form-background;
 }
 
@@ -108,7 +109,12 @@
 }
 
 // projects/2/records/new and todos/ new_record
-.new_record {
+.new_record,
+.edit_slack_channel {
+  input {
+    box-shadow: none;
+  }
+
   .boolean label:not(.boolean) {
     width: 20px;
   }
@@ -119,7 +125,6 @@
     width: 100%;
 
     input {
-      box-shadow: none;
       margin-top: 0;
     }
 
@@ -213,5 +218,15 @@
   a {
     line-height: 34px;
     vertical-align: text-top;
+  }
+}
+
+.edit_slack_channel {
+  .checkbox {
+    line-height: 34px;
+
+    input {
+      margin-top: 0;
+    }
   }
 }
