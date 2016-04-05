@@ -52,7 +52,6 @@ class ProjectsController < BaseController
     @project_users = current_user.project_users.sorted
   end
 
-
   def destroy
     context = ProjectDeleteContext.new(current_user, @project)
     if context.perform

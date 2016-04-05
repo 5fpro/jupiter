@@ -1,9 +1,8 @@
 class WebhooksController < BaseController
-  skip_before_filter :verify_authenticity_token
-  before_filter :find_github
+  skip_before_action :verify_authenticity_token
+  before_action :find_github
 
   def webhook_data
-    puts @github.project.inspect
     render nothing: true, status: 200, content_type: 'text/html'
   end
 
