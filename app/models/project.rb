@@ -19,6 +19,7 @@ class Project < ActiveRecord::Base
   has_many :records
   has_many :slack_channels, dependent: :destroy
   has_many :todos
+  has_many :githubs
 
   store_accessor :data, :users_count, :description, :hours_limit,
                  :approached_hours_limit, :primary_slack_channel_id,
