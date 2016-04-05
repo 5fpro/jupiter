@@ -1,6 +1,6 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
-  before_action :find_owned_project, only: [:setting, :update_setting, :edit_github_repo, :binding_repo, :unbind_repo]
+  before_action :find_owned_project, only: [:setting, :update_setting]
   before_action :find_project, except: [:edit_collection]
 
   def index

@@ -1,6 +1,6 @@
-class Webhook::CreateTokenContext < BaseContext
+class Webhook::GenerateTokenContext < BaseContext
 
-  before_perform :generate_webhook_url
+  before_perform :generate_token
 
   def initialize(github)
     @github = github
@@ -9,14 +9,17 @@ class Webhook::CreateTokenContext < BaseContext
 
   def perform
     run_callbacks :perform do
-      return @github if @github.save!
-      add_error(:data_update_fail, @github.errors.full_messages.join("\n"))
+      if @github.save!
+        @github
+      else
+        add_error(:data_update_fail, @github.errors.full_messages.join("\n"))
+      end
     end
   end
 
   private
 
-  def generate_webhook_url
+  def generate_token
     @github.assign_attributes(webhook_token: Digest::MD5.hexdigest(@github.id.to_s))
   end
 end

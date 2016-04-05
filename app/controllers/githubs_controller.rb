@@ -14,14 +14,14 @@ class GithubsController < BaseController
   def create
     context = Github::BindContext.new(@project, params)
     if context.perform
-      redirect_as_success(project_path(@project), "github binded")
+      redirect_as_success(project_githubs_path(@project), "github binded")
     end
   end
 
   def destroy
     context = Github::UnbindContext.new(@github)
     if context.perform
-      redirect_as_success(project_path(@project), "github unbind")
+      redirect_as_success(project_githubs_path(@project), "github unbind")
     end
   end
 

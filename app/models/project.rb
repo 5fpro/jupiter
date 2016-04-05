@@ -22,8 +22,7 @@ class Project < ActiveRecord::Base
   has_many :githubs
 
   store_accessor :data, :users_count, :description, :hours_limit,
-                 :approached_hours_limit, :primary_slack_channel_id,
-                 :repo_fullname, :hook_id, :hook_url
+                 :approached_hours_limit, :primary_slack_channel_id
 
   validates :name, :owner_id, presence: true
 
@@ -43,16 +42,8 @@ class Project < ActiveRecord::Base
     super.to_i
   end
 
-  def hook_id
-    super.to_i
-  end
-
   def approached_hours_limit
     super == "true"
-  end
-
-  def bind?
-    repo_fullname.present? && hook_id.present? && hook_url.present?
   end
 
   def primary_slack_channel

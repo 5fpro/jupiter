@@ -28,9 +28,6 @@ Rails.application.routes.draw do
   resources :projects do
     member do
       get :setting
-      get :edit_github_repo
-      put :binding_repo
-      put :unbind_repo
       put :setting, action: "update_setting"
     end
     collection do

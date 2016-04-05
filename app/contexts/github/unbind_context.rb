@@ -8,8 +8,7 @@ class Github::UnbindContext < BaseContext
 
   def perform
     run_callbacks :perform do
-      return true if @github.destroy
-      add_error(:data_delete_fail, @project.errors.full_messages.join("\n"))
+      @github.destroy
     end
   end
 
