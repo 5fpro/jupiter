@@ -1,5 +1,7 @@
 = render partial: "menu", as: :project, object: @project
 
-= simple_form_for @project, url: project_path(@project), method: :put do |f|
+= simple_form_for @project, url: project_path(@project), method: :put, wrapper: :horizontal_form do |f|
   = f.input :description, as: :text, label: "Description"
-  = f.submit "Update"
+  .form-group
+    .col-sm-offset-3.col-sm-9
+      = f.submit "Update", class: "btn btn-default"

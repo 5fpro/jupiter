@@ -11,3 +11,21 @@
 @import "variables";
 @import "basics";
 @import "layouts";
+
+// projects/edit
+.project_user {
+  + .project_user {
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+    padding-top: 15px;
+  }
+
+  a {
+    margin: 15px 10px 15px 0;
+
+    &:last-child {
+      background-color: #b92c28;
+      color: #fff;
+    }
+  }
+}
