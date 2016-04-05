@@ -17,7 +17,7 @@ RSpec.describe GithubService, type: :model do
   describe "#collect_all_repos" do
     subject { described_class.new("token").collect_all_repos }
 
-    it { expect(subject.first.name).to eq("chef_explorer") }
+    it { expect(subject.first).to eq("5fpro/chef_explorer") }
   end
 
   describe "#auto_create_hook" do
