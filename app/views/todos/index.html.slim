@@ -1,6 +1,9 @@
+h1 已完成的 Todos
 .js-todos-done
   = render partial: "list", object: @done_todos
 hr/
+
+h1 進行中的 Todos
 .js-todos-not-done
   = render partial: "list", object: @not_done_todos, locals: { not_done: true }
 .js-new-todo-form
