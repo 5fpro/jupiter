@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20160815071713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
   enable_extension "hstore"
+  enable_extension "postgis"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "provider"
@@ -55,6 +55,16 @@ ActiveRecord::Schema.define(version: 20160815071713) do
 
   add_index "comments", ["item_id", "item_type"], name: "index_comments_on_item_id_and_item_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "githubs", force: :cascade do |t|
+    t.integer  "project_id"
+    t.string   "webhook_token"
+    t.hstore   "data"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "githubs", ["webhook_token"], name: "index_githubs_on_webhook_token", using: :btree
 
   create_table "project_users", force: :cascade do |t|
     t.integer  "project_id"
