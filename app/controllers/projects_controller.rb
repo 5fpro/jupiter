@@ -59,32 +59,6 @@ class ProjectsController < BaseController
       redirect_as_success(projects_path, "project deleted")
     else
       redirect_to :back, flash: { error: context.error_messages.join(", ") }
-  end
-
-  # GET /projects/:project_id/edit_github_repo
-  def edit_github_repo
-    @dom_selector = params[:dom_selector]
-    @repos = ::GithubService.new(current_user.github_token).all_repos.map(&:full_name)
-    respond_to do |f|
-      f.js { render }
-    end
-  end
-
-  # PUT /projects/:project_id/binding_repo
-  def binding_repo
-    @dom_selector = params[:dom_selector]
-    context = Project::BindGithubRepoContext.new(@project)
-    if context.perform(params)
-      redirect_as_success(edit_project_path(@project), "project updated")
-    end
-  end
-
-  # PUT /projects/:project_id/unbind_repo
-  def unbind_repo
-    @dom_selector = params[:dom_selector]
-    context = Project::UnbindGithubRepoContext.new(@project)
-    if context.perform
-      redirect_as_success(edit_project_path(@project), "project updated")
     end
   end
 
