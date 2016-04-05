@@ -19,7 +19,7 @@ module Webmock
       .with(headers: { 'Accept' => 'application/vnd.github.beta+json', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization' => 'token token', 'User-Agent' => 'Octokit Ruby Gem 2.1.1' })
       .to_return(status: 200, body: '[{"id":3160692,"name":"titto","full_name":"5fpro/titto"}]', headers: { 'Content-Type' => 'application/json' })
 
-    # github all_repos
+    # github collect_all_repos
     stub_request(:get, /https:\/\/api\.github\.com\/user\/repos/)
       .with(headers: { 'Accept' => 'application/vnd.github.beta+json', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization' => 'token token', 'User-Agent' => 'Octokit Ruby Gem 2.1.1' })
       .to_return(status: 200, body: '[{"id":26844289,"name":"chef_explorer","full_name":"5fpro/chef_explorer"}]', headers: { 'Content-Type' => 'application/json' })
