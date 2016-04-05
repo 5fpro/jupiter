@@ -1,5 +1,5 @@
 = simple_form_for @project, as: :project, url: project_collaborators_path(@project), method: :put do |f|
-  table
+  table.table
     thead
       tr
         td= "Name"
@@ -12,4 +12,4 @@
           td= user.name
           td= image_tag(user.github_avatar, size: "50x50")
           td= ff.input_field :slack_user, as: :string
-  = f.submit
+  = f.submit class: "btn btn-default"

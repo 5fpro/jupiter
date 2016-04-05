@@ -107,6 +107,12 @@
   }
 }
 
+// projects/2/records/new and todos/ new_record
+.new_record {
+  .boolean label:not(.boolean) {
+    width: 20px;
+  }
+}
 // todos/ new_record
 .new-record {
   .new_record {
@@ -130,7 +136,6 @@
 
     .boolean label:not(.boolean) {
       display: block;
-      width: 20px;
     }
 
     .btn-default {

@@ -24,3 +24,31 @@
     margin: 15px 10px 15px 0;
   }
 }
+
+.project-info,
+.slack-channels {
+  width: 60%;
+
+  td:first-child {
+    width: 30%;
+  }
+
+  td:last-child {
+    border-left: 1px solid #ddd;
+  }
+}
+
+// tables
+// projects/show
+.project-info {
+  td:last-child {
+    background-color: #f9f9f9;
+  }
+}
+
+.project-member,
+.project-collaborators {
+  tbody > tr > td {
+    line-height: 50px;
+  }
+}
