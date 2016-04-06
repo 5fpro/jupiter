@@ -2,7 +2,7 @@
 = link_to "Download", url_for(params.merge(format: :csv))
 br/
 = "總工時: #{render_hours(@total_time)}"
-table
+table.table
   thead
     tr
       td ID

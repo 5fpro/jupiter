@@ -1,13 +1,23 @@
-p style="color: green" =flash[:success] 
-p style="color: red" =flash[:error] 
-- if user_signed_in?
-  .div= link_to "Logout", destroy_user_session_path, method: :delete
-  .div= link_to "Create New Project", new_project_path
-  .div= link_to "我的專案列表", projects_path
-  .div= link_to "我的工時記錄", records_path
-  .div= link_to "我的 TODO", todos_path
-- else
-  = link_to "GitHub login", auth_github_path
-br
-| =================以上為header內容========================
-br
+nav.navbar.navbar-inverse.navbar-fixed-top
+  .navbar-header
+    button.navbar-toggle data-toggle="collapse" data-target=".navbar-collapse"
+      - 3.times do
+        span.icon-bar
+    = link_to "Jupiter", root_path, class: "navbar-brand"
+  .navbar-collapse.collapse
+    - if user_signed_in?
+      ul.nav.navbar-nav.side-nav
+        li class=("active" if params[:controller] == "projects" && params[:action] == "new")
+          = link_to "新增專案", new_project_path, class: "glyphicon glyphicon-plus"
+        li class=("active" if params[:controller] == "projects" && params[:action] != "new")
+          = link_to "我的專案列表", projects_path, class: "glyphicon glyphicon-list-alt"
+        li class=("active" if params[:controller] == "records")
+          = link_to "我的工時記錄", records_path, class: "glyphicon glyphicon-time"
+        li class=("active" if params[:controller] == "todos")
+          = link_to "我的 TODO", todos_path, class: "glyphicon glyphicon-th-list"
+      ul.nav.navbar-nav.navbar-right
+        li= link_to "Logout", destroy_user_session_path, method: :delete, class: "glyphicon glyphicon-off"
+
+    - else
+      ul.nav.navbar-nav.nvabar-right
+        li= link_to "GitHub login", auth_github_path

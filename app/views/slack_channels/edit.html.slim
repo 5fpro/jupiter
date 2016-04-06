@@ -5,5 +5,5 @@ h3= link_to "頻道列表", project_slack_channels_path(@project)
 h3= link_to "明細", project_slack_channel_path(@project, @slack_channel)
 
 - url = project_slack_channel_path(@project, @slack_channel, redirect_to: params[:redirect_to])
-= simple_form_for @slack_channel, method: :put, url: url do |f|
+= simple_form_for @slack_channel, method: :put, url: url, wrapper: :horizontal_form do |f|
   = render partial: "form", as: :f, object: f

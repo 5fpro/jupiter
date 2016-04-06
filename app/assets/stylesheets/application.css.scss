@@ -5,10 +5,50 @@
  *= require_self
  */
 
-th, td {
-  border: 1px solid #000000;
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "variables";
+@import "basics";
+@import "layouts";
+
+// projects/edit
+.project_user {
+  + .project_user {
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+    padding-top: 15px;
+  }
+
+  a {
+    margin: 15px 10px 15px 0;
+  }
 }
 
-.error-messages {
-  color: #FF0000;
+.project-info,
+.slack-channels {
+  width: 60%;
+
+  td:first-child {
+    width: 30%;
+  }
+
+  td:last-child {
+    border-left: 1px solid #ddd;
+  }
+}
+
+// tables
+// projects/show
+.project-info {
+  td:last-child {
+    background-color: #f9f9f9;
+  }
+}
+
+.project-member,
+.project-collaborators {
+  tbody > tr > td {
+    line-height: 50px;
+  }
 }

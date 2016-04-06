@@ -1,0 +1,27 @@
+// -----------------------
+// Layouts
+// -----------------------
+@import "layouts/header";
+
+.page-wrapper {
+  margin-top: 51px;
+}
+
+@media only screen and (min-width: 768px) {
+  .page-wrapper {
+    padding: 20px 20px 20px 220px;
+  }
+
+  .inner {
+    max-width: 80%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .navbar-inverse .navbar-toggle {
+    background-color: $nav-toggle;
+  }
+  .page-wrapper {
+    padding: 20px 15px;
+  }
+}

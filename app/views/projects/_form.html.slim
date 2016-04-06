@@ -3,6 +3,7 @@
 = f.input :hours_limit, label: "每月時數上限", as: :integer
 - if current_user == f.object.owner
   = f.input :owner_id, collection: collection_for_users(f.object), label: "擁有人", include_blank: "請選擇擁有人" unless f.object.new_record?
-
-.form-actions
-  = f.submit "新增", class: "btn btn-primary"
+.form-group
+  .col-sm-offset-3.col-sm-9
+    .form-actions
+      = f.submit "新增", class: "btn btn-default"
