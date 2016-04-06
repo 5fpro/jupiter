@@ -88,4 +88,4 @@ production:
         token: "47dacaade03e48630474"
         secret: "732c797834235ac8be35dc0b0ea50fef6836b1ad"
         options:
-          scope: "user,user:email"
+          scope: "user,user:email,repo,admin:repo_hook"
