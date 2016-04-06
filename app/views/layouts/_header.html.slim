@@ -5,9 +5,6 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         span.icon-bar
     = link_to "Jupiter", root_path, class: "navbar-brand"
   .navbar-collapse.collapse
-    p style="color: green" =flash[:success]
-    p style="color: red" =flash[:error]
-
     - if user_signed_in?
       ul.nav.navbar-nav.side-nav
         li class=("active" if params[:controller] == "projects" && params[:action] == "new")
@@ -24,4 +21,3 @@ nav.navbar.navbar-inverse.navbar-fixed-top
     - else
       ul.nav.navbar-nav.nvabar-right
         li= link_to "GitHub login", auth_github_path
->>>>>>> Add header, layout, project/new styles
