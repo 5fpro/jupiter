@@ -4,8 +4,6 @@ h2= link_to project.name, project_path(project)
 
 = link_to "刪除專案", project_path(project), method: :delete, "data-confirm" => "確認"
 
-div
-
 = link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".projects .project#project-#{project.id} .form-new-record"), remote: true
 .form-new-record
 
