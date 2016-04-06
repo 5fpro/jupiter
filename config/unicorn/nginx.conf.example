@@ -19,11 +19,11 @@
     client_max_body_size         10M;
     client_body_buffer_size     128k;
     server_name jupiter.5fpro.com;
-    root /home/apps/jupiter/current/public;
+    root /home/jupiter/jupiter/current/public;
     # passenger_enabled on;
     # rack_env staging;
-    access_log /home/apps/jupiter/shared/log/nginx-access.log;
-    error_log /home/apps/jupiter/shared/log/nginx-error.log;
+    access_log /home/jupiter/jupiter/shared/log/nginx-access.log;
+    error_log /home/jupiter/jupiter/shared/log/nginx-error.log;
 
     location / {
       proxy_set_header X-Real-IP $remote_addr;
@@ -34,14 +34,14 @@
 
 
     location ~ ^/(assets|uploads)/  {
-      root /home/apps/jupiter/current/public;
+      root /home/jupiter/jupiter/current/public;
       gzip_static on; # to serve pre-gzipped version
       expires max;
       add_header  Cache-Control public;
     }
 
     location ~ \.(png|ico|jpg|html)$  {
-      root /home/apps/jupiter/current/public;
+      root /home/jupiter/jupiter/current/public;
       gzip_static on; # to serve pre-gzipped version
       expires max;
       add_header  Cache-Control public;
