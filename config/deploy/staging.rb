@@ -1,8 +1,8 @@
-set :deploy_to, '/home/apps/myapp'
+set :deploy_to, '/home/jupiter/jupiter'
 set :rails_env, 'staging'
 set :branch, ENV["BR"] || 'develop'
 set :ssh_options, {
-  user: 'apps'
+  user: 'jupiter'
 }
 # Simple Role Syntax
 # ==================
@@ -10,7 +10,7 @@ set :ssh_options, {
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-server = "myapp.5fpro.com"
+server = "jupiter-staging.5fpro.com"
 role :app,                server
 role :web,                server
 role :db,                 server

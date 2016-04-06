@@ -1,8 +1,8 @@
-set :deploy_to, '/home/apps/jupiter'
+set :deploy_to, '/home/jupiter/jupiter'
 set :rails_env, 'production'
 set :branch, ENV["BR"] || 'develop'
 set :ssh_options, {
-  user: 'apps'
+  user: 'jupiter'
 }
 # Simple Role Syntax
 # ==================
@@ -11,15 +11,15 @@ set :ssh_options, {
 # property set.  Don't declare `role :all`, it's a meta role.
 
 
-require "aws-sdk-v1"
-require "aws-sdk"
-aws_conf = YAML.load(IO.read("./config/application.yml"))["development"]["aws"].symbolize_keys
-AWS.config(aws_conf)
+# require "aws-sdk-v1"
+# require "aws-sdk"
+# aws_conf = YAML.load(IO.read("./config/application.yml"))["development"]["aws"].symbolize_keys
+# AWS.config(aws_conf)
 # lb_name = "jupiter"
 # servers = AWS::ELB.new.load_balancers[lb_name].instances.map(&:ip_address)
 servers = ["jupiter.5fpro.com"]
 
-shadow_server = "54.92.33.221"
+shadow_server = "jupiter-shadow.5fpro.com"
 role :app,             servers
 role :web,             servers + [ shadow_server ]  # for assets precompile
 role :db,              shadow_server
