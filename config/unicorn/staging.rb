@@ -3,7 +3,7 @@
 app_path = "/home/jupiter/jupiter"
 working_directory "#{app_path}/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
-listen '/tmp/unicorn.myapp.sock'
+listen '/tmp/unicorn.jupiter.sock'
 
 # log rotate config example
 #   https://github.com/defunkt/unicorn/blob/master/examples/logrotate.conf
