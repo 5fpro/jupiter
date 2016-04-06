@@ -14,6 +14,6 @@ module Omniauthable
   protected
 
   def password_required?
-    authorizations.size > 0 ? false : true
+    authorizations.!empty? ? false : true
   end
 end

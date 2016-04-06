@@ -1,9 +1,12 @@
+h1 已完成的 Todos
 .js-todos-done
   = render partial: "list", object: @done_todos
 hr/
+
+h1 進行中的 Todos
 .js-todos-not-done
   = render partial: "list", object: @not_done_todos, locals: { not_done: true }
 .js-new-todo-form
-= link_to "新增 TODO", new_todo_path(format: :js), remote: true
-br/
-= link_to "發佈到 Slack", publish_todos_path, "data-confirm" => "確定發佈", method: :post
+= link_to "新增 TODO", new_todo_path(format: :js), remote: true, class: "btn btn-default"
+| &nbsp;
+= link_to "發佈到 Slack", publish_todos_path, "data-confirm" => "確定發佈", method: :post, class: "btn btn-default"

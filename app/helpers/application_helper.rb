@@ -39,7 +39,7 @@ module ApplicationHelper
       if action == :remove && instance.try(column).nil?
         ""
       else
-        link_to action.to_s.camelize, send("#{scope}_path", instance, "#{scope}[#{column}]" => action, redirect_to: url_for), method: :put, class: "btn btn-mini"
+        link_to action.to_s.camelize, send("#{scope}_path", instance, "#{scope}[#{column}]" => action, redirect_to: url_for), method: :put, class: "btn btn-default btn-small"
       end
     end.join(" ")
     raw html

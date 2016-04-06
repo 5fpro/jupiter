@@ -5,4 +5,6 @@
 = f.input :icon_url, as: :string
 = f.input :robot_name, as: :string
 = f.input :events, as: :check_boxes, collection: collection_for_slack_channel_events, checked: f.object.events
-= f.submit "送出"
+.form-group
+  .col-sm-offset-3.col-sm-9
+    = f.submit "送出", class: "btn btn-default"

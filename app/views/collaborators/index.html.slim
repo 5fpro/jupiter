@@ -3,7 +3,7 @@
 div= link_to "新增成員", new_project_collaborator_path(@project)
 div= link_to "管理所有成員", edit_project_collaborators_path(@project)
 
-table
+table.table.table-striped.project-collaborators
   thead
     tr
       td owner

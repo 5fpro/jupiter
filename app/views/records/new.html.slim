@@ -1,4 +1,4 @@
 = render partial: "projects/menu", as: :project, object: @project
-
-= simple_form_for @record, as: :record, method: :post, url: project_records_path(@project) do |f|
-  = render partial: "form", as: :f, object: f
+.form-new-record
+  = simple_form_for @record, as: :record, method: :post, url: project_records_path(@project) do |f|
+    = render partial: "form", as: :f, object: f

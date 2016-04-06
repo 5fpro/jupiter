@@ -1,0 +1,32 @@
+// -----------------------
+// Basics
+// -----------------------
+@import "basics/typography";
+@import "basics/form";
+
+body {
+  color: #555;
+  font-family: "Helvetica Neue", "Microsoft Jhenghei", Helvetica, Arial, Geneva, sans-serif;
+}
+
+.error-messages {
+  color: #FF0000;
+}
+
+.glyphicon {
+  font-family: inherit;
+
+  &::before {
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    margin-right: 5px;
+    vertical-align: top;
+    width: 14px;
+  }
+}
+
+.link-to-share {
+  display: inline-block;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}

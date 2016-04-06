@@ -1,0 +1,232 @@
+// -----------------------
+// Form - basics
+// -----------------------
+
+%form-background {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  padding: 15px;
+}
+
+.form-horizontal {
+  width: 60%;
+
+  .control-label {
+    color: #777;
+  }
+}
+
+.form-new-record form,
+.form-new-todo form,
+.filter-form,
+.edit_record,
+.edit_project,
+.new_slack_channel,
+.collaborators,
+.new-todo,
+.new_record,
+.edit_slack_channel {
+  @extend %form-background;
+}
+
+.form-new-record,
+.form-new-todo {
+  form {
+    width: 80%;
+  }
+
+  .btn-default {
+    margin-right: 10px;
+  }
+}
+
+.form-new-record,
+.filter-form {
+  .form-group {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.form-new-record {
+  .control-label,
+  .form-control {
+    float: left;
+  }
+
+  .control-label {
+    padding-right: 15px;
+    width: 25%;
+
+    &.radio_buttons {
+      margin-bottom: 2em;
+    }
+  }
+
+  .form-control {
+    width: 75%;
+  }
+
+  .radio {
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+    width: auto;
+
+    input {
+      border: 0;
+      box-shadow: none;
+      height: 20px;
+      margin-top: 2px;
+      width: 100%;
+    }
+  }
+
+  .boolean {
+    label {
+      & + label {
+        display: block;
+        float: left;
+        width: 20px;
+      }
+
+      input {
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.filter-form {
+  margin-bottom: 0;
+
+  .check_boxes {
+    box-shadow: none;
+    margin-top: -7px;
+  }
+}
+
+// projects/2/records/new and todos/ new_record
+.new_record,
+.edit_slack_channel {
+  input {
+    box-shadow: none;
+  }
+
+  .boolean label:not(.boolean) {
+    width: 20px;
+  }
+}
+// todos/ new_record
+.new-record {
+  .new_record {
+    width: 100%;
+
+    input {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .radio {
+      label {
+        line-height: 34px;
+      }
+    }
+
+    .boolean label:not(.boolean) {
+      display: block;
+    }
+
+    .btn-default {
+      margin-right: 10px;
+    }
+  }
+}
+
+// projects/2/records/2/edit
+.edit_record {
+  label {
+    line-height: 33px;
+  }
+
+  .radio_buttons {
+    box-shadow: none;
+    margin-top: 0;
+  }
+}
+
+// slack_channels/new
+.new_slack_channel {
+  .boolean {
+    label:not(.boolean) {
+      width: 20px;
+    }
+
+    input {
+      box-shadow: none;
+    }
+  }
+
+  .checkbox {
+    line-height: 34px;
+
+    input {
+      box-shadow: none;
+      margin-top: 0;
+    }
+  }
+}
+
+// todos
+.new-todo {
+  .btn-default {
+    margin-right: 10px;
+  }
+}
+
+.edit_todo {
+  width: 100%;
+
+  textarea + input {
+    background-image: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 4px 12px;
+    text-align: center;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  a {
+    line-height: 34px;
+    vertical-align: text-top;
+  }
+}
+
+.edit_slack_channel {
+  .checkbox {
+    line-height: 34px;
+
+    input {
+      margin-top: 0;
+    }
+  }
+}
