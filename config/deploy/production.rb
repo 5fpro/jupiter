@@ -1,6 +1,6 @@
 set :deploy_to, '/home/jupiter/jupiter'
 set :rails_env, 'production'
-set :branch, ENV["BR"] || 'develop'
+set :branch, ENV["BR"] || 'master'
 set :ssh_options, {
   user: 'jupiter'
 }
