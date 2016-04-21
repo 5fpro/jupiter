@@ -48,6 +48,7 @@ RSpec.describe CollaboratorsController, type: :request do
       post "/projects/#{project.id}/collaborators", project_user: { email: user.email }
     }.to change { project.users.count }.by(1)
     expect(response).to be_redirect
+    expect(response).to redirect_to("/projects/#{project.id}/collaborators")
     follow_redirect!
     expect(response).to be_success
   end
@@ -58,6 +59,7 @@ RSpec.describe CollaboratorsController, type: :request do
       delete "/projects/#{project.id}/collaborators/#{project_user.id}"
     }.to change { project.users.count }.by(-1)
     expect(response).to be_redirect
+    expect(response).to redirect_to("/projects/#{project.id}/collaborators")
     follow_redirect!
     expect(response).to be_success
   end
