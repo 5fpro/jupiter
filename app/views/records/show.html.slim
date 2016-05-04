@@ -16,7 +16,7 @@ table
       td= @record.minutes
     tr
       td Note
-      td= @record.note
+      td= render_html(@record.note)
     tr
       td Created
       td= @record.created_at
