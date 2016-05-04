@@ -18,7 +18,7 @@ table.table
         td= record.try(:user).try(:name)
         td= record_type_name(record.try(:record_type))
         td= record.minutes
-        td= record.try(:note) if record.try(:data)
+        td= render_html(record.try(:note)) if record.try(:data)
         td= record.try(:created_at)
 - # TODO: fix for grouped results
 = paginate @records rescue nil
