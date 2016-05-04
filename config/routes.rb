@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :projects do
     member do
       get :setting
+      get :release_note
       put :setting, action: "update_setting"
     end
     collection do

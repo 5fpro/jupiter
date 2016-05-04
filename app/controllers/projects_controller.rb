@@ -61,6 +61,12 @@ class ProjectsController < BaseController
     end
   end
 
+  def release_note
+    @q = Search::Record.ransack(params[:q])
+    @records = @q.result.order(:todo_id).page(params[:page]).per(30)
+    @total_time = @q.result.total_time
+  end
+
   private
 
   def find_project
