@@ -6,6 +6,8 @@ h1
   = " | "
   = link_to "record清單", project_records_path(@project)
   = " | "
+  = link_to "todo列表", release_note_project_path(@project)
+  = " | "
   = link_to "編輯", edit_project_path(@project)
   = " | "
   - if @project.owner?(current_user)
