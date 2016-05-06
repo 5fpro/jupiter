@@ -28,7 +28,7 @@ table.table.table-bordered.table-striped
         td= record.minutes
         td
           - if record.try(:data)
-            = record.try(:note)
+            = render_html(record.try(:note))
           - else
             = record.try(:todo).try(:desc)
         td= record.try(:created_at)
