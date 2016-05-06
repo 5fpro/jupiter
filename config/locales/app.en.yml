@@ -21,6 +21,7 @@ en:
         week: "Week"
         month: "Month"
         day: "Day"
+        todo: "Todo"
     slack_channel:
       events:
         record_created: "Record Created"
