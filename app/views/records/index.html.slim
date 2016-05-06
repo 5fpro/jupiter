@@ -26,7 +26,11 @@ table.table.table-bordered.table-striped
         td= @project ? record.try(:user).try(:name) : record.try(:project).try(:name)
         td= record_type_name(record.try(:record_type))
         td= record.minutes
-        td= record.try(:note) if record.try(:data)
+        td
+          - if record.try(:data)
+            = record.try(:note)
+          - else
+            = record.try(:todo).try(:desc)
         td= record.try(:created_at)
         td
           - if record.try(:id) && record.user_id == current_user.id
