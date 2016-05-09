@@ -62,9 +62,9 @@ class ProjectsController < BaseController
   end
 
   def release_note
-    @q = Search::Record.ransack(params[:q])
-    @records = @q.result.order(:todo_id).page(params[:page]).per(30)
-    @total_time = @q.result.total_time
+    @q = Todo.ransack(params[:q])
+    @todos = @q.result.includes(:records).page(params[:page]).per(30)
+    @total_time = (@q.result.map(&:total_time).inject(&:+) || 0)
   end
 
   private

@@ -1,7 +1,6 @@
 = search_form_for @q, :builder => SimpleForm::FormBuilder, html: { class: "form-horizontal filter-form" }, defaults: { required: false }, url: release_note_project_path(@project) do |f|
-  #datetimepicker
-    = f.input :updated_at_gteq, label: "起始時間"
-    = f.input :updated_at_lteq, label: "結束時間"
+  = f.input :updated_at_gteq, as: :date, label: "起始時間", html5: true
+  = f.input :updated_at_lteq, as: :date, label: "結束時間", html5: true
   = f.submit "Search", class: "btn btn-primary"
   = link_to "清空搜尋結果", release_note_project_path(@project), class: "btn btn-default"
 br/
@@ -10,28 +9,22 @@ table.table.table-bordered.table-striped
   thead
     tr
       th ID
-      th todo
+      th Todo
+      th Record
+      th Update Time
       th= @project ? "User" : "Project"
-      th Type
-      th minutes
-      th note
-      th Time
-      th actions
+
+
   tbody
-    - @records.each do |record|
+    - @todos.each do |todo|
       tr
-        td= record.try(:id)
-        td= record.try(:todo).try(:desc)
-        td= @project ? record.try(:user).try(:name) : record.try(:project).try(:name)
-        td= record_type_name(record.try(:record_type))
-        td= record.minutes
-        td= record.try(:note) if record.try(:data)
-        td= record.try(:created_at)
-        td
-          - if record.try(:id) && record.user_id == current_user.id
-            = link_to "編輯", edit_project_record_path(record.project, record, redirect_to: url_for(params))
-            = " | "
-            = link_to "刪除", project_record_path(record.project, record, redirect_to: url_for(params)), method: :delete, data: { confirm: "確定刪除？" }
+        td= todo.try(:id)
+        td= todo.desc
+        td= render_todo_detail_note(todo)
+        td= todo.updated_at
+        td= @project ? todo.user.name: todo.project.name
+
+     
 - # TODO: fix for grouped results
 = paginate @records rescue nil
   

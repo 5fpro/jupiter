@@ -44,4 +44,8 @@ module ApplicationHelper
     end.join(" ")
     raw html
   end
+
+  def render_todo_detail_note(todo)
+    render_html (todo.records.map { |record| "#{record.note.split.last}"+" / "+"#{record.minutes} minutes" }).join("\n")
+  end
 end
