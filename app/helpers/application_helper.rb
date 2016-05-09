@@ -46,6 +46,7 @@ module ApplicationHelper
   end
 
   def render_todo_detail_note(todo)
-    render_html(todo.records.map { |record| record.note.split.last.to_s + " / " + "#{record.minutes} minutes" }).join("\n")
+    todo_record_message = todo.records.map { |record| record.note.split.last.to_s + " / " + "#{record.minutes} minutes" }
+    render_html todo_record_message.join("\n")
   end
 end
