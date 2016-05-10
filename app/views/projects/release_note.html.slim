@@ -1,0 +1,30 @@
+= search_form_for @q, :builder => SimpleForm::FormBuilder, html: { class: "form-horizontal filter-form" }, defaults: { required: false }, url: release_note_project_path(@project) do |f|
+  = f.input :updated_at_gteq, as: :date, label: "起始時間", html5: true
+  = f.input :updated_at_lteq, as: :date, label: "結束時間", html5: true
+  = f.submit "Search", class: "btn btn-primary"
+  = link_to "清空搜尋結果", release_note_project_path(@project), class: "btn btn-default"
+br/
+h4 總工時: #{render_hours(@total_time)}
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th ID
+      th Todo
+      th Record
+      th Update Time
+      th= @project ? "User" : "Project"
+
+
+  tbody
+    - @todos.each do |todo|
+      tr
+        td= todo.try(:id)
+        td= todo.desc
+        td= render_todo_detail_note(todo)
+        td= todo.updated_at
+        td= @project ? todo.user.name: todo.project.name
+
+     
+- # TODO: fix for grouped results
+= paginate @records rescue nil
+  

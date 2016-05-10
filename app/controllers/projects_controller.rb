@@ -61,6 +61,12 @@ class ProjectsController < BaseController
     end
   end
 
+  def release_note
+    @q = Todo.ransack(params[:q])
+    @todos = @q.result.includes(:records).page(params[:page]).per(30)
+    @total_time = (@q.result.map(&:total_time).inject(&:+) || 0)
+  end
+
   private
 
   def find_project
