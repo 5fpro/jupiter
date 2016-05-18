@@ -40,6 +40,13 @@ defaults: &defaults
         secret: "acc2d9185cdb236ffc227d4def846f3ade928710"
         options:
           scope: "user,user:email"
+  backup:
+    s3:
+      connection_settings:
+        aws_access_key_id: "AKIAJUQKE5DWGZSH63TQ"
+        aws_secret_access_key: "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"
+        bucket: 'jupiter-data'
+        region: 'ap-northeast-1'
 
 development:
   <<: *defaults

@@ -18,6 +18,12 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+job_type :backup, "RAILS_ENV=:environment backup perform -t :task -r ~/jupiter/current/lib/Backup"
+set :output, 'log/cron.log'
+
+every 1.day, at: '11:30 pm' do
+  backup 'jupiter'
+end
 
 every 1.day, at: '5:00 am' do
   # sitemap generator
