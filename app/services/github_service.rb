@@ -4,8 +4,8 @@ class GithubService
                      "page_build", "public", "pull_request", "pull_request_review_comment", "push", "release",
                      "status", "team_add", "watch"].freeze
 
-  def initialize(github_token)
-    @client = Octokit::Client.new(access_token: github_token)
+  def initialize(full_access_token)
+    @client = Octokit::Client.new(access_token: full_access_token)
   end
 
   # def orgs

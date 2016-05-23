@@ -35,7 +35,7 @@ class Github::BindContext < BaseContext
   end
 
   def binding_github
-    @webhook = ::GithubService.new(@owner.github_token).auto_create_hook(@params[:repo_fullname], webhook_url(@github.webhook_token))
+    @webhook = ::GithubService.new(@owner.full_access_token.value).auto_create_hook(@params[:repo_fullname], webhook_url(@github.webhook_token))
   end
 
   def update_webhook_data

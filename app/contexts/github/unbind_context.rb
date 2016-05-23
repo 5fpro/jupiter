@@ -15,6 +15,6 @@ class Github::UnbindContext < BaseContext
   private
 
   def unbind_repo
-    GithubService.new(@owner.github_token).auto_delete_hook(@github.repo_fullname, @github.hook_id)
+    GithubService.new(@owner.full_access_token.value).auto_delete_hook(@github.repo_fullname, @github.hook_id)
   end
 end
