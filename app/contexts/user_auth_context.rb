@@ -6,6 +6,7 @@ class UserAuthContext < BaseContext
   before_perform :find_or_create_user, unless: :current_user?
   before_perform :bind_authorization_to_user
   after_perform :update_user_omniauth_data
+  after_perform :update_github_full_access_token
   after_perform :user_confirm!
   after_perform :update_github_data!
   after_perform :new_user_comming
@@ -111,8 +112,13 @@ class UserAuthContext < BaseContext
                               github_id: @authorization.uid,
                               github_account: @authorization.auth_data["info"]["nickname"],
                               github_avatar: @authorization.auth_data["info"]["image"],
-                              github_token:  @authorization.auth_data["credentials"]["token"])
+                              github_token: @authorization.auth_data["credentials"]["token"])
     end
+  end
+
+  def update_github_full_access_token
+    @user.full_access_token = @authorization.auth_data["credentials"]["token"] if @provider.to_sym == :github
+
   end
 
   def new_user_comming
