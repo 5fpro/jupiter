@@ -48,10 +48,7 @@ class UserAuthContext < BaseContext
   end
 
   def already_auth?
-    if @authorization
-
-      return add_error(:omniauth_already_auth)
-    end
+    return add_error(:omniauth_already_auth) if @authorization
   end
 
   def email_uniqueness?
@@ -77,9 +74,7 @@ class UserAuthContext < BaseContext
   end
 
   def user_confirm!
-    if @user.confirmable? && !@user.confirmed?
-      @user.confirm
-    end
+    @user.confirm if @user.confirmable? && !@user.confirmed?
   end
 
   def current_user?
