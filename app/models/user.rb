@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   devise :async
 
-  value :full_access_token, expiration: 6.hour
+  value :full_access_token, expiration: 6.hours
 
   mount_uploader :avatar, AvatarUploader
 
