@@ -44,4 +44,8 @@ module ApplicationHelper
     end.join(" ")
     raw html
   end
+
+  def collection_github_repo
+    GithubService.new(current_user.full_access_token.value).collect_all_repos
+  end
 end
