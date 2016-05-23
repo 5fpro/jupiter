@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def token_need_update?
-    full_access_token.value.present?
+    !full_access_token.value.present?
   end
 
 end

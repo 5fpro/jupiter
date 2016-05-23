@@ -46,6 +46,6 @@ RSpec.describe User, type: :model do
 
   context "token_need_update?" do
     before { user.full_access_token = "xxxxxxxxxx" }
-    it { expect(user.token_need_update?).to be_truthy }
+    it { expect(user.token_need_update?).to be_falsey }
   end
 end
