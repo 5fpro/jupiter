@@ -118,7 +118,6 @@ class UserAuthContext < BaseContext
 
   def update_github_full_access_token
     @user.full_access_token = @authorization.auth_data["credentials"]["token"] if @provider.to_sym == :github
-
   end
 
   def new_user_comming
