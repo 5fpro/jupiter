@@ -1,8 +1,8 @@
 class GithubService
-  HookEventPolicy = ["commit_comment", "create", "delete", "deployment", "deployment_status", "download",
-                     "follow", "fork", "fork_apply", "gist", "gollum", "issue_comment", "issues", "member",
-                     "page_build", "public", "pull_request", "pull_request_review_comment", "push", "release",
-                     "status", "team_add", "watch"].freeze
+  # https://developer.github.com/webhooks/#events
+  HookEventPolicy = ["commit_comment", "issue_comment", "issues",
+                     "public", "pull_request", "pull_request_review_comment",
+                     "push", "release"].freeze
 
   def initialize(full_access_token)
     @client = Octokit::Client.new(access_token: full_access_token)
