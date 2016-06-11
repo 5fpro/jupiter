@@ -62,7 +62,7 @@ class Github
           end
         end
       end
-      # @mentions.reject! { |project_user| project_user.slack_user == @sender }
+      @mentions.reject! { |project_user| project_user.slack_user == @sender }
     end
 
     def send_notification(user)
