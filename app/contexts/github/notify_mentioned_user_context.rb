@@ -15,8 +15,8 @@ class Github
 
     def perform
       run_callbacks :perform do
-        @mentions.each do |project_user|
-          send_notification(project_user.user)
+        @mentions.each do |user|
+          send_notification(user)
         end
       end
     end
@@ -56,13 +56,14 @@ class Github
     def find_mentions
       @mentions = []
       if @target[:body]
-        @project.project_users.each do |project_user|
+        @project.project_users.includes(:user).each do |project_user|
+          user = project_user.user
           if project_user.slack_user.present?
-            @mentions << project_user if @target[:body].index("@" + project_user.slack_user)
+            @mentions << user if @target[:body].index("@" + user.github_account)
           end
         end
       end
-      @mentions.reject! { |project_user| project_user.slack_user == @sender }
+      @mentions.reject! { |user| user.github_account == @sender }
     end
 
     def send_notification(user)
