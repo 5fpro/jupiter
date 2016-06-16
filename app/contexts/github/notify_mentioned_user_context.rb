@@ -47,7 +47,8 @@ class Github
       else
         object = @params[:issue] || @params[:pull_request]
         @target[:summary] = object[:title]
-        @target[:body] = "@" + object[:assignee][:login]
+        # @target[:body] = "@" + object[:assignee][:login]
+        @target[:body] = "" # disable assignee
         @target[:url] = object[:html_url]
         @target[:message] = "你有新的指派: #{@target[:summary]}..."
       end
@@ -55,7 +56,7 @@ class Github
 
     def find_mentions
       @mentions = []
-      if @target[:body]
+      if @target[:body].present?
         @project.project_users.includes(:user).each do |project_user|
           user = project_user.user
           if project_user.slack_user.present?
