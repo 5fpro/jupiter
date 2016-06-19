@@ -1,16 +1,17 @@
 class Github
-  class NotifyMentionedUserContext < ::BaseContext
+  class ReceiveCallbacksContext < ::BaseContext
     before_perform :init_vars!
     before_perform :find_action_type
     before_perform :find_sender
     before_perform :find_target
     before_perform :find_mentions
+    before_perform :remove_self_notify!
 
     ACCEPTED_ACTIONS = ["created", "assigned"].freeze
 
-    def initialize(github, params)
+    def initialize(github, callback_params)
       @github = github
-      @params = params
+      @params = callback_params
     end
 
     def perform
@@ -40,7 +41,7 @@ class Github
     def find_target
       @target = {}
       if @action_type == "created" && @params[:comment]
-        @target[:summary] = @params[:comment][:body][0..100]
+        @target[:summary] = @params[:comment][:body].strip[0..100]
         @target[:body] = @params[:comment][:body]
         @target[:url] = @params[:comment][:html_url]
         @target[:message] = "你有新的回應: #{@target[:summary]}..."
@@ -64,11 +65,14 @@ class Github
           end
         end
       end
+    end
+
+    def remove_self_notify!
       @mentions.reject! { |user| user.github_account == @sender }
     end
 
     def send_notification(user)
-      message = @target[:message] + ".......#{SlackService.render_link(@target[:url], "點擊查看")}"
+      message = @target[:message] + "....#{SlackService.render_link(@target[:url], "點擊查看")}"
       Notify::SendToUserContext.new(@project, user, message).perform(async: false)
     end
   end
