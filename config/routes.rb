@@ -3,7 +3,7 @@ require 'sidetiq/web'
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
-  devise_for :users
+  devise_for :users, controllers: { passwords: 'users/passwords', registrations: 'users/registrations'}
   # omniauth
   get "/authorizations/:provider/callback", to: "authorizations#callback"
   get "/authorizations/failure" => "authorizations#failue", as: :auth_failure
