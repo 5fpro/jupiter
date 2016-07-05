@@ -41,7 +41,7 @@ class Github
     def find_target
       @target = {}
       if @action_type == "created" && @params[:comment]
-        @target[:summary] = @params[:comment][:body].strip[0..100]
+        @target[:summary] = @params[:comment][:body].to_s.strip.tr("\n", "").tr("\r", "").tr("\t", "")
         @target[:body] = @params[:comment][:body]
         @target[:url] = @params[:comment][:html_url]
         @target[:message] = "你有新的回應: #{@target[:summary]}"
