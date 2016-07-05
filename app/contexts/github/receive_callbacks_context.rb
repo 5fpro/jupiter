@@ -41,17 +41,17 @@ class Github
     def find_target
       @target = {}
       if @action_type == "created" && @params[:comment]
-        @target[:summary] = @params[:comment][:body].to_s.strip
+        @target[:summary] = @params[:comment][:body].strip[0..100]
         @target[:body] = @params[:comment][:body]
         @target[:url] = @params[:comment][:html_url]
-        @target[:message] = "你有新的回應: #{@target[:summary]}..."
+        @target[:message] = "你有新的回應: #{@target[:summary]}"
       else
         object = @params[:issue] || @params[:pull_request]
         @target[:summary] = object[:title]
         # @target[:body] = "@" + object[:assignee][:login]
         @target[:body] = "" # disable assignee
         @target[:url] = object[:html_url]
-        @target[:message] = "你有新的指派: #{@target[:summary]}..."
+        @target[:message] = "你有新的指派: #{@target[:summary]}"
       end
     end
 
@@ -72,7 +72,7 @@ class Github
     end
 
     def send_notification(user)
-      message = @target[:message] + "....#{SlackService.render_link(@target[:url], "點擊查看")}"
+      message = @target[:message] + " ......#{SlackService.render_link(@target[:url], "點擊查看")}"
       Notify::SendToUserContext.new(@project, user, message).perform(async: false)
     end
   end
