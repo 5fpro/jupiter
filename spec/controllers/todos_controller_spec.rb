@@ -10,8 +10,9 @@
 #  data             :hstore
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  done             :boolean          default(FALSE)
+#  done             :boolean
 #  last_recorded_at :datetime
+#  sort             :integer
 #
 
 require 'rails_helper'
@@ -107,19 +108,51 @@ RSpec.describe TodosController, type: :request do
   end
 
   context "POST /todos/123/toggle_done.js" do
-    subject { xhr :post, "/todos/#{todo.id}/toggle_done.js" }
-    context "success" do
+    subject { xhr :post, "/todos/#{todo.id}/toggle_done.js", done: status }
+
+    context "done change to processing" do
+      let(:status) { "false" }
       let!(:todo) { FactoryGirl.create :todo, :done, user: user }
-      it { expect { subject }.to change { todo.reload.done? }.to(false) }
+      it { expect { subject }.to change { todo.reload.done }.to(false) }
     end
 
-    context "fail" do
+    context "not done change to processing" do
+      let(:status) { "false" }
       let!(:todo) { FactoryGirl.create :todo, user: user }
+
+      it { expect { subject }.to change { todo.reload.done }.to(false) }
+    end
+
+    context "processing change to not done" do
+      let(:status) { "nil" }
+      let!(:todo) { FactoryGirl.create :todo, done: false, user: user }
+
+      it { expect { subject }.to change { todo.reload.done }.to(nil) }
+    end
+
+    context "processing change to done" do
+      let(:status) { "true" }
+      let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, user: user }
+
+      it { expect { subject }.to change { todo.reload.done }.to(true) }
+    end
+
+    context "not done change to done" do
+      let(:status) { "true" }
+      let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
+
+      it { expect { subject }.to change { todo.reload.done }.to(true) }
+    end
+
+    context "fail without record" do
+      let(:status) { "true" }
+      let!(:todo) { FactoryGirl.create :todo, done: false, user: user }
       it { expect { subject }.not_to change { todo.reload.done? } }
     end
 
     context "not my todo" do
-      let!(:todo) { FactoryGirl.create :todo }
+      let(:status) { "true" }
+      let!(:todo) { FactoryGirl.create :todo, done: false }
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
