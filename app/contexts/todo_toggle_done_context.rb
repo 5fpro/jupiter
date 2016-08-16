@@ -1,9 +1,9 @@
 class TodoToggleDoneContext < BaseContext
-  before_perform :get_done_value
   after_perform :update_todo_last_recorded_at
 
-  def initialize(todo)
+  def initialize(todo, done)
     @todo = todo
+    @done = done
   end
 
   def perform
@@ -13,11 +13,6 @@ class TodoToggleDoneContext < BaseContext
   end
 
   private
-
-  def get_done_value
-    @done = !@todo.done?
-    true
-  end
 
   def update_todo_last_recorded_at
     if @done
