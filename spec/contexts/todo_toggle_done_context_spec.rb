@@ -34,22 +34,30 @@ describe TodoToggleDoneContext do
     it { expect { subject.perform }.to change { todo.reload.last_recorded_at } }
   end
 
-  context "remove sort not processing" do
+  context "remove sort if done" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
     let(:done) { "true" }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
   end
 
-  context "remove sort not done" do
+  context "remove sort if not done" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
     let(:done) { "nil" }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
   end
 
-  context "add sort if processing" do
+  context "add sort done to processing" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, done: true }
+    before { todo.remove_from_list }
+    let(:done) { "false" }
+
+    it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }
+  end
+
+  context "add sort not_done to processing" do
+    let!(:todo) { FactoryGirl.create :todo, :with_records }
     before { todo.remove_from_list }
     let(:done) { "false" }
 
