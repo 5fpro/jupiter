@@ -18,7 +18,11 @@ table.table.table-striped
         td= link_to project.name, project_path(project)
         td class="js-edit-todo-#{todo.id} js-update-todo-#{todo.id}"
           = render_html todo.desc
-        td= render_hours todo.total_time
+          - if todo.total_time > 0
+            - todayhours = render_hours(todo.records.today.total_time)
+            - todayhours = "#{todayhours} / " if todayhours.present?
+            - time = "#{todayhours}#{render_hours(todo.total_time)}"
+        td= time
         td
           - if todo.user_id == current_user.id
             = link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".new-record#todo-#{todo.id}", todo_id: todo.id), remote: true
@@ -28,11 +32,17 @@ table.table.table-striped
               = " | "
               = link_to "刪除", todo_path(todo, format: :js), remote: true, method: :delete, "data-confirm" => "確認"
               span class="js-delete-todo-#{todo.id}"
-            = " | "
-            - toggle_label = todo.done? ? "還沒做完" : "已做完"
-            = link_to toggle_label, toggle_done_todo_path(todo, format: :js), remote: true, method: :post
+            - unless todo.done == false
+              = " | "
+              = link_to "移至進行中", toggle_done_todo_path(todo, done: "false",format: :js), remote: true, method: :post
+            - if todo.done == false
+              = " | "
+              = link_to "移至尚未進行", toggle_done_todo_path(todo, done: "nil", format: :js), remote: true, method: :post unless todo.done == nil
+            - if todo.done == false
+              = " | "
+              = link_to "已做完", toggle_done_todo_path(todo, done: "true", format: :js), remote: true, method: :post
             .new-record id="todo-#{todo.id}"
-        - if local_assigns[:not_done]
+        - if local_assigns[:processing]
           td
             - { first: "頂", up: "上", down: "下", last: "底"}.each do |sort, label|
               | &nbsp;
