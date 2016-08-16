@@ -6,6 +6,7 @@ class TodosController < BaseController
   def index
     @done_todos = @todos.today_done
     @not_done_todos = not_done_todos
+    @processing_todos = processing_todos
   end
 
   def new
@@ -46,10 +47,12 @@ class TodosController < BaseController
   end
 
   def toggle_done
-    context = TodoToggleDoneContext.new(@todo)
+    done = params[:done]
+    context = TodoToggleDoneContext.new(@todo, done)
     context.perform
     @not_done_todos = not_done_todos
     @done_todos = @todos.today_done
+    @processing_todos = processing_todos
   end
 
   def publish
@@ -65,6 +68,10 @@ class TodosController < BaseController
 
   def not_done_todos
     @todos.not_done
+  end
+
+  def processing_todos
+    @todos.processing
   end
 
   def find_todo

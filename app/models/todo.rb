@@ -10,7 +10,7 @@
 #  data             :hstore
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  done             :boolean          default(FALSE)
+#  done             :boolean
 #  last_recorded_at :datetime
 #  sort             :integer
 #
@@ -24,10 +24,11 @@ class Todo < ActiveRecord::Base
 
   validates :user_id, :project_id, :desc, presence: true
 
-  scope :for_bind, -> { where("done = ? OR last_recorded_on = ?", false, Time.zone.now.to_date).order(done: :asc) }
+  scope :for_bind, -> { where("done IS NULL OR last_recorded_on = ?", Time.zone.now.to_date).order(done: :asc) }
   scope :today_done, -> { today.done }
-  scope :not_done, -> { where(done: false) }
+  scope :not_done, -> { where(done: nil) }
   scope :done, -> { where(done: true) }
+  scope :processing, -> { where(done: false) }
   scope :today, -> { where(last_recorded_on: Time.zone.now.to_date) }
   scope :not_today, -> { where("last_recorded_on != ? OR last_recorded_on is ?", Time.zone.now.to_date, nil) }
   scope :project_sorted, -> { order(project_id: :asc) }

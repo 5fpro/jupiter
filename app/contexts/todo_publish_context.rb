@@ -30,13 +30,13 @@ class TodoPublishContext < BaseContext
 
   def find_todos
     @done_todos = @user.todos.project_sorted.today_done
-    @today_not_done_todos = @user.todos.sorted.not_done.today
-    @not_done_todos = @user.todos.sorted.not_done.not_today
+    @today_processing_todos = @user.todos.sorted.processing.today
+    @processing_todos = @user.todos.sorted.processing.not_today
   end
 
   def to_messages
     @messages = ["#{@user.name} 本日工作報告:", ""]
-    { "[今日已完成]" => @done_todos, "[今日有做 & 未完成]" => @today_not_done_todos, "[明日預定]" => @not_done_todos }.each do |title, todos|
+    { "[今日已完成]" => @done_todos, "[今日有做 & 未完成]" => @today_processing_todos, "[明日預定]" => @processing_todos }.each do |title, todos|
       @messages << title
       todos.includes(:project, :records).each do |todo|
         msg = "#{todo.project.name} - #{todo.desc}"

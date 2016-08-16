@@ -57,7 +57,7 @@ class RecordCreateContext < BaseContext
   end
 
   def calculate_todo
-    TodoCalculateContext.new(@record.todo).perform(done: @todo_done) if @record.todo
+    TodoCalculateContext.new(@record.todo).perform(done: @todo_done.to_s) if @record.todo
   end
 
 end
