@@ -29,7 +29,7 @@ class TodosController < BaseController
   def update
     context = TodoUpdateContext.new(@todo, params[:todo])
     if context.perform
-      @not_done_todos = not_done_todos
+      @processing_todos = processing_todos
       # render js
     else
       @error_messages = context.error_messages
@@ -39,6 +39,7 @@ class TodosController < BaseController
   def destroy
     context = TodoDeleteContext.new(@todo)
     if context.perform
+      @processing_todos = processing_todos
       @not_done_todos = not_done_todos
       # render js
     else
