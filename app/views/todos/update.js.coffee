@@ -6,6 +6,6 @@ if dom.length > 0
 <% else %>
   form.html('<%= j(render_html(@todo.desc)) %>')
   `
-  <%= raw render(partial: "not_done_todos", object: @not_done_todos) %>
+  <%= raw render(partial: "processing_todos", object: @processing_todos) %>
   `
 <% end %>
