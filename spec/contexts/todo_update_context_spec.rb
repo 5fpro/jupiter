@@ -20,8 +20,9 @@ describe TodoUpdateContext do
   end
 
   describe "#sorting" do
-    let(:todo) { FactoryGirl.create :todo, user: user, sort: 1, done: false }
+    let(:todo) { FactoryGirl.create :todo, user: user, done: false }
     let(:params) { attributes_for(:todo_for_params, sort: :remove) }
+    before { todo.insert_at(1) }
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
   end
 end

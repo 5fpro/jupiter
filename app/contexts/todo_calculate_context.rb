@@ -32,19 +32,27 @@ class TodoCalculateContext < BaseContext
   end
 
   def set_done
-    @todo.done = @done unless @done.nil?
-    @todo.done = false unless @todo.last_recorded_at
+    case @done.to_s
+    when "true"
+      @todo.done = true if @todo.last_recorded_at
+    when "nil"
+      @todo.done = nil
+    when "false"
+      @todo.done = false
+    else
+      @todo.done = false unless @todo.last_recorded_at
+    end
     true
   end
 
   def remove_sort
-    if @todo.done? && @todo.in_list?
+    if !@todo.processing? && @todo.in_list?
       @todo.remove_from_list
     end
   end
 
   def add_to_sort
-    if !@todo.done? && @todo.not_in_list?
+    if @todo.processing? && @todo.not_in_list?
       @todo.insert_at(1)
       @todo.move_to_bottom
     end
