@@ -24,12 +24,12 @@ RSpec.describe Todo, type: :model do
   end
 
   describe ".for_bind" do
-    let!(:todo1) { FactoryGirl.create :todo, last_recorded_at: nil }
+    let!(:todo1) { FactoryGirl.create :todo, done: false, last_recorded_at: nil }
     let!(:todo2) { FactoryGirl.create :todo, last_recorded_at: Time.zone.now.to_date }
     let!(:todo3) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.ago }
     let!(:todo4) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.from_now }
     let!(:todo5) { FactoryGirl.create :todo, done: true, last_recorded_at: Time.zone.now.to_date }
-    let!(:todo6) { FactoryGirl.create :todo, last_recorded_at: 1.day.from_now }
+    let!(:todo6) { FactoryGirl.create :todo, done: false, last_recorded_at: 1.day.from_now }
 
     subject { described_class.for_bind.map(&:id) }
 
@@ -74,5 +74,9 @@ RSpec.describe Todo, type: :model do
       let(:todo) { FactoryGirl.create(:todo, :done) }
       it { expect { todo.last_recorded_at = nil }.to change { todo.last_recorded_on }.to(nil) }
     end
+  end
+
+  describe "without sort" do
+    it { expect(todo.not_in_list?).to be_truthy }
   end
 end
