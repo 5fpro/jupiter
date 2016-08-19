@@ -107,8 +107,8 @@ RSpec.describe TodosController, type: :request do
     end
   end
 
-  context "POST /todos/123/toggle_done.js" do
-    subject { xhr :post, "/todos/#{todo.id}/toggle_done.js", done: status }
+  context "POST /todos/123/change_done.js" do
+    subject { xhr :post, "/todos/#{todo.id}/change_done.js", done: status }
 
     context "done change to processing" do
       let(:status) { "false" }

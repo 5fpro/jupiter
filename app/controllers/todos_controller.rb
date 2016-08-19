@@ -1,7 +1,7 @@
 class TodosController < BaseController
   before_action :authenticate_user!
   before_action :find_todos
-  before_action :find_todo, only: [:edit, :update, :destroy, :toggle_done]
+  before_action :find_todo, only: [:edit, :update, :destroy, :change_done]
 
   def index
     @done_todos = @todos.today_done
@@ -46,9 +46,8 @@ class TodosController < BaseController
     end
   end
 
-  def toggle_done
-    done = params[:done]
-    context = TodoToggleDoneContext.new(@todo, done)
+  def change_done
+    context = TodoChangeDoneContext.new(@todo, params[:done])
     context.perform
     @not_done_todos = not_done_todos
     @done_todos = @todos.today_done

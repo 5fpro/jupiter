@@ -30,7 +30,7 @@ class RecordCreateContext < BaseContext
 
   def init_params
     @params = permit_params(@params, PERMITS)
-    @todo_done = !false?(@params.delete(:todo_done))
+    @todo_done = false?(@params.delete(:todo_done)) ? "false" : "true"
     true
   end
 
@@ -57,7 +57,7 @@ class RecordCreateContext < BaseContext
   end
 
   def calculate_todo
-    TodoCalculateContext.new(@record.todo).perform(done: @todo_done.to_s) if @record.todo
+    TodoCalculateContext.new(@record.todo).perform(done: @todo_done) if @record.todo
   end
 
 end
