@@ -1,0 +1,14 @@
+= link_to "New Github Bind", new_project_github_path(@project), class: "btn btn-success"
+
+table.table.table-bordered.table-striped
+  thead
+    tr
+      td webhook_name
+      td repo_name
+      td Action
+  tbody
+    - @githubs.each do |github|
+      tr
+        td= github.webhook_name
+        td= github.repo_fullname
+        td= link_to "移除綁定", project_github_path(@project, github), method: :delete, data: { confirm: "確定移除？"}

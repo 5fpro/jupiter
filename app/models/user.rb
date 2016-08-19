@@ -27,6 +27,7 @@
 #
 
 class User < ActiveRecord::Base
+  include Redis::Objects
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   store_accessor :data, :github_account, :github_id, :github_token, :github_avatar
@@ -34,6 +35,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
   devise :async
+
+  value :full_access_token, expiration: 6.hours
 
   mount_uploader :avatar, AvatarUploader
 
@@ -55,6 +58,10 @@ class User < ActiveRecord::Base
   # overwrite devise method
   def send_on_create_confirmation_instructions
     # send_devise_notification(:confirmation_instructions)
+  end
+
+  def token_need_update?
+    !full_access_token.value.present?
   end
 
 end

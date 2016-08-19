@@ -43,4 +43,9 @@ RSpec.describe User, type: :model do
       FactoryGirl.create :unconfirmed_user
     }.not_to change_sidekiq_jobs_size_of(Devise::Async::Backend::Sidekiq)
   end
+
+  context "token_need_update?" do
+    before { user.full_access_token = "xxxxxxxxxx" }
+    it { expect(user.token_need_update?).to be_falsey }
+  end
 end

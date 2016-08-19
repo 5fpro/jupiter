@@ -45,7 +45,10 @@ Rails.application.routes.draw do
         post :testing
       end
     end
+    resources :githubs
   end
+
+  post '/webhooks/:id', to: 'webhooks#webhook_data'
 
   resources :records, only: [:index] do
     resources :comments

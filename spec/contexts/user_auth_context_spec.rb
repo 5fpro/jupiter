@@ -127,4 +127,14 @@ describe UserAuthContext do
       it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(SlackService, :notify_admin) }
     end
   end
+
+  describe "#update_github_full_access_token" do
+    subject { described_class.new(omniauth_data) }
+
+    before { subject.perform }
+
+    context "update full_access_token" do
+      it { expect(user.full_access_token).to be_present }
+    end
+  end
 end
