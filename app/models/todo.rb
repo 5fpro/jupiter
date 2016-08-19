@@ -47,4 +47,12 @@ class Todo < ActiveRecord::Base
     super(v)
     self.last_recorded_on = v.try(:to_date)
   end
+
+  def processing?
+    done == false
+  end
+
+  def not_done?
+    done.nil?
+  end
 end

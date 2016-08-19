@@ -1,4 +1,4 @@
-class TodoToggleDoneContext < BaseContext
+class TodoChangeDoneContext < BaseContext
   after_perform :update_todo_last_recorded_at
 
   def initialize(todo, done)

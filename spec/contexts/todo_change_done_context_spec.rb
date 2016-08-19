@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TodoToggleDoneContext do
+describe TodoChangeDoneContext do
   subject { described_class.new(todo, done) }
 
   context "to done" do

@@ -34,13 +34,13 @@ table.table.table-striped
               span class="js-delete-todo-#{todo.id}"
             - unless todo.done == false
               = " | "
-              = link_to "移至進行中", toggle_done_todo_path(todo, done: "false",format: :js), remote: true, method: :post
+              = link_to "移至進行中", change_done_todo_path(todo, done: "false",format: :js), remote: true, method: :post
             - if todo.done == false
               = " | "
-              = link_to "移至尚未進行", toggle_done_todo_path(todo, done: "nil", format: :js), remote: true, method: :post unless todo.done == nil
+              = link_to "移至尚未進行", change_done_todo_path(todo, done: "nil", format: :js), remote: true, method: :post unless todo.done == nil
             - if todo.done == false
               = " | "
-              = link_to "已做完", toggle_done_todo_path(todo, done: "true", format: :js), remote: true, method: :post
+              = link_to "已做完", change_done_todo_path(todo, done: "true", format: :js), remote: true, method: :post
             .new-record id="todo-#{todo.id}"
         - if local_assigns[:processing]
           td
