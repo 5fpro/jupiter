@@ -35,8 +35,9 @@ describe TodoChangeDoneContext do
   end
 
   context "remove sort if done" do
-    let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
+    let!(:todo) { FactoryGirl.create :todo, :with_records, done: false }
     let(:done) { "true" }
+    before { todo.insert_at(1) }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
   end
@@ -44,13 +45,13 @@ describe TodoChangeDoneContext do
   context "remove sort if not done" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
     let(:done) { "nil" }
+    before { todo.insert_at(1) }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
   end
 
   context "add sort done to processing" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, done: true }
-    before { todo.remove_from_list }
     let(:done) { "false" }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }
@@ -58,7 +59,6 @@ describe TodoChangeDoneContext do
 
   context "add sort not_done to processing" do
     let!(:todo) { FactoryGirl.create :todo, :with_records }
-    before { todo.remove_from_list }
     let(:done) { "false" }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }

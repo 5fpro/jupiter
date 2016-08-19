@@ -16,7 +16,7 @@
 #
 
 class Todo < ActiveRecord::Base
-  sortable column: :sort, scope: :user, add_new_at: :bottom
+  sortable column: :sort, scope: :user, add_new_at: nil
 
   belongs_to :project
   belongs_to :user

@@ -75,4 +75,8 @@ RSpec.describe Todo, type: :model do
       it { expect { todo.last_recorded_at = nil }.to change { todo.last_recorded_on }.to(nil) }
     end
   end
+
+  describe "without sort" do
+    it { expect(todo.not_in_list?).to be_truthy }
+  end
 end
