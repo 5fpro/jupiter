@@ -30,7 +30,7 @@ class RecordCreateContext < BaseContext
 
   def init_params
     @params = permit_params(@params, PERMITS)
-    @todo_done = false?(@params.delete(:todo_done)) ? "false" : "true"
+    @todo_done = !false?(@params.delete(:todo_done))
     true
   end
 
