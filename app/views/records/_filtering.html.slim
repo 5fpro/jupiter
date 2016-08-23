@@ -11,8 +11,8 @@
 
   = f.input :group_by, as: :select, collection: Search::Record.group_collection, label: "Group by", disabled: disabled
 
-  = f.input :updated_at_gteq, as: :date, html5: true, label: "update at start from"
-  = f.input :updated_at_lteq, as: :date, html5: true, label: "to"
+  = f.input :created_at_gteq, as: :date, html5: true, label: "create at start from"
+  = f.input :created_at_lteq, as: :date, html5: true, label: "to"
 
   - if Rails.env.development?
     = f.input :created_at_eq, as: :string, input_html: { name: "", value: @q.result.to_sql }, label: "debug sql"
