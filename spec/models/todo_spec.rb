@@ -30,7 +30,8 @@ RSpec.describe Todo, type: :model do
     let!(:todo4) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.from_now }
     let!(:todo5) { FactoryGirl.create :todo, done: true, last_recorded_at: Time.zone.now.to_date }
     let!(:todo6) { FactoryGirl.create :todo, done: false, last_recorded_at: 1.day.from_now }
-
+    let!(:todo7) { FactoryGirl.create :todo, done: nil, last_recorded_at: Time.zone.now.to_date }
+    let!(:todo8) { FactoryGirl.create :todo, done: nil, last_recorded_at: 1.day.from_now }
     subject { described_class.for_bind.map(&:id) }
 
     it { expect(subject).to be_include(todo1.id) }
@@ -39,6 +40,8 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).not_to be_include(todo4.id) }
     it { expect(subject).to be_include(todo5.id) }
     it { expect(subject).to be_include(todo6.id) }
+    it { expect(subject).to be_include(todo7.id) }
+    it { expect(subject).to be_include(todo8.id) }
   end
 
   describe ".not_today" do
