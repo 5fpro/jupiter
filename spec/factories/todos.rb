@@ -31,6 +31,10 @@ FactoryGirl.define do
       last_recorded_at { Time.zone.now }
       done true
     end
+
+    trait :not_done do
+      done nil
+    end
   end
 
   factory :todo_for_params, class: Todo do
