@@ -177,6 +177,19 @@ RSpec.describe RecordsController, type: :request do
     end
 
     describe "#new" do
+      context "can find not done todo" do
+        before { FactoryGirl.create :todo, project: project, user: user, desc: "我愛羅", done: nil }
+
+        it "html" do
+          get "/projects/#{project.id}/records/new"
+          expect(response.body).to match("我愛羅")
+        end
+
+        it "js" do
+          xhr :get, "/projects/#{project.id}/records/new.js"
+          expect(response.body).to match("我愛羅")
+        end
+      end
       it "html" do
         get "/projects/#{project.id}/records/new"
         expect(response).to be_success
