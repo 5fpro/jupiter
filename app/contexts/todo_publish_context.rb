@@ -30,8 +30,8 @@ class TodoPublishContext < BaseContext
 
   def find_todos
     @done_todos = @user.todos.project_sorted.today_done
-    @today_processing_todos = @user.todos.sorted.processing.today
-    @processing_todos = @user.todos.sorted.processing.not_today
+    @today_processing_todos = @user.todos.sorted.today
+    @processing_todos = @user.todos.sorted.processing
   end
 
   def to_messages
