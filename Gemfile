@@ -7,6 +7,8 @@ gem 'activerecord-postgis-adapter'
 gem 'redis'
 gem 'redis-objects', require: "redis/objects"
 
+gem 'aasm'
+
 # stores
 gem 'dalli'
 gem 'connection_pool'
@@ -124,8 +126,8 @@ gem 'acts_as_list'
 
 # front-end
 gem 'jquery-ui-rails'
-gem 'bootstrap-sass', '~> 3.3.6'
-gem 'sass-rails', '>= 3.2'
+gem 'bootstrap-sass'
+gem 'sass-rails'
 
 # SEO
 gem 'crummy'
