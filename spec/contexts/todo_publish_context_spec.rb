@@ -26,6 +26,7 @@ describe TodoPublishContext, type: :context do
   describe "#today_processing_todos" do
     let!(:today_not_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: false }
     let!(:today_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
+    before { TodoCalculateContext.new(today_not_done_todo).perform(done: "nil") }
 
     it { expect(subject.today_processing_todos.include?(today_not_done_todo)).to be_truthy }
     it { expect(subject.today_processing_todos.include?(today_done_todo)).to be_falsey }
