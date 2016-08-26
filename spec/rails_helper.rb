@@ -53,6 +53,7 @@ RSpec.configure do |config|
   config.include SidekiqHelper
   config.include RequestClient, type: :request
   config.include HtmlMatchers, type: :request
+  config.include ContextHelper, type: :context
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:each){ webmock_all! }
