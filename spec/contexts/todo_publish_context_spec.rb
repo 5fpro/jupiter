@@ -24,19 +24,32 @@ describe TodoPublishContext, type: :context do
   end
 
   describe "#today_processing_todos" do
-    let!(:today_not_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: false }
-    let!(:today_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
-    before { TodoCalculateContext.new(today_not_done_todo).perform(done: "nil") }
+    context "include not_done todo with today record" do
+      let!(:today_not_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: false }
+      before { change_todo_status(today_not_done_todo, "not_done") }
+      it { expect(subject.today_processing_todos.include?(today_not_done_todo)).to be_truthy }
+    end
 
-    it { expect(subject.today_processing_todos.include?(today_not_done_todo)).to be_truthy }
-    it { expect(subject.today_processing_todos.include?(today_done_todo)).to be_falsey }
+    context "include processing todo with today record" do
+      let!(:today_not_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: false }
+      it { expect(subject.today_processing_todos.include?(today_not_done_todo)).to be_truthy }
+    end
+
+    context "not include done todo with today record " do
+      let!(:today_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
+      it { expect(subject.today_processing_todos.include?(today_done_todo)).to be_falsey }
+    end
   end
 
   describe "#processing_todos" do
-    let!(:processing_todo) { FactoryGirl.create :todo, user: user, done: false }
-    let!(:done_todo) { FactoryGirl.create :todo, user: user, done: true }
+    context "include processing todo" do
+      let!(:processing_todo) { FactoryGirl.create :todo, user: user, done: false }
+      it { expect(subject.processing_todos.include?(processing_todo)).to be_truthy }
+    end
 
-    it { expect(subject.processing_todos.include?(processing_todo)).to be_truthy }
-    it { expect(subject.today_processing_todos.include?(done_todo)).to be_falsey }
+    context "not include done todo" do
+      let!(:done_todo) { FactoryGirl.create :todo, user: user, done: true }
+      it { expect(subject.today_processing_todos.include?(done_todo)).to be_falsey }
+    end
   end
 end
