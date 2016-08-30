@@ -1,7 +1,8 @@
 class TodoPublishContext < BaseContext
   include RecordHelper
 
-  before_perform :find_todos
+  attr_reader :today_processing_todos, :processing_todos
+
   before_perform :to_messages
   before_perform :append_total_hours
   before_perform :slack_setting
@@ -16,6 +17,10 @@ class TodoPublishContext < BaseContext
 
   def initialize(user)
     @user = user
+
+    @done_todos = @user.todos.project_sorted.today_done
+    @today_processing_todos = @user.todos.today_processing.sorted
+    @processing_todos = @user.todos.sorted.processing
   end
 
   def perform(skip_user_update: false)
@@ -27,12 +32,6 @@ class TodoPublishContext < BaseContext
   end
 
   private
-
-  def find_todos
-    @done_todos = @user.todos.project_sorted.today_done
-    @today_processing_todos = @user.todos.sorted.processing.today
-    @processing_todos = @user.todos.sorted.processing.not_today
-  end
 
   def to_messages
     @messages = ["#{@user.name} 本日工作報告:", ""]
