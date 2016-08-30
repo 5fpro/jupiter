@@ -23,33 +23,62 @@ describe TodoPublishContext, type: :context do
     end
   end
 
-  describe "#today_processing_todos" do
-    context "include not_done todo with today record" do
-      let!(:today_not_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: false }
-      before { change_todo_status(today_not_done_todo, "not_done") }
-      it { expect(subject.today_processing_todos.include?(today_not_done_todo)).to be_truthy }
+  context 'todo scopes' do
+    def add_record(todo)
+      RecordCreateContext.new(user, todo.project).perform(FactoryGirl.attributes_for(:record_for_params, todo_id: todo.id))
+      expect(todo.reload.last_recorded_on).to be_present
     end
 
-    context "include processing todo with today record" do
-      let!(:today_not_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: false }
-      it { expect(subject.today_processing_todos.include?(today_not_done_todo)).to be_truthy }
+    def to_not_done(todo)
+      TodoChangeDoneContext.new(todo, "nil").perform
+      expect(todo).to be_not_done
     end
 
-    context "not include done todo with today record " do
-      let!(:today_done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
-      it { expect(subject.today_processing_todos.include?(today_done_todo)).to be_falsey }
-    end
-  end
-
-  describe "#processing_todos" do
-    context "include processing todo" do
-      let!(:processing_todo) { FactoryGirl.create :todo, user: user, done: false }
-      it { expect(subject.processing_todos.include?(processing_todo)).to be_truthy }
+    def to_processing(todo)
+      TodoChangeDoneContext.new(todo, false).perform
+      expect(todo).to be_processing
     end
 
-    context "not include done todo" do
-      let!(:done_todo) { FactoryGirl.create :todo, user: user, done: true }
-      it { expect(subject.today_processing_todos.include?(done_todo)).to be_falsey }
+    def invite_user_to_project(user, project)
+      project.project_users.create(user: user)
+    end
+
+    let(:todo) { FactoryGirl.create(:todo, :not_done, user: user) }
+    before { invite_user_to_project(user, todo.project) }
+
+    context 'no record -> processing' do
+      before { to_processing(todo) }
+      before { subject.perform }
+
+      it { expect(subject.today_processing_todos.map(&:id)).not_to be_include(todo.id) }
+      it { expect(subject.processing_todos.map(&:id)).to be_include(todo.id) }
+    end
+
+    context 'processing -> no record -> not_done' do
+      before { to_processing(todo) }
+      before { to_not_done(todo) }
+      before { subject.perform }
+
+      it { expect(subject.today_processing_todos.map(&:id)).not_to be_include(todo.id) }
+      it { expect(subject.processing_todos.map(&:id)).not_to be_include(todo.id) }
+    end
+
+    context 'processing -> has record' do
+      before { to_processing(todo) }
+      before { add_record(todo) }
+      before { subject.perform }
+      it { expect(subject.today_processing_todos.map(&:id)).to be_include(todo.id) }
+      it { expect(subject.processing_todos.map(&:id)).to be_include(todo.id) }
+    end
+
+    context 'processing -> has record -> not_done' do
+      before { to_processing(todo) }
+      before { add_record(todo) }
+      before { to_not_done(todo) }
+      before { subject.perform }
+
+      it { expect(subject.today_processing_todos.map(&:id)).to be_include(todo.id) }
+      it { expect(subject.processing_todos.map(&:id)).not_to be_include(todo.id) }
     end
   end
 end

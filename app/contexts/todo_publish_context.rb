@@ -1,8 +1,7 @@
 class TodoPublishContext < BaseContext
   include RecordHelper
 
-  attr_reader :today_processing_todos
-  attr_reader :processing_todos
+  attr_reader :today_processing_todos, :processing_todos
 
   before_perform :to_messages
   before_perform :append_total_hours

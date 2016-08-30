@@ -48,6 +48,12 @@ describe TodoChangeDoneContext do
     before { todo.insert_at(1) }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
+
+    context 'done = nil will not change sort and done status' do
+      let(:done) { nil }
+      before { todo.insert_at(1) }
+      it { expect { subject.perform }.not_to change { todo.reload.sort } }
+    end
   end
 
   context "add sort done to processing" do
