@@ -4,6 +4,7 @@ class TodoChangeDoneContext < BaseContext
   def initialize(todo, done)
     @todo = todo
     @done = done
+    @was_done = @todo.done?
   end
 
   def perform
@@ -15,7 +16,7 @@ class TodoChangeDoneContext < BaseContext
   private
 
   def update_todo_last_recorded_at
-    if @done
+    if !@was_done && @todo.done?
       @todo.last_recorded_at = Time.zone.now
       @todo.save
     end

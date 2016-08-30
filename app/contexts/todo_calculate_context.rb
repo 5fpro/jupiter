@@ -32,7 +32,7 @@ class TodoCalculateContext < BaseContext
   end
 
   def set_done
-    case @done.to_s
+    case @done.to_s # nil will be '' and do nothing
     when "true"
       @todo.done = true if @todo.last_recorded_at
     when "nil"

@@ -79,7 +79,6 @@ group :development do
   gem 'venus', git: "git@github.com:marsz/venus.git", branch: 'v1.0'
   gem 'rename'
   gem 'web-console', '~> 2.0'
-  gem 'byebug'
 end
 
 group :development, :test do
@@ -87,6 +86,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'rubocop', require: false
+  gem 'byebug'
 end
 
 group :test do

@@ -35,6 +35,10 @@ FactoryGirl.define do
     trait :not_done do
       done nil
     end
+
+    trait :processing do
+      done false
+    end
   end
 
   factory :todo_for_params, class: Todo do
