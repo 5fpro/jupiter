@@ -26,6 +26,7 @@ class Todo < ActiveRecord::Base
 
   scope :for_bind, -> { where("done = ? OR done IS NULL OR last_recorded_on = ?", false, Time.zone.now.to_date).order(done: :asc) }
   scope :today_done, -> { today.done }
+  scope :today_processing, -> { where(done: [false, nil]).where(last_recorded_on: Time.zone.now.to_date).order(done: :asc) }
   scope :not_done, -> { where(done: nil) }
   scope :done, -> { where(done: true) }
   scope :processing, -> { where(done: false) }
