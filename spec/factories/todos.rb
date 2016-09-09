@@ -27,17 +27,17 @@ FactoryGirl.define do
       end
     end
 
-    trait :done do
+    trait :finished do
       last_recorded_at { Time.zone.now }
-      done true
+      status 3
     end
 
-    trait :not_done do
-      done nil
+    trait :doing do
+      status 2
     end
 
-    trait :processing do
-      done false
+    trait :pending do
+      status 1
     end
   end
 

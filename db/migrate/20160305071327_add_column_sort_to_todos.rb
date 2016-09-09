@@ -4,7 +4,7 @@ class AddColumnSortToTodos < ActiveRecord::Migration
     add_index :todos, [:user_id, :done, :sort]
     if Rails.env.production?
       User.find_each do |user|
-        user.todos.not_done.project_sorted.each do |todo|
+        user.todos.pending.project_sorted.each do |todo|
           todo.insert_at(1)
           todo.move_to_bottom
         end

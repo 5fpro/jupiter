@@ -24,14 +24,14 @@ RSpec.describe Todo, type: :model do
   end
 
   describe ".for_bind" do
-    let!(:todo1) { FactoryGirl.create :todo, done: false, last_recorded_at: nil }
+    let!(:todo1) { FactoryGirl.create :todo, :doing, last_recorded_at: nil }
     let!(:todo2) { FactoryGirl.create :todo, last_recorded_at: Time.zone.now.to_date }
-    let!(:todo3) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.ago }
-    let!(:todo4) { FactoryGirl.create :todo, done: true, last_recorded_at: 1.day.from_now }
-    let!(:todo5) { FactoryGirl.create :todo, done: true, last_recorded_at: Time.zone.now.to_date }
-    let!(:todo6) { FactoryGirl.create :todo, done: false, last_recorded_at: 1.day.from_now }
-    let!(:todo7) { FactoryGirl.create :todo, done: nil, last_recorded_at: Time.zone.now.to_date }
-    let!(:todo8) { FactoryGirl.create :todo, done: nil, last_recorded_at: 1.day.from_now }
+    let!(:todo3) { FactoryGirl.create :todo, :finished, last_recorded_at: 1.day.ago }
+    let!(:todo4) { FactoryGirl.create :todo, :finished, last_recorded_at: 1.day.from_now }
+    let!(:todo5) { FactoryGirl.create :todo, :finished, last_recorded_at: Time.zone.now.to_date }
+    let!(:todo6) { FactoryGirl.create :todo, :doing, last_recorded_at: 1.day.from_now }
+    let!(:todo7) { FactoryGirl.create :todo, :pending, last_recorded_at: Time.zone.now.to_date }
+    let!(:todo8) { FactoryGirl.create :todo, :pending, last_recorded_at: 1.day.from_now }
     subject { described_class.for_bind.map(&:id) }
 
     it { expect(subject).to be_include(todo1.id) }
@@ -74,7 +74,7 @@ RSpec.describe Todo, type: :model do
       }.to change { todo.last_recorded_on }
     end
     context "nil" do
-      let(:todo) { FactoryGirl.create(:todo, :done) }
+      let(:todo) { FactoryGirl.create(:todo, :finished) }
       it { expect { todo.last_recorded_at = nil }.to change { todo.last_recorded_on }.to(nil) }
     end
   end

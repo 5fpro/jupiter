@@ -107,52 +107,52 @@ RSpec.describe TodosController, type: :request do
     end
   end
 
-  context "POST /todos/123/change_done.js" do
-    subject { xhr :post, "/todos/#{todo.id}/change_done.js", done: status }
+  context "POST /todos/123/change_status.js" do
+    subject { xhr :post, "/todos/#{todo.id}/change_status.js", status: status }
 
-    context "done change to processing" do
-      let(:status) { "false" }
-      let!(:todo) { FactoryGirl.create :todo, :done, user: user }
-      it { expect { subject }.to change { todo.reload.done }.to(false) }
+    context "finished change to doing" do
+      let(:status) { "doing" }
+      let!(:todo) { FactoryGirl.create :todo, :finished, user: user }
+      it { expect { subject }.to change { todo.reload.finished? }.to(false) }
     end
 
-    context "not done change to processing" do
-      let(:status) { "false" }
+    context "pending change to doing" do
+      let(:status) { "doing" }
       let!(:todo) { FactoryGirl.create :todo, user: user }
 
-      it { expect { subject }.to change { todo.reload.done }.to(false) }
+      it { expect { subject }.to change { todo.reload.doing? }.to(true) }
     end
 
-    context "processing change to not done" do
-      let(:status) { "nil" }
-      let!(:todo) { FactoryGirl.create :todo, done: false, user: user }
+    context "doing change to pending" do
+      let(:status) { "pending" }
+      let!(:todo) { FactoryGirl.create :todo, :doing, user: user }
 
-      it { expect { subject }.to change { todo.reload.done }.to(nil) }
+      it { expect { subject }.to change { todo.reload.pending? }.to(true) }
     end
 
-    context "processing change to done" do
-      let(:status) { "true" }
-      let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, user: user }
+    context "doing change to done" do
+      let(:status) { "finished" }
+      let!(:todo) { FactoryGirl.create :todo, :with_records, :doing, user: user }
 
-      it { expect { subject }.to change { todo.reload.done }.to(true) }
+      it { expect { subject }.to change { todo.reload.finished? }.to(true) }
     end
 
-    context "not done change to done" do
-      let(:status) { "true" }
+    context "pending change to finished" do
+      let(:status) { "finished" }
       let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
 
-      it { expect { subject }.to change { todo.reload.done }.to(true) }
+      it { expect { subject }.to change { todo.reload.finished? }.to(true) }
     end
 
     context "fail without record" do
-      let(:status) { "true" }
-      let!(:todo) { FactoryGirl.create :todo, done: false, user: user }
-      it { expect { subject }.not_to change { todo.reload.done? } }
+      let(:status) { "finished" }
+      let!(:todo) { FactoryGirl.create :todo, :doing, user: user }
+      it { expect { subject }.not_to change { todo.reload.finished? } }
     end
 
     context "not my todo" do
-      let(:status) { "true" }
-      let!(:todo) { FactoryGirl.create :todo, done: false }
+      let(:status) { "finished" }
+      let!(:todo) { FactoryGirl.create :todo, :doing }
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
