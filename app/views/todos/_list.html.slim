@@ -28,19 +28,18 @@ table.table.table-striped
             = link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".new-record#todo-#{todo.id}", todo_id: todo.id), remote: true
             = " | "
             = link_to "編輯", edit_todo_path(todo, format: :js), remote: true
-            - unless todo.done?
+            - unless todo.finished?
               = " | "
               = link_to "刪除", todo_path(todo, format: :js), remote: true, method: :delete, "data-confirm" => "確認"
               span class="js-delete-todo-#{todo.id}"
-            - unless todo.done == false
+            - unless todo.doing?
               = " | "
-              = link_to "移至進行中", change_done_todo_path(todo, done: "false",format: :js), remote: true, method: :post
-            - if todo.done == false
+              = link_to "移至進行中", change_status_todo_path(todo, status: "doing", format: :js), remote: true, method: :post
+            - if todo.doing?
               = " | "
-              = link_to "移至尚未進行", change_done_todo_path(todo, done: "nil", format: :js), remote: true, method: :post unless todo.done == nil
-            - if todo.done == false
+              = link_to "移至尚未進行", change_status_todo_path(todo, status: "pending", format: :js), remote: true, method: :post
               = " | "
-              = link_to "已做完", change_done_todo_path(todo, done: "true", format: :js), remote: true, method: :post
+              = link_to "已做完", change_status_todo_path(todo, status: "finished", format: :js), remote: true, method: :post
             .new-record id="todo-#{todo.id}"
         - if local_assigns[:processing]
           td
