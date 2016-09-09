@@ -1,5 +1,5 @@
 class RecordUpdateContext < BaseContext
-  PERMITS = (RecordCreateContext::PERMITS - [:todo_id, :todo_done]).freeze
+  PERMITS = (RecordCreateContext::PERMITS - [:todo_id, :todo_finished]).freeze
 
   before_perform :validates_user!
   before_perform :assign_value

@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def collection_for_project_todos(project)
-    project.todos.merge(current_user.todos).for_bind.map { |todo| ["#{todo.done? ? "[已完成] " : ""}#{todo.desc}", todo.id] }
+    project.todos.merge(current_user.todos).for_bind.map { |todo| ["#{todo.finished? ? "[已完成] " : ""}#{todo.desc}", todo.id] }
   end
 
   def collection_for_user_projects(user)

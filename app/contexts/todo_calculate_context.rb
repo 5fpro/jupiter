@@ -1,16 +1,14 @@
 class TodoCalculateContext < BaseContext
   before_perform :calculate_total_time
   before_perform :calculate_last_recorded_time
-  before_perform :set_done
-  after_perform :remove_sort
-  after_perform :add_to_sort
+  before_perform :change_status
 
   def initialize(todo)
     @todo = todo
   end
 
-  def perform(done: nil)
-    @done = done
+  def perform(status: nil)
+    @status = status
     run_callbacks :perform do
       if @todo.save
         true
@@ -31,30 +29,17 @@ class TodoCalculateContext < BaseContext
     true
   end
 
-  def set_done
-    case @done.to_s # nil will be '' and do nothing
-    when "true"
-      @todo.done = true if @todo.last_recorded_at
-    when "nil"
-      @todo.done = nil
-    when "false"
-      @todo.done = false
+  def change_status
+    case @status
+    when "finished"
+      @todo.to_finished
+    when "doing"
+      @todo.to_doing
+    when "pending"
+      @todo.to_pending
     else
-      @todo.done = false unless @todo.last_recorded_at
+      @todo.to_doing unless @todo.last_recorded_at
     end
     true
-  end
-
-  def remove_sort
-    if !@todo.processing? && @todo.in_list?
-      @todo.remove_from_list
-    end
-  end
-
-  def add_to_sort
-    if @todo.processing? && @todo.not_in_list?
-      @todo.insert_at(1)
-      @todo.move_to_bottom
-    end
   end
 end
