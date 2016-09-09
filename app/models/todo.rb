@@ -13,9 +13,11 @@
 #  done             :boolean
 #  last_recorded_at :datetime
 #  sort             :integer
+#  status           :integer
 #
 
 class Todo < ActiveRecord::Base
+  include AASM
   sortable column: :sort, scope: :user, add_new_at: nil
 
   belongs_to :project
@@ -55,5 +57,29 @@ class Todo < ActiveRecord::Base
 
   def not_done?
     done.nil?
+  end
+
+  enum status: {
+    pending: 1,
+    doing: 2,
+    finish: 3
+  }
+
+  aasm :column => :status, :enum => true, :whiny_transitions => false do
+    state :pending, :initial => true
+    state :doing
+    state :finish
+
+    event :to_doing do
+      transitions :from => [:pending, :finish], :to => :doing
+    end
+
+    event :to_pending do
+      transitions :from => :doing, :to => :pending
+    end
+
+    event :to_finish do
+      transitions :from => [:pending, :doing], :to => :finish
+    end
   end
 end
