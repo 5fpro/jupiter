@@ -26,12 +26,9 @@ class Todo < ActiveRecord::Base
 
   validates :user_id, :project_id, :desc, presence: true
 
-  scope :for_bind, -> { where("done = ? OR done IS NULL OR last_recorded_on = ?", false, Time.zone.now.to_date).order(done: :asc) }
-  scope :today_done, -> { today.done }
-  scope :today_processing, -> { where(done: [false, nil]).where(last_recorded_on: Time.zone.now.to_date).order(done: :asc) }
-  scope :not_done, -> { where(done: nil) }
-  scope :done, -> { where(done: true) }
-  scope :processing, -> { where(done: false) }
+  scope :for_bind, -> { where("status = ? OR status = ? OR last_recorded_on = ?", 1, 2, Time.zone.now.to_date).order(done: :asc) }
+  scope :today_done, -> { today.finished }
+  scope :today_doing, -> { where(status: [1, 2]).where(last_recorded_on: Time.zone.now.to_date).order(done: :asc) }
   scope :today, -> { where(last_recorded_on: Time.zone.now.to_date) }
   scope :not_today, -> { where("last_recorded_on != ? OR last_recorded_on is ?", Time.zone.now.to_date, nil) }
   scope :project_sorted, -> { order(project_id: :asc) }
@@ -51,35 +48,50 @@ class Todo < ActiveRecord::Base
     self.last_recorded_on = v.try(:to_date)
   end
 
-  def processing?
-    done == false
-  end
-
-  def not_done?
-    done.nil?
+  def not_finished?
+    !finished?
   end
 
   enum status: {
     pending: 1,
     doing: 2,
-    finish: 3
+    finished: 3
   }
 
-  aasm :column => :status, :enum => true, :whiny_transitions => false do
-    state :pending, :initial => true
+  aasm column: :status, enum: true, whiny_transitions: false do
+    state :pending, initial: true
     state :doing
-    state :finish
+    state :finished
 
-    event :to_doing do
-      transitions :from => [:pending, :finish], :to => :doing
+    event :to_doing, after: :add_to_sort do
+      transitions from: [:pending, :finished], to: :doing
     end
 
-    event :to_pending do
-      transitions :from => :doing, :to => :pending
+    event :to_pending, after: :remove_sort do
+      transitions from: :doing, to: :pending
     end
 
-    event :to_finish do
-      transitions :from => [:pending, :doing], :to => :finish
+    event :to_finished, after: :remove_sort do
+      transitions from: [:pending, :doing], to: :finished do
+        guard do
+          has_last_record?
+        end
+      end
+    end
+  end
+
+  def has_last_record?
+    last_recorded_at.present?
+  end
+
+  def remove_sort
+    remove_from_list if in_list?
+  end
+
+  def add_to_sort
+    if not_in_list?
+      insert_at(1)
+      move_to_bottom
     end
   end
 end

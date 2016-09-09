@@ -1,5 +1,5 @@
 class RecordCreateContext < BaseContext
-  PERMITS = [:record_type, :minutes, :note, :todo_id, :todo_done].freeze
+  PERMITS = [:record_type, :minutes, :note, :todo_id, :todo_finished].freeze
   attr_accessor :project, :user, :record
 
   before_perform :init_params
@@ -30,7 +30,7 @@ class RecordCreateContext < BaseContext
 
   def init_params
     @params = permit_params(@params, PERMITS)
-    @todo_done = !false?(@params.delete(:todo_done))
+    @todo_finished = "finished" unless false?(@params.delete(:todo_finished))
     true
   end
 
@@ -57,7 +57,7 @@ class RecordCreateContext < BaseContext
   end
 
   def calculate_todo
-    TodoCalculateContext.new(@record.todo).perform(done: @todo_done) if @record.todo
+    TodoCalculateContext.new(@record.todo).perform(status: @todo_finished) if @record.todo
   end
 
 end

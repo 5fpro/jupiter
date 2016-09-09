@@ -1,7 +1,7 @@
 class TodoPublishContext < BaseContext
   include RecordHelper
 
-  attr_reader :today_processing_todos, :processing_todos
+  attr_reader :today_doing_todos, :doing_todos
 
   before_perform :to_messages
   before_perform :append_total_hours
@@ -18,9 +18,9 @@ class TodoPublishContext < BaseContext
   def initialize(user)
     @user = user
 
-    @done_todos = @user.todos.project_sorted.today_done
-    @today_processing_todos = @user.todos.today_processing.sorted
-    @processing_todos = @user.todos.sorted.processing
+    @finished_todos = @user.todos.project_sorted.today_done
+    @today_doing_todos = @user.todos.today_doing.sorted
+    @doing_todos = @user.todos.sorted.doing
   end
 
   def perform(skip_user_update: false)
@@ -35,7 +35,7 @@ class TodoPublishContext < BaseContext
 
   def to_messages
     @messages = ["#{@user.name} 本日工作報告:", ""]
-    { "[今日已完成]" => @done_todos, "[今日有做 & 未完成]" => @today_processing_todos, "[明日預定]" => @processing_todos }.each do |title, todos|
+    { "[今日已完成]" => @finished_todos, "[今日有做 & 未完成]" => @today_doing_todos, "[明日預定]" => @doing_todos }.each do |title, todos|
       @messages << title
       todos.includes(:project, :records).each do |todo|
         msg = "#{todo.project.name} - #{todo.desc}"
