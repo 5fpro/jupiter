@@ -18,8 +18,8 @@ class TodoPublishContext < BaseContext
   def initialize(user)
     @user = user
 
-    @finished_todos = @user.todos.project_sorted.today_done
-    @today_doing_todos = @user.todos.today_doing.sorted
+    @finished_todos = @user.todos.project_sorted.today_finished
+    @today_doing_todos = @user.todos.today_doing_or_finished.sorted
     @doing_todos = @user.todos.sorted.doing
   end
 

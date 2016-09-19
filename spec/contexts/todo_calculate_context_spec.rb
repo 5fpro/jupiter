@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe TodoCalculateContext do
-  let!(:todo) { FactoryGirl.create :todo, :with_records }
+  let!(:todo) { FactoryGirl.create :todo, :with_not_calculate_record }
   subject { described_class.new(todo) }
 
   it { expect { subject.perform }.to change { todo.reload.total_time } }
@@ -41,17 +41,5 @@ describe TodoCalculateContext do
       let(:todo) { FactoryGirl.create :todo }
       it { expect { subject.perform(status: "finished") }.not_to change { todo.reload.status } }
     end
-  end
-
-  describe "#remove_sort" do
-    let!(:todo) { FactoryGirl.create :todo, :with_records, :doing, sort: 1 }
-    before { subject.perform(status: "finished") }
-    it { expect(todo.reload.sort).to be_nil }
-  end
-
-  describe "#add_to_sort" do
-    let!(:todo) { FactoryGirl.create :todo, :with_records, :finished, sort: nil }
-    before { subject.perform(status: "doing") }
-    it { expect(todo.reload.sort).to be_present }
   end
 end

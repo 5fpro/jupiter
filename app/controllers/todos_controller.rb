@@ -4,15 +4,9 @@ class TodosController < BaseController
   before_action :find_todo, only: [:edit, :update, :destroy, :change_status]
 
   def index
-<<<<<<< 148c8449f252b2bc5f13b5783ae45080fb051cba
-    @done_todos = @todos.today_done.order(updated_at: :desc)
-    @not_done_todos = not_done_todos
-    @processing_todos = processing_todos
-=======
-    @finished_todos = @todos.today_done
+    @finished_todos = @todos.today_finished.order(updated_at: :desc)
     @pending_todos = pending_todos
     @doing_todos = doing_todos
->>>>>>> aasm 狀態機功能實作  done -> status
   end
 
   def new
@@ -54,10 +48,10 @@ class TodosController < BaseController
   end
 
   def change_status
-    context = TodoChangeDoneContext.new(@todo, params[:status])
+    context = TodoChangeStatusContext.new(@todo, params[:status])
     context.perform
     @pending_todos = pending_todos
-    @finished_todos = @todos.today_done.order(updated_at: :desc)
+    @finished_todos = @todos.today_finished.order(updated_at: :desc)
     @doing_todos = doing_todos
   end
 
@@ -72,13 +66,8 @@ class TodosController < BaseController
     @todos = current_user.todos.sorted.includes(:project, :records)
   end
 
-<<<<<<< 148c8449f252b2bc5f13b5783ae45080fb051cba
-  def not_done_todos
-    @todos.not_done.order(updated_at: :desc)
-=======
   def pending_todos
-    @todos.pending
->>>>>>> aasm 狀態機功能實作  done -> status
+    @todos.pending.order(updated_at: :desc)
   end
 
   def doing_todos

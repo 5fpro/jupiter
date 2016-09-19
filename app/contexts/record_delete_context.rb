@@ -1,10 +1,12 @@
 class RecordDeleteContext < BaseContext
   before_perform :validates_user!
-  after_perform :calculate_todo
+  after_perform :calculate_todo, if: :record_has_todo?
+  after_perform :change_without_record_todo_status, if: :record_has_todo?
 
   def initialize(user, record)
     @user = user
     @record = record
+    @todo = @record.todo
   end
 
   def perform
@@ -15,12 +17,20 @@ class RecordDeleteContext < BaseContext
 
   private
 
+  def record_has_todo?
+    @todo
+  end
+
   def validates_user!
     return add_error(:not_project_owner) unless @record.user_id == @user.id
     true
   end
 
   def calculate_todo
-    TodoCalculateContext.new(@record.todo).perform if @record.todo
+    TodoCalculateContext.new(@todo).perform
+  end
+
+  def change_without_record_todo_status
+    TodoChangeStatusContext.new(@todo, "doing").perform unless @todo.try(:last_recorded_at)
   end
 end

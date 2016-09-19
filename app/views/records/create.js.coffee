@@ -15,6 +15,6 @@ if dom.length > 0
   `
   <%=raw render(partial: "todos/pending_todos", object: current_user.todos.sorted.pending) %>
   <%=raw render(partial: "todos/doing_todos", object: current_user.todos.sorted.doing) %>
-  <%=raw render(partial: "todos/finished_todos", object: current_user.todos.sorted.today_done) %>
+  <%=raw render(partial: "todos/finished_todos", object: current_user.todos.sorted.today_finished) %>
   `
 <% end %>
