@@ -31,6 +31,6 @@ class RecordDeleteContext < BaseContext
   end
 
   def change_without_record_todo_status
-    TodoChangeStatusContext.new(@todo, "doing").perform unless @todo.try(:last_recorded_at)
+    TodoChangeStatusContext.new(@todo, "doing").perform if @todo.finished? && @todo.records.count == 0
   end
 end
