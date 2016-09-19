@@ -30,12 +30,12 @@ describe TodoPublishContext, type: :context do
     end
 
     def to_pending(todo)
-      TodoChangeDoneContext.new(todo, "pending").perform
+      TodoChangeStatusContext.new(todo, "pending").perform
       expect(todo).to be_pending
     end
 
     def to_doing(todo)
-      TodoChangeDoneContext.new(todo, "doing").perform
+      TodoChangeStatusContext.new(todo, "doing").perform
       expect(todo).to be_doing
     end
 

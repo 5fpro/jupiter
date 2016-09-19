@@ -22,6 +22,13 @@ FactoryGirl.define do
     sequence(:desc) { |n| "desc-#{n}" }
 
     trait :with_records do
+      last_recorded_at { Time.zone.now }
+      after :create do |todo|
+        FactoryGirl.create_list(:record, 2, todo: todo)
+      end
+    end
+
+    trait :with_not_calculate_record do
       after :create do |todo|
         FactoryGirl.create_list(:record, 2, todo: todo)
       end

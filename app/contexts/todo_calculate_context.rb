@@ -30,16 +30,6 @@ class TodoCalculateContext < BaseContext
   end
 
   def change_status
-    case @status
-    when "finished"
-      @todo.to_finished
-    when "doing"
-      @todo.to_doing
-    when "pending"
-      @todo.to_pending
-    else
-      @todo.to_doing unless @todo.last_recorded_at
-    end
-    true
+    TodoChangeStatusContext.new(@todo, @status).perform if @status
   end
 end

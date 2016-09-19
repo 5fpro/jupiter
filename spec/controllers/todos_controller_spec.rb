@@ -130,7 +130,7 @@ RSpec.describe TodosController, type: :request do
       it { expect { subject }.to change { todo.reload.pending? }.to(true) }
     end
 
-    context "doing change to done" do
+    context "doing change to finished" do
       let(:status) { "finished" }
       let!(:todo) { FactoryGirl.create :todo, :with_records, :doing, user: user }
 

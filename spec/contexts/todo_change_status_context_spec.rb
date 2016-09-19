@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TodoChangeDoneContext do
+describe TodoChangeStatusContext do
   subject { described_class.new(todo, status) }
 
   context "to finished" do
@@ -18,7 +18,7 @@ describe TodoChangeDoneContext do
   context "to pending" do
     let(:todo) { FactoryGirl.create :todo, :with_records, :doing }
     let(:status) { "pending" }
-    it { expect { subject.perform }.to change { todo.reload.pending? }.to(true) }
+    it { expect { subject.perform }.to change { todo.pending? }.to(true) }
   end
 
   context "to pending if no reocrds" do
