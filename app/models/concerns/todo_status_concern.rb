@@ -1,11 +1,9 @@
-require 'active_support/concern'
-
 module TodoStatusConcern
   extend ActiveSupport::Concern
 
-  def self.included(base)
-    base.send(:include, AASM)
-    base.send(:aasm, column: :status, enum: true, whiny_transitions: false) do
+  included do
+    include AASM
+    aasm column: :status, enum: true, whiny_transitions: false do
       state :pending, initial: true
       state :doing
       state :finished
