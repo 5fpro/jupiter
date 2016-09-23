@@ -1,7 +1,7 @@
 class RecordDeleteContext < BaseContext
   before_perform :validates_user!
   after_perform :calculate_todo, if: :record_has_todo?
-  after_perform :change_without_record_todo_status, if: :record_has_todo?
+  after_perform :change_todo_status_if_no_records, if: :record_has_todo?
 
   def initialize(user, record)
     @user = user
@@ -30,7 +30,7 @@ class RecordDeleteContext < BaseContext
     TodoCalculateContext.new(@todo).perform
   end
 
-  def change_without_record_todo_status
+  def change_todo_status_if_no_records
     TodoChangeStatusContext.new(@todo, "doing").perform if @todo.finished? && @todo.records.count == 0
   end
 end

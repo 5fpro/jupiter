@@ -19,7 +19,7 @@ class TodoPublishContext < BaseContext
     @user = user
 
     @finished_todos = @user.todos.project_sorted.today_finished
-    @today_doing_todos = @user.todos.today_doing_or_finished.sorted
+    @today_doing_todos = @user.todos.today_doing_and_not_finished.sorted
     @doing_todos = @user.todos.sorted.doing
   end
 
