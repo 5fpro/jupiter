@@ -44,6 +44,21 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo8.id) }
   end
 
+  describe ".today_doing_and_not_finished" do
+    let!(:todo1) { FactoryGirl.create :todo, :doing, last_recorded_at: nil }
+    let!(:todo2) { FactoryGirl.create :todo, :pending, last_recorded_at: 1.day.from_now }
+    let!(:todo3) { FactoryGirl.create :todo, :pending, last_recorded_at: Time.zone.now.to_date }
+    let!(:todo4) { FactoryGirl.create :todo, :finished, last_recorded_at: Time.zone.now.to_date }
+    let!(:todo5) { FactoryGirl.create :todo, :doing, last_recorded_at: Time.zone.now.to_date }
+    subject { described_class.today_doing_and_not_finished.map(&:id) }
+
+    it { expect(subject).not_to be_include(todo1.id) }
+    it { expect(subject).not_to be_include(todo2.id) }
+    it { expect(subject).to be_include(todo3.id) }
+    it { expect(subject).not_to be_include(todo4.id) }
+    it { expect(subject).to be_include(todo5.id) }
+  end
+
   describe ".not_today" do
     let!(:todo1) { FactoryGirl.create :todo, last_recorded_on: nil }
     let!(:todo2) { FactoryGirl.create :todo, last_recorded_on: Time.zone.now.to_date }
