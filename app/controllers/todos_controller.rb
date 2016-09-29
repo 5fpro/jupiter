@@ -4,7 +4,7 @@ class TodosController < BaseController
   before_action :find_todo, only: [:edit, :update, :destroy, :change_done]
 
   def index
-    @done_todos = @todos.today_done
+    @done_todos = @todos.today_done.order(updated_at: :desc)
     @not_done_todos = not_done_todos
     @processing_todos = processing_todos
   end
@@ -51,7 +51,7 @@ class TodosController < BaseController
     context = TodoChangeDoneContext.new(@todo, params[:done])
     context.perform
     @not_done_todos = not_done_todos
-    @done_todos = @todos.today_done
+    @done_todos = @todos.today_done.order(updated_at: :desc)
     @processing_todos = processing_todos
   end
 
@@ -67,7 +67,7 @@ class TodosController < BaseController
   end
 
   def not_done_todos
-    @todos.not_done
+    @todos.not_done.order(updated_at: :desc)
   end
 
   def processing_todos
