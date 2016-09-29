@@ -13,3 +13,11 @@ namespace :dev do
   end
 
 end
+
+namespace :onetime do
+  task convert_todo_done_to_status: :environment do
+    Todo.where(done: nil).map { |t| t.update_attributes(status: 1) }
+    Todo.where(done: false).map { |t| t.update_attributes(status: 2) }
+    Todo.where(done: true).map { |t| t.update_attributes(status: 3) }
+  end
+end

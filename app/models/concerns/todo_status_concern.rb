@@ -3,7 +3,7 @@ module TodoStatusConcern
 
   included do
     include AASM
-    aasm column: :status, enum: true, whiny_transitions: false do
+    aasm column: :status, enum: true do
       state :pending, initial: true
       state :doing
       state :finished
