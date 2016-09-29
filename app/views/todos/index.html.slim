@@ -5,7 +5,7 @@ hr/
 
 h1 進行中的 Todos
 .js-todos-doing
-  = render partial: "list", object: @doing_todos, locals: { processing: true }
+  = render partial: "list", object: @doing_todos, locals: { doing: true }
 
 h1 尚未進行的 Todos
 .js-todos-pending

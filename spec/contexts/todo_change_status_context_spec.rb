@@ -9,7 +9,7 @@ describe TodoChangeStatusContext do
     it { expect { subject.perform }.to change { todo.reload.finished? }.to(true) }
   end
 
-  context "to processing" do
+  context "to doing" do
     let(:todo) { FactoryGirl.create :todo, :with_records, :finished }
     let(:status) { "doing" }
     it { expect { subject.perform }.to change { todo.reload.doing? }.to(true) }
@@ -63,7 +63,7 @@ describe TodoChangeStatusContext do
     it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }
   end
 
-  context "add sort pending to processing" do
+  context "add sort pending to doing" do
     let!(:todo) { FactoryGirl.create :todo, :with_records }
     let(:status) { "doing" }
 
