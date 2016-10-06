@@ -13,8 +13,8 @@ dom = $(".new-record#todo-<%= @record.todo_id %>")
 if dom.length > 0
   dom.html('')
   `
-  <%=raw render(partial: "todos/not_done_todos", object: current_user.todos.sorted.not_done) %>
-  <%=raw render(partial: "todos/processing_todos", object: current_user.todos.sorted.processing) %>
-  <%=raw render(partial: "todos/done_todos", object: current_user.todos.sorted.today_done) %>
+  <%=raw render(partial: "todos/pending_todos", object: current_user.todos.sorted.pending) %>
+  <%=raw render(partial: "todos/doing_todos", object: current_user.todos.sorted.doing) %>
+  <%=raw render(partial: "todos/finished_todos", object: current_user.todos.sorted.today_finished) %>
   `
 <% end %>

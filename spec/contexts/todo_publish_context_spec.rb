@@ -12,7 +12,7 @@ describe TodoPublishContext, type: :context do
 
   context "has todo & record" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
-    let!(:done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
+    let!(:done_todo) { FactoryGirl.create :todo, :finished, :with_records, user: user }
     it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify) }
   end
 
@@ -29,56 +29,56 @@ describe TodoPublishContext, type: :context do
       expect(todo.reload.last_recorded_on).to be_present
     end
 
-    def to_not_done(todo)
-      TodoChangeDoneContext.new(todo, "nil").perform
-      expect(todo).to be_not_done
+    def to_pending(todo)
+      TodoChangeStatusContext.new(todo, "pending").perform
+      expect(todo).to be_pending
     end
 
-    def to_processing(todo)
-      TodoChangeDoneContext.new(todo, false).perform
-      expect(todo).to be_processing
+    def to_doing(todo)
+      TodoChangeStatusContext.new(todo, "doing").perform
+      expect(todo).to be_doing
     end
 
     def invite_user_to_project(user, project)
       project.project_users.create(user: user)
     end
 
-    let(:todo) { FactoryGirl.create(:todo, :not_done, user: user) }
+    let(:todo) { FactoryGirl.create(:todo, :pending, user: user) }
     before { invite_user_to_project(user, todo.project) }
 
-    context 'no record -> processing' do
-      before { to_processing(todo) }
+    context 'no record -> doing' do
+      before { to_doing(todo) }
       before { subject.perform }
 
-      it { expect(subject.today_processing_todos.map(&:id)).not_to be_include(todo.id) }
-      it { expect(subject.processing_todos.map(&:id)).to be_include(todo.id) }
+      it { expect(subject.today_doing_todos.map(&:id)).not_to be_include(todo.id) }
+      it { expect(subject.doing_todos.map(&:id)).to be_include(todo.id) }
     end
 
-    context 'processing -> no record -> not_done' do
-      before { to_processing(todo) }
-      before { to_not_done(todo) }
+    context 'doing -> no record -> pending' do
+      before { to_doing(todo) }
+      before { to_pending(todo) }
       before { subject.perform }
 
-      it { expect(subject.today_processing_todos.map(&:id)).not_to be_include(todo.id) }
-      it { expect(subject.processing_todos.map(&:id)).not_to be_include(todo.id) }
+      it { expect(subject.today_doing_todos.map(&:id)).not_to be_include(todo.id) }
+      it { expect(subject.doing_todos.map(&:id)).not_to be_include(todo.id) }
     end
 
-    context 'processing -> has record' do
-      before { to_processing(todo) }
+    context 'doing -> has record' do
+      before { to_doing(todo) }
       before { add_record(todo) }
       before { subject.perform }
-      it { expect(subject.today_processing_todos.map(&:id)).to be_include(todo.id) }
-      it { expect(subject.processing_todos.map(&:id)).to be_include(todo.id) }
+      it { expect(subject.today_doing_todos.map(&:id)).to be_include(todo.id) }
+      it { expect(subject.doing_todos.map(&:id)).to be_include(todo.id) }
     end
 
-    context 'processing -> has record -> not_done' do
-      before { to_processing(todo) }
+    context 'doing -> has record -> pending' do
+      before { to_doing(todo) }
       before { add_record(todo) }
-      before { to_not_done(todo) }
+      before { to_pending(todo) }
       before { subject.perform }
 
-      it { expect(subject.today_processing_todos.map(&:id)).to be_include(todo.id) }
-      it { expect(subject.processing_todos.map(&:id)).not_to be_include(todo.id) }
+      it { expect(subject.today_doing_todos.map(&:id)).to be_include(todo.id) }
+      it { expect(subject.doing_todos.map(&:id)).not_to be_include(todo.id) }
     end
   end
 end
