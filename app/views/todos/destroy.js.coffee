@@ -1,6 +1,6 @@
 `
-<%= raw render(partial: "not_done_todos", object: @not_done_todos) %>
-<%= raw render(partial: "processing_todos", object: @processing_todos) %>
+<%= raw render(partial: "pending_todos", object: @pending_todos) %>
+<%= raw render(partial: "doing_todos", object: @doing_todos) %>
 `
 <% if @error_messages %>
   todo_dom = $('js-delete-todo-<%= @todo.id %>')

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe TodoCalculateContext do
-  let!(:todo) { FactoryGirl.create :todo, :with_records }
+  let!(:todo) { FactoryGirl.create :todo, :with_not_calculate_record }
   subject { described_class.new(todo) }
 
   it { expect { subject.perform }.to change { todo.reload.total_time } }
@@ -17,41 +17,29 @@ describe TodoCalculateContext do
     it { expect { subject.perform }.to change { todo.reload.last_recorded_at } }
   end
 
-  describe "#set_done" do
+  describe "#change_status" do
     context "not set" do
-      let!(:todo) { FactoryGirl.create :todo, :with_records, done: true }
-      it { expect { subject.perform }.not_to change { todo.reload.done? } }
+      let!(:todo) { FactoryGirl.create :todo, :with_records, :doing }
+      it { expect { subject.perform }.not_to change { todo.reload.status } }
     end
 
-    context "true" do
-      it { expect { subject.perform(done: "true") }.to change { todo.reload.done? }.to(true) }
+    context "to_finished" do
+      it { expect { subject.perform(status: "finished") }.to change { todo.reload.finished? }.to(true) }
     end
 
-    context "false" do
-      let!(:todo) { FactoryGirl.create :todo, :with_records, done: true }
-      it { expect { subject.perform(done: "false") }.to change { todo.reload.done }.to(false) }
+    context "to_doing" do
+      let!(:todo) { FactoryGirl.create :todo, :with_records, :finished }
+      it { expect { subject.perform(status: "doing") }.to change { todo.reload.doing? }.to(true) }
     end
 
-    context "nil" do
-      let!(:todo) { FactoryGirl.create :todo, :with_records, done: false }
-      it { expect { subject.perform(done: "nil") }.to change { todo.reload.done }.to(nil) }
+    context "to_pending" do
+      let!(:todo) { FactoryGirl.create :todo, :with_records, :doing }
+      it { expect { subject.perform(status: "pending") }.to change { todo.reload.pending? }.to(true) }
     end
 
-    context "true but not reocrds" do
+    context "to_finished but not reocrds" do
       let(:todo) { FactoryGirl.create :todo }
-      it { expect { subject.perform(done: "true") }.not_to change { todo.reload.done? } }
+      it { expect { subject.perform(status: "finished") }.not_to change { todo.reload.status } }
     end
-  end
-
-  describe "#remove_sort" do
-    let!(:todo) { FactoryGirl.create :todo, :with_records, done: false, sort: 1 }
-    before { subject.perform(done: "true") }
-    it { expect(todo.reload.sort).to be_nil }
-  end
-
-  describe "#add_to_sort" do
-    let!(:todo) { FactoryGirl.create :todo, :with_records, done: true, sort: nil }
-    before { subject.perform(done: "false") }
-    it { expect(todo.reload.sort).to be_present }
   end
 end

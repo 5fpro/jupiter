@@ -178,7 +178,7 @@ RSpec.describe RecordsController, type: :request do
 
     describe "#new" do
       context "can find not done todo" do
-        before { FactoryGirl.create :todo, :not_done, project: project, user: user, desc: "我愛羅" }
+        before { FactoryGirl.create :todo, :pending, project: project, user: user, desc: "我愛羅" }
 
         it "html" do
           get "/projects/#{project.id}/records/new"

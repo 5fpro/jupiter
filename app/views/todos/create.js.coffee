@@ -1,5 +1,5 @@
 `
-<%= raw render(partial: "not_done_todos", object: @not_done_todos) %>
+<%= raw render(partial: "pending_todos", object: @pending_todos) %>
 `
 
 form = $('.js-new-todo-form')

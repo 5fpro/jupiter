@@ -1,15 +1,15 @@
 h1 已完成的 Todos
-.js-todos-done
-  = render partial: "list", object: @done_todos
+.js-todos-finished
+  = render partial: "list", object: @finished_todos
 hr/
 
 h1 進行中的 Todos
-.js-todos-processing
-  = render partial: "list", object: @processing_todos, locals: { processing: true }
+.js-todos-doing
+  = render partial: "list", object: @doing_todos, locals: { doing: true }
 
 h1 尚未進行的 Todos
-.js-todos-not-done
-  = render partial: "list", object: @not_done_todos
+.js-todos-pending
+  = render partial: "list", object: @pending_todos
 
 .js-new-todo-form
 = link_to "新增 TODO", new_todo_path(format: :js), remote: true, class: "btn btn-default"

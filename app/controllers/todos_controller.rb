@@ -1,12 +1,12 @@
 class TodosController < BaseController
   before_action :authenticate_user!
   before_action :find_todos
-  before_action :find_todo, only: [:edit, :update, :destroy, :change_done]
+  before_action :find_todo, only: [:edit, :update, :destroy, :change_status]
 
   def index
-    @done_todos = @todos.today_done.order(updated_at: :desc)
-    @not_done_todos = not_done_todos
-    @processing_todos = processing_todos
+    @finished_todos = @todos.today_finished.order(updated_at: :desc)
+    @pending_todos = pending_todos
+    @doing_todos = doing_todos
   end
 
   def new
@@ -19,7 +19,7 @@ class TodosController < BaseController
   def create
     context = TodoCreateContext.new(current_user, params[:todo])
     if @todo = context.perform
-      @not_done_todos = not_done_todos
+      @pending_todos = pending_todos
       # render js
     else
       @error_messages = context.error_messages
@@ -29,7 +29,7 @@ class TodosController < BaseController
   def update
     context = TodoUpdateContext.new(@todo, params[:todo])
     if context.perform
-      @processing_todos = processing_todos
+      @doing_todos = doing_todos
       # render js
     else
       @error_messages = context.error_messages
@@ -39,20 +39,20 @@ class TodosController < BaseController
   def destroy
     context = TodoDeleteContext.new(@todo)
     if context.perform
-      @processing_todos = processing_todos
-      @not_done_todos = not_done_todos
+      @doing_todos = doing_todos
+      @pending_todos = pending_todos
       # render js
     else
       @error_messages = context.error_messages
     end
   end
 
-  def change_done
-    context = TodoChangeDoneContext.new(@todo, params[:done])
+  def change_status
+    context = TodoChangeStatusContext.new(@todo, params[:status])
     context.perform
-    @not_done_todos = not_done_todos
-    @done_todos = @todos.today_done.order(updated_at: :desc)
-    @processing_todos = processing_todos
+    @pending_todos = pending_todos
+    @finished_todos = @todos.today_finished.order(updated_at: :desc)
+    @doing_todos = doing_todos
   end
 
   def publish
@@ -66,12 +66,12 @@ class TodosController < BaseController
     @todos = current_user.todos.sorted.includes(:project, :records)
   end
 
-  def not_done_todos
-    @todos.not_done.order(updated_at: :desc)
+  def pending_todos
+    @todos.pending.order(updated_at: :desc)
   end
 
-  def processing_todos
-    @todos.processing
+  def doing_todos
+    @todos.doing
   end
 
   def find_todo

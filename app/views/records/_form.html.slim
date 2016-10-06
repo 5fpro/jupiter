@@ -5,5 +5,5 @@
 - disabled = !f.object.new_record?
 = f.input :todo_id, as: :select, collection: collection_for_project_todos(@project || f.object.project), disabled: disabled
 - unless disabled
-  = f.input :id, as: :boolean, label: "已完成 todo", input_html: { name: "record[todo_done]" }
+  = f.input :id, as: :boolean, label: "已完成 todo", input_html: { name: "record[todo_finished]" }
 = f.submit class: "btn btn-default"

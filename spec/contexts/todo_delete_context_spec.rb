@@ -11,7 +11,7 @@ describe TodoDeleteContext do
   end
 
   context "validates_done_yet" do
-    let(:todo) { FactoryGirl.create :todo, :done }
+    let(:todo) { FactoryGirl.create :todo, :finished }
     it { expect { subject }.not_to change { user.todos.count } }
   end
 end
