@@ -1,6 +1,6 @@
 # see more
 #   https://github.com/tablexi/capistrano3-unicorn/blob/master/examples/unicorn.rb
-app_path = "/home/jupiter/jupiter"
+app_path = "/home/apps/jupiter"
 working_directory "#{app_path}/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
 listen '/tmp/unicorn.jupiter.sock'
