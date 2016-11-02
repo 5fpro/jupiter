@@ -9,6 +9,8 @@ set :ssh_options, {
   forward_agent: true
 }
 
+set :rvm_ruby_version, IO.read('./.ruby-version').split("\n")[0]
+
 # Default branch is :master
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
@@ -78,3 +80,4 @@ end
 #     end
 #   end
 # end
+
