@@ -2,4 +2,4 @@
 --require spec_helper
 
 --profile
---format doc
+--format progress
