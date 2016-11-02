@@ -1,9 +1,4 @@
-set :deploy_to, '/home/jupiter/jupiter'
 set :rails_env, 'staging'
-set :branch, ENV["BR"] || 'develop'
-set :ssh_options, {
-  user: 'jupiter'
-}
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary server in each group

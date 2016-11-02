@@ -1,11 +1,16 @@
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '3.6.1'
 
 set :application, 'jupiter'
 set :repo_url, 'git@github.com:5fpro/jupiter.git'
+set :deploy_to, '/home/apps/jupiter'
+set :ssh_options, {
+  user: 'apps',
+  forward_agent: true
+}
 
 # Default branch is :master
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
