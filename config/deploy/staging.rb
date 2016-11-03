@@ -13,8 +13,6 @@ role :whenever_server,    server
 role :sidekiq_server,     server
 role :assets_sync_server, server
 
-set :rvm_ruby_version, '2.2.1'
-
 # Extended Server Syntax
 # ======================
 # This can be used to drop a more detailed server definition into the
