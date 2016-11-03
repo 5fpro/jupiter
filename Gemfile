@@ -26,7 +26,6 @@ gem 'rails_autolink'
 # assets
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
-gem 'therubyracer', platforms: :ruby
 gem 'asset_sync'
 
 # JS plugin
