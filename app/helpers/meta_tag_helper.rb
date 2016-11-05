@@ -9,15 +9,19 @@ module MetaTagHelper
   end
 
   def default_meta
-    { title: "My app",
-      description: "5Fpro awesome!",
-      keywords: "5fpro",
+    { title: "Jupiter@5FPRO",
+      description: "Jupiter@5FPRO",
+      keywords: "5FPRO",
       fb_app_id: "12341234",
       fb_admin_ids: "1234,123",
       separator: " | ",
       reverse: true,
       og_type: "website",
-      site: "5Fpro"
+      site: "5FPRO",
+      icon: [
+        { href: ActionController::Base.helpers.asset_path('icon-100.png'), type: 'image/png' },
+        { href: ActionController::Base.helpers.asset_path('icon-100.png'), type: 'image/png', rel: 'apple-touch-icon apple-touch-icon-precomposed' },
+      ]
     }
   end
 
@@ -40,6 +44,7 @@ module MetaTagHelper
       admins: default_meta[:fb_admin_ids]
     }
     data[:og][:image] = data[:image] if data[:image]
+    data[:icon] ||= default_meta[:icon]
     data
   end
 end
