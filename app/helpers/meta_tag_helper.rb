@@ -20,7 +20,7 @@ module MetaTagHelper
       site: "5FPRO",
       icon: [
         { href: ActionController::Base.helpers.asset_path('icon-100.png'), type: 'image/png' },
-        { href: ActionController::Base.helpers.asset_path('icon-100.png'), type: 'image/png', rel: 'apple-touch-icon apple-touch-icon-precomposed' },
+        { href: ActionController::Base.helpers.asset_path('icon-100.png'), type: 'image/png', rel: 'apple-touch-icon apple-touch-icon-precomposed' }
       ]
     }
   end
