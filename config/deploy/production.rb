@@ -5,8 +5,6 @@ set :rails_env, 'production'
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-set :rvm_ruby_version, '2.2.1'
-
 # require "aws-sdk-v1"
 # require "aws-sdk"
 # aws_conf = YAML.load(IO.read("./config/application.yml"))["development"]["aws"].symbolize_keys
