@@ -44,7 +44,7 @@ class Github::BindContext < BaseContext
   end
 
   def webhook_url(token)
-    "http://#{Setting.host}/webhooks/#{token}"
+    "https://#{Setting.host}/webhooks/#{token}"
     # for ngrok test
     # "http://f8245dfa.ngrok.io/webhooks/#{token}"
   end
