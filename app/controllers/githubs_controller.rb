@@ -15,6 +15,8 @@ class GithubsController < BaseController
     context = Github::BindContext.new(@project, params)
     if context.perform
       redirect_as_success(project_githubs_path(@project), "github binded")
+    else
+      redirect_as_fail(project_githubs_path(@project), "Bind failed! Try update permissions.")
     end
   end
 
@@ -22,6 +24,8 @@ class GithubsController < BaseController
     context = Github::UnbindContext.new(@github)
     if context.perform
       redirect_as_success(project_githubs_path(@project), "github unbind")
+    else
+      redirect_as_fail(project_githubs_path(@project), "Unbind failed! Try update permissions.")
     end
   end
 
