@@ -45,7 +45,12 @@ class Github
         @target[:body] = @params[:comment][:body]
         @target[:url] = @params[:comment][:html_url]
         @target[:message] = "你有新的回應: #{@target[:summary]}"
-      else
+      elsif @action_type == 'submitted' && @params[:review]
+        @target[:summary] = @params[:review][:body].to_s.strip.tr("\n", "").tr("\r", "").tr("\t", "")
+        @target[:body] = @params[:review][:body]
+        @target[:url] = @params[:review][:html_url]
+        @target[:message] = "你有新的 code review: #{@target[:summary]}"
+      else # disabled
         object = @params[:issue] || @params[:pull_request]
         @target[:summary] = object[:title]
         # @target[:body] = "@" + object[:assignee][:login]
