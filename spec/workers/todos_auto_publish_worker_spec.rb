@@ -10,7 +10,7 @@ RSpec.describe TodosAutoPublishWorker, type: :worker do
 
   context "has todo & record" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
-    let!(:done_todo) { FactoryGirl.create :todo, :with_records, user: user, done: true }
+    let!(:done_todo) { FactoryGirl.create :todo, :with_records, :finished, user: user }
 
     it { expect { subject.perform }.to change_sidekiq_jobs_size_of(TodoPublishContext, :perform) }
   end
