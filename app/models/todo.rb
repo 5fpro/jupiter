@@ -25,7 +25,7 @@ class Todo < ActiveRecord::Base
   has_many :records, dependent: :nullify
 
   validates :user_id, :project_id, :desc, presence: true
-  scope :for_bind, -> { where(status: [Todo.statuses[:pending], Todo.statuses[:doing]]) }
+  scope :for_bind, -> { where.not('status = ? AND last_recorded_on != ?', Todo.statuses[:finished], Time.zone.now.to_date) }
   scope :today_finished, -> { today.finished }
   scope :today_doing_and_not_finished, -> { where(status: [Todo.statuses[:pending], Todo.statuses[:doing]]).where(last_recorded_on: Time.zone.now.to_date) }
   scope :today, -> { where(last_recorded_on: Time.zone.now.to_date) }

@@ -38,7 +38,7 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo2.id) }
     it { expect(subject).not_to be_include(todo3.id) }
     it { expect(subject).not_to be_include(todo4.id) }
-    it { expect(subject).not_to be_include(todo5.id) }
+    it { expect(subject).to be_include(todo5.id) }
     it { expect(subject).to be_include(todo6.id) }
     it { expect(subject).to be_include(todo7.id) }
     it { expect(subject).to be_include(todo8.id) }
