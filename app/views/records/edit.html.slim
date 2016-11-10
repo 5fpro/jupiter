@@ -1,4 +1,4 @@
 = render partial: "projects/menu", as: :project, object: @project
 .form-edit-record
   = simple_form_for @record, as: :record, method: :put, url: project_record_path(@project, @record, redirect_to: params[:redirect_to]), html: { class: "edit_record form-horizontal" }, wrapper: :horizontal_form do |f|
-    = render partial: "form", as: :f, object: f
+    = render partial: "form", as: :f, object: f, record: @record
