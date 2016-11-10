@@ -44,7 +44,7 @@ FactoryGirl.define do
 
     trait :with_records do
       after(:create) do |project|
-        FactoryGirl.create_list :record, 2, project: project, user: project.owner
+        FactoryGirl.create_list :record, 2, :with_todo, project: project, user: project.owner
       end
     end
 
