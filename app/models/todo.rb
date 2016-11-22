@@ -10,7 +10,6 @@
 #  data             :hstore
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  done             :boolean
 #  last_recorded_at :datetime
 #  sort             :integer
 #  status           :integer
