@@ -21,19 +21,19 @@ RSpec.describe GithubService, type: :model do
   end
 
   describe "#auto_create_hook" do
-    subject { described_class.new("token").auto_create_hook("repo", "hook_url") }
+    subject { described_class.new("token").auto_create_hook("xxx/repo", "hook_url") }
 
     it { expect(subject.id.present?).to be_truthy }
   end
 
   # describe "#show_hook" do
-  #   subject { described_class.new("token").show_hook("repo", 99_999) }
+  #   subject { described_class.new("token").show_hook("xxx/repo", 99_999) }
 
   #   it { expect(subject.id.present?).to be_truthy }
   # end
 
   describe "#auto_delete_hook" do
-    subject { described_class.new("token").auto_delete_hook("repo", 99_999) }
+    subject { described_class.new("token").auto_delete_hook("xxx/repo", 99_999) }
 
     it { expect(subject).to be_truthy }
   end
