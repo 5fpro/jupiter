@@ -1,8 +1,4 @@
 = render partial: "menu", as: :project, object: @project
-
-h2= link_to "Slack 頻道設定", project_slack_channels_path(@project)
-h2= link_to "Github Bind", project_githubs_path(@project)
-
 = simple_form_for @project, url: setting_project_path(@project), method: :put, wrapper: :horizontal_form do |f|
   = render partial: "form", object: f, as: :f
 

@@ -7,4 +7,5 @@
 .form-group
   .col-sm-offset-3.col-sm-9
     .form-actions
-      = f.submit "新增", class: "btn btn-default"
+      - word = params[:action] == "new" ? "新增" : "更新"
+      = f.submit word, class: "btn btn-primary"
