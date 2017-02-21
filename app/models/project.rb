@@ -22,7 +22,8 @@ class Project < ActiveRecord::Base
   has_many :githubs
 
   store_accessor :data, :users_count, :description, :hours_limit,
-                 :approached_hours_limit, :primary_slack_channel_id
+                 :approached_hours_limit, :primary_slack_channel_id,
+                 :github_slack_users_mapping_json
 
   validates :name, :owner_id, presence: true
 

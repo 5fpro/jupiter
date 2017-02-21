@@ -16,8 +16,8 @@ class Github
 
     def perform
       run_callbacks :perform do
-        @mentions.each do |user|
-          send_notification(user)
+        @mentions.each do |slack_user|
+          send_notification(slack_user)
         end
       end
     end
@@ -61,24 +61,36 @@ class Github
     end
 
     def find_mentions
+      mapping = generate_github_slack_user_mapping
       @mentions = []
       if @target[:body].present?
-        @project.project_users.includes(:user).each do |project_user|
-          user = project_user.user
-          if project_user.slack_user.present?
-            @mentions << user if @target[:body].index("@" + user.github_account)
-          end
+        mapping.each do |github_user, slack_user|
+          @mentions << slack_user if @target[:body].index("@" + github_user)
         end
       end
     end
 
     def remove_self_notify!
-      @mentions.reject! { |user| user.github_account == @sender }
+      @mentions.reject! { |github_user, _| github_user == @sender }
     end
 
-    def send_notification(user)
+    def send_notification(slack_user)
       message = @target[:message] + " ......#{SlackService.render_link(@target[:url], "點擊查看")}"
-      Notify::SendToUserContext.new(@project, user, message).perform(async: false)
+      Notify::SendToUserContext.new(@project, slack_user, message).perform(async: false)
+    end
+
+    def generate_github_slack_user_mapping
+      mapping = @project.project_users.includes(:user).inject({}) do |s, project_user|
+          s.merge(project_user.user.github_account => project_user.slack_user)
+      end
+      mapping.merge!(project_json_mapping)
+      mapping.select { |k, v| v.present? }
+    end
+
+    def project_json_mapping
+      mapping = JSON.parse(@project.github_slack_users_mapping_json) rescue nil
+      return {} unless mapping.is_a?(Array)
+      mapping.inject({}) { |s, e| s.merge(e.first => e.last) }
     end
   end
 end
