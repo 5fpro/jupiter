@@ -82,7 +82,7 @@ class Github
 
     def generate_github_slack_user_mapping
       mapping = @project.project_users.includes(:user).inject({}) do |s, project_user|
-          s.merge(project_user.user.github_account => project_user.slack_user)
+        s.merge(project_user.user.github_account => project_user.slack_user)
       end
       mapping.merge!(project_json_mapping)
       mapping.select { |k, v| v.present? }
