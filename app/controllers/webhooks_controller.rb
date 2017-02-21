@@ -3,8 +3,8 @@ class WebhooksController < BaseController
   before_action :find_github
 
   def webhook_data
-    Github::ReceiveCallbacksContext.new(@github, params).perform
-    render nothing: true, status: 200, content_type: 'text/html'
+    @mentions = Github::ReceiveCallbacksContext.new(@github, params).perform
+    render json: { mentions: @mentions }
   end
 
   private

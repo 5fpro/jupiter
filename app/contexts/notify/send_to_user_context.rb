@@ -3,9 +3,13 @@ class Notify::SendToUserContext < BaseContext
   before_perform :find_slack_user
   before_perform :to_params
 
-  def initialize(project, user, message)
+  def initialize(project, user_or_slack_user, message)
     @project = project
-    @user = user
+    if user_or_slack_user.is_a?(User)
+      @user = user_or_slack_user
+    else
+      @slack_user = user_or_slack_user
+    end
     @message = message
   end
 
@@ -24,6 +28,7 @@ class Notify::SendToUserContext < BaseContext
   end
 
   def find_slack_user
+    return true if @slack_user
     project_user = @project.project_users.where(user_id: @user.id).first
     return add_error(:data_not_found, "project_user not found") unless project_user
     @slack_user = project_user.slack_user
