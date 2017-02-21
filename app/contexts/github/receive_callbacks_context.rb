@@ -20,6 +20,7 @@ class Github
           send_notification(slack_user)
         end
       end
+      @mentions
     end
 
     private
