@@ -85,13 +85,17 @@ class Github
         s.merge(project_user.user.github_account => project_user.slack_user)
       end
       mapping.merge!(project_json_mapping)
-      mapping.select { |k, v| v.present? }
+      mapping.select { |_, v| v.present? }
     end
 
     def project_json_mapping
-      mapping = JSON.parse(@project.github_slack_users_mapping_json) rescue nil
+      mapping = begin
+                  JSON.parse(@project.github_slack_users_mapping_json)
+                rescue
+                  nil
+                end
       return {} unless mapping.is_a?(Array)
-      mapping.inject({}) { |s, e| s.merge(e.first => e.last) }
+      mapping.inject({}) { |a, e| a.merge(e.first => e.last) }
     end
   end
 end
