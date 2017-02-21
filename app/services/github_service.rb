@@ -19,7 +19,9 @@ class GithubService
 
   # see https://developer.github.com/v3/repos/#list-your-repositories
   def collect_all_repos
-    @client.repos(nil, per_page: 100, sort: 'pushed').map(&:full_name)
+    repos = @client.repos(nil, per_page: 100, sort: 'full_name', direction: :asc).map(&:full_name) +
+            @client.repos(nil, per_page: 100, sort: 'full_name', direction: :desc).map(&:full_name).reverse
+    repos.uniq
   end
 
   def auto_create_hook(repo_fullname, hook_url, hook_name = "web")
