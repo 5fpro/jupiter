@@ -38,6 +38,8 @@ class Todo < ActiveRecord::Base
     finished: 3
   }
 
+  before_validation :append_github_issue_title_to_desc
+
   def total_time
     super.to_i.seconds
   end
@@ -56,5 +58,12 @@ class Todo < ActiveRecord::Base
     number = desc.scan(/\A#(\d+)\Z/)[0][0]
     @repo ||= user.github.repo(project.githubs.last.repo_fullname)
     @issue ||= @repo.rels[:issues].get(uri: { number: number })
+  rescue Octokit::NotFound # access token is unavailable
+    return # do nothing
+  end
+
+  def append_github_issue_title_to_desc
+    return unless github_issue
+    self.desc = "#{desc}: #{github_issue.data.title}"
   end
 end
