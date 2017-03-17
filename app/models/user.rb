@@ -64,4 +64,8 @@ class User < ActiveRecord::Base
     !full_access_token.value.present?
   end
 
+  def github
+    Octokit::Client.new(access_token: full_access_token.get)
+  end
+
 end

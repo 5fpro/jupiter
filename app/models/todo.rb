@@ -50,4 +50,11 @@ class Todo < ActiveRecord::Base
     super(v)
     self.last_recorded_on = v.try(:to_date)
   end
+
+  def github_issue
+    return unless desc =~ /\A#(\d+)\Z/
+    number = desc.scan(/\A#(\d+)\Z/)[0][0]
+    @repo ||= user.github.repo(project.githubs.last.repo_fullname)
+    @issue ||= @repo.rels[:issues].get(uri: { number: number })
+  end
 end
