@@ -7,10 +7,9 @@ class Github
     before_perform :find_mentions
     before_perform :remove_self_notify!
 
-    ACCEPTED_ACTIONS = ["created", "submitted", "opened"].freeze
-
-    def initialize(github, callback_params)
+    def initialize(github, event, callback_params)
       @github = github
+      @event = event
       @params = callback_params
     end
 
@@ -32,8 +31,16 @@ class Github
     end
 
     def find_action_type
-      @action_type = @params[:action] || @params[:webhook][:action]
-      return false unless ACCEPTED_ACTIONS.include?(@action_type)
+      action = @params[:webhook].try(:[], :action) || @params[:action]
+      if @event.index('comment')
+        @action_type = 'comment'
+      elsif action == 'submitted' && @event == 'pull_request_review'
+        @action_type = 'submitted_pull_request_review'
+      elsif action == 'opened' && @event == 'pull_request'
+        @action_type = 'opened_pull_request'
+      elsif action == 'opened' && @event == 'issues'
+        @action_type = 'opened_issue'
+      end
     end
 
     def find_sender
@@ -42,26 +49,26 @@ class Github
 
     def find_target
       @target = {}
-      if @action_type == "created" && @params[:comment]
+      if @action_type == "comment"
         @target[:summary] = strip_body(@params[:comment][:body])
         @target[:body] = @params[:comment][:body]
         @target[:url] = @params[:comment][:html_url]
         @target[:message] = "你有新的回應: #{@target[:summary]}"
-      elsif @action_type == 'submitted' && @params[:review]
+      elsif @action_type == 'submitted_pull_request_review'
         @target[:summary] = strip_body(@params[:review][:body])
         @target[:body] = @params[:review][:body]
         @target[:url] = @params[:review][:html_url]
         @target[:message] = "你有新的 code review: #{@target[:summary]}"
-      elsif @action_type == 'opened' && @params[:issue]
+      elsif @action_type == 'opened_issue'
         @target[:summary] = strip_body(@params[:issue][:title])
         @target[:body] = @params[:issue][:title]
         @target[:url] = @params[:issue][:html_url]
-        @target[:message] = "你有新的票: #{@target[:summary]}"
-      elsif @action_type == 'opened' && @params[:pull_request]
+        @target[:message] = "你在新的票被提及: #{@target[:summary]}"
+      elsif @action_type == 'opened_pull_request'
         @target[:summary] = strip_body(@params[:pull_request][:title])
         @target[:body] = @params[:pull_request][:body]
         @target[:url] = @params[:pull_request][:html_url]
-        @target[:message] = "你有新的票: #{@target[:summary]}"
+        @target[:message] = "你在新的 PR 被提及: #{@target[:summary]}"
       else # disabled
         object = @params[:issue] || @params[:pull_request]
         @target[:summary] = object[:title]
