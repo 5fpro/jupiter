@@ -63,7 +63,7 @@ group :development do
   # unicorn
   gem 'capistrano3-unicorn'
   # slack
-  gem 'slackistrano', '3.0.1'
+  gem 'slackistrano'
 
   gem 'guard-annotate'
   gem 'annotate'
