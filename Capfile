@@ -4,6 +4,8 @@ require 'capistrano/setup'
 # Include default deployment tasks
 require 'capistrano/deploy'
 
+require 'capistrano/scm/git'
+install_plugin Capistrano::SCM::Git
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
@@ -29,6 +31,7 @@ Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 require 'capistrano3/unicorn'
 # require 'capistrano/sidekiq/monit' #to require monit tasks (V0.2.0+)
 require 'slackistrano/capistrano'
+require_relative 'lib/capistrano/deploy_messaging'
 require 'capistrano/sidekiq'
 require 'whenever/capistrano'
 require 'rollbar/capistrano3'
