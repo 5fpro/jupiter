@@ -1,4 +1,6 @@
+
 AllCops:
+  TargetRubyVersion: 2.2
   Exclude:
     - bin/**/*
     - config/**/*
@@ -105,3 +107,6 @@ Metrics/AbcSize:
 
 Metrics/PerceivedComplexity:
   Max: 30
+
+Metrics/ClassLength:
+  Max: 200
