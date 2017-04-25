@@ -7,10 +7,12 @@ class Github
     before_perform :find_mentions
     before_perform :remove_self_notify!
 
-    def initialize(github, event, callback_params)
+    def initialize(github, request:)
       @github = github
-      @event = event
-      @params = callback_params
+      @request = request
+      @event = request.headers.to_h['HTTP_X_GITHUB_EVENT']
+      @action = request.request_parameters['action'] || request.query_parameters['action']
+      @params = request.params
     end
 
     def perform
@@ -31,16 +33,17 @@ class Github
     end
 
     def find_action_type
-      action = @params[:webhook].try(:[], :action) || @params[:action]
+      @action ||= @params[:webhook].try(:[], :action)
       if @event.index('comment')
         @action_type = 'comment'
-      elsif action == 'submitted' && @event == 'pull_request_review'
+      elsif @action == 'submitted' && @event == 'pull_request_review'
         @action_type = 'submitted_pull_request_review'
-      elsif action == 'opened' && @event == 'pull_request'
+      elsif @action == 'opened' && @event == 'pull_request'
         @action_type = 'opened_pull_request'
-      elsif action == 'opened' && @event == 'issues'
+      elsif @action == 'opened' && @event == 'issues'
         @action_type = 'opened_issue'
       end
+      byebug
     end
 
     def find_sender
@@ -61,7 +64,7 @@ class Github
         @target[:message] = "你有新的 code review: #{@target[:summary]}"
       elsif @action_type == 'opened_issue'
         @target[:summary] = strip_body(@params[:issue][:title])
-        @target[:body] = @params[:issue][:title]
+        @target[:body] = @params[:issue][:body]
         @target[:url] = @params[:issue][:html_url]
         @target[:message] = "你在新的票被提及: #{@target[:summary]}"
       elsif @action_type == 'opened_pull_request'
