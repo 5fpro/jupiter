@@ -43,7 +43,6 @@ class Github
       elsif @action == 'opened' && @event == 'issues'
         @action_type = 'opened_issue'
       end
-      byebug
     end
 
     def find_sender
