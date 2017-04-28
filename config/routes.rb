@@ -26,10 +26,6 @@ Rails.application.routes.draw do
   end
 
   resources :projects do
-    member do
-      get :setting
-      put :setting, action: "update_setting"
-    end
     collection do
       get :edit, action: :edit_collection
     end

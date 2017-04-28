@@ -25,7 +25,6 @@ RSpec.describe Project, type: :model do
     it { FactoryGirl.create :project_for_slack_notify }
     it { FactoryGirl.create :project_has_members }
     it { FactoryGirl.create :project_has_records }
-    it { attributes_for :project_for_update, :member }
     it { attributes_for :project_for_update, :setting }
     it { attributes_for :project_for_update, :project_users }
   end

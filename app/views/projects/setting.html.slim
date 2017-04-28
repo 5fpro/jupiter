@@ -1,5 +1,0 @@
-= render partial: "menu", as: :project, object: @project
-= simple_form_for @project, url: setting_project_path(@project), method: :put, wrapper: :horizontal_form do |f|
-  = render partial: "form", object: f, as: :f
-
-= link_to "刪除專案", project_path(@project), method: :delete, "data-confirm" => "確認", class: "btn btn-danger"
