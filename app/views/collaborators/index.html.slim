@@ -29,5 +29,5 @@ h2= "專案成員"
           td= render_hours(reocrds.this_month.total_time)
           td= render_hours(reocrds.last_month.total_time)
           td= ff.input_field :slack_user, as: :string
-          td= link_to "移除此成員", project_collaborator_path(@project, ff), method: :delete, data: { confirm: "確定移除？"}
+          td= link_to "移除此成員", project_collaborator_path(@project, user), method: :delete, data: { confirm: "確定移除？"}
   = f.submit '更新', class: "btn btn-primary"

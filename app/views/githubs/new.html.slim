@@ -1,3 +1,5 @@
+= render partial: "projects/menu", as: :project, object: @project
+br/
 = render partial: "update_token"
 = simple_form_for @github, url: project_githubs_path(@project), method: :post do |f|
   = render partial: "form", object: f, as: :f
