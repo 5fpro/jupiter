@@ -17,6 +17,7 @@ RSpec.describe ProjectsController, type: :request do
 
   let!(:project) { FactoryGirl.create :project_has_members }
   let(:user) { project.owner }
+  let(:user1) { FactoryGirl.create :user }
 
   def remove_user_from_project!(project, user)
     project.project_users.where(user_id: user.id).first.try(:delete)
@@ -101,15 +102,14 @@ RSpec.describe ProjectsController, type: :request do
       it { expect(response).to be_success }
     end
 
-    context "not in project" do
-      before { remove_user_from_project!(project, user) }
-
+    context "not owner" do
+      before { project.update_attribute :owner, user1 }
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 
   describe "#update" do
-    let(:data) { attributes_for(:project_for_update, :member) }
+    let(:data) { attributes_for(:project_for_update, :setting) }
     subject { put "/projects/#{project.id}", project: data }
 
     context "success" do
@@ -124,48 +124,8 @@ RSpec.describe ProjectsController, type: :request do
       end
     end
 
-    context "not in project" do
-      before { remove_user_from_project!(project, user) }
-
-      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
-    end
-
-    context "update fail" do
-      before { project.update_column :name, "" }
-      before { subject }
-
-      it { expect(response).to be_success }
-      it { expect(project.reload.description).to be_blank }
-    end
-  end
-
-  describe "#setting" do
-    subject { get "/projects/#{project.id}/setting" }
-
-    context "success" do
-      before { subject }
-      it { expect(response).to be_success }
-    end
-
     context "not owner" do
-      before { project.update_attribute :owner, nil }
-
-      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
-    end
-  end
-
-  describe "#update_setting" do
-    let(:data) { attributes_for(:project_for_update, :setting) }
-    subject { put "/projects/#{project.id}/setting", project: data }
-
-    context "success" do
-      before { subject }
-      it { expect(response).to be_redirect }
-    end
-
-    context "not owner" do
-      before { project.update_attribute :owner, nil }
-
+      before { project.update_attribute :owner, user1 }
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
 
@@ -174,6 +134,7 @@ RSpec.describe ProjectsController, type: :request do
       before { subject }
 
       it { expect(response).to be_success }
+      it { expect(project.reload.description).to be_blank }
     end
   end
 

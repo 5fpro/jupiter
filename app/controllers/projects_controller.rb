@@ -1,6 +1,6 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
-  before_action :find_owned_project, only: [:setting, :update_setting]
+  before_action :find_owned_project, only: [:edit, :update]
   before_action :find_project, except: [:edit_collection]
 
   def index
@@ -33,18 +33,6 @@ class ProjectsController < BaseController
       redirect_as_success(project_path(@project), "project updated")
     else
       render_as_fail(:edit, context.error_messages)
-    end
-  end
-
-  def setting
-  end
-
-  def update_setting
-    context = ProjectUpdateSettingContext.new(current_user, @project)
-    if context.perform(params)
-      redirect_as_success(project_path(@project), "project updated")
-    else
-      render_as_fail(:setting, context.error_messages)
     end
   end
 
