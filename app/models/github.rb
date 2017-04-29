@@ -12,8 +12,7 @@
 
 class Github < ActiveRecord::Base
   belongs_to :project
-  validates_presence_of :webhook_token
-  validates_uniqueness_of :webhook_token
+  validates :webhook_token, presence: true, uniqueness: true
 
   store_accessor :data, :hook_id, :repo_fullname
 
