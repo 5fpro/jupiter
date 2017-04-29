@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :github do
-
+    sequence(:webhook_token) { |i| "tokenasdasdas#{i}" }
   end
 
 end

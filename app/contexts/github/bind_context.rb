@@ -1,10 +1,5 @@
 class Github::BindContext < BaseContext
-  PERMITS = [:repo_fullname, :webhook_name].freeze
-
-  before_perform :build_github
-  after_perform :create_webhook_token
-  after_perform :binding_github
-  after_perform :update_webhook_data
+  PERMITS = [:repo_fullname].freeze
 
   def initialize(project, params)
     @project = project
@@ -13,39 +8,39 @@ class Github::BindContext < BaseContext
   end
 
   def perform
-    run_callbacks :perform do
-      if @github.save!
-        @github
-      else
-        add_error(:data_create_fail, @github.errors.full_messages.join("\n"))
-      end
+    @github = @project.githubs.new(@params)
+    @github.webhook_token = generate_webhook_token
+    if bind_github
+      save_github
+    else
+      add_error(:data_create_fail, 'github webhook create fail')
     end
   end
 
   private
 
-  def build_github
-    @github = @project.githubs.new
-    @github.repo_fullname = @params[:repo_fullname]
-    @github.webhook_name = @params[:webhook_name]
+  def generate_webhook_token
+    token = nil
+    while !token || Github.where(webhook_token: token).count > 0
+      token = Digest::MD5.hexdigest(Time.now.to_f.to_s)
+    end
+    token
   end
 
-  def create_webhook_token
-    Webhook::GenerateTokenContext.new(@github).perform
+  def bind_github
+    @webhook = ::GithubService.new(@owner.full_access_token.value).create_hook(@params[:repo_fullname], @github.webhook_url)
+    if @webhook
+      @github.hook_id = @webhook.attrs[:id]
+    else
+      false
+    end
   end
 
-  def binding_github
-    @webhook = ::GithubService.new(@owner.full_access_token.value).auto_create_hook(@params[:repo_fullname], webhook_url(@github.webhook_token))
-  end
-
-  def update_webhook_data
-    @github.hook_id = @webhook.attrs[:id]
-    @github.save
-  end
-
-  def webhook_url(token)
-    "https://#{Setting.host}/webhooks/#{token}"
-    # for ngrok test
-    # "http://f8245dfa.ngrok.io/webhooks/#{token}"
+  def save_github
+    if @github.save
+      @github
+    else
+      add_error(:data_create_fail, @github.errors.full_messages.join("\n"))
+    end
   end
 end

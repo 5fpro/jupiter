@@ -1,6 +1,6 @@
-- unless current_user.token_need_update?
-  = f.input :webhook_name, label: "webhook name"
-  = f.input :repo_fullname, label: "repo fullname", as: :select, collection: collection_github_repo if current_user.full_access_token.value
+- if validates_current_github_token_for_webhook
+  = f.input :repo_fullname, label: "repo fullname", as: :select, collection: collection_github_repo(f.object.project)
 
   .form-actions
     = f.submit "Bind", class: "btn btn-primary"
+    = link_to "Cancel", project_githubs_path(f.object.project), class: 'btn'
