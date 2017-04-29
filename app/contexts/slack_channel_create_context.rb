@@ -30,7 +30,7 @@ class SlackChannelCreateContext < BaseContext
   end
 
   def set_primary
-    if !false?(@primary)
+    unless false?(@primary)
       @slack_channel.project.update(primary_slack_channel_id: @slack_channel.id)
     end
   end
