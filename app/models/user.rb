@@ -59,9 +59,4 @@ class User < ActiveRecord::Base
   def send_on_create_confirmation_instructions
     # send_devise_notification(:confirmation_instructions)
   end
-
-  def token_need_update?
-    !full_access_token.value.present?
-  end
-
 end

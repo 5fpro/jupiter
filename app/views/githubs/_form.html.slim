@@ -1,4 +1,4 @@
-- unless current_user.token_need_update?
+- if validates_current_github_token_for_webhook
   = f.input :repo_fullname, label: "repo fullname", as: :select, collection: collection_github_repo if current_user.full_access_token.value
 
   .form-actions
