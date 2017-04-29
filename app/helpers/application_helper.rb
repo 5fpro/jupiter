@@ -45,7 +45,17 @@ module ApplicationHelper
     raw html
   end
 
-  def collection_github_repo
-    GithubService.new(current_user.full_access_token.value).collect_all_repos
+  def collection_github_repo(project)
+    all_repos = GithubService.new(current_user.full_access_token.value).collect_all_repos
+    binded_repos = project.githubs.map(&:repo_fullname)
+    all_repos - binded_repos
+  end
+
+  def validates_current_github_token_for_webhook
+    token = current_user.full_access_token.value
+    return false unless token.present?
+    scopes = GithubService.new(token).permission_scopes
+    required = ['admin:repo_hook', 'repo']
+    (scopes & required).size == required.size
   end
 end

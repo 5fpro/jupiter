@@ -7,12 +7,13 @@ br/
 table.table.table-bordered.table-striped
   thead
     tr
-      td webhook_name
-      td repo_name
+      td Repo Name
+      td Hook Url
       td Action
   tbody
     - @githubs.each do |github|
       tr
-        td= github.webhook_name
         td= github.repo_fullname
+        td
+          input type="text" value="#{github.webhook_url}" style="width:100%"
         td= link_to "移除綁定", project_github_path(@project, github), method: :delete, data: { confirm: "確定移除？"}

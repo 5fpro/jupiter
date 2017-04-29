@@ -7,14 +7,10 @@ class Github::UnbindContext < BaseContext
   end
 
   def perform
-    run_callbacks :perform do
-      @github.destroy
-    end
-  end
-
-  private
-
-  def unbind_repo
-    GithubService.new(@owner.full_access_token.value).auto_delete_hook(@github.repo_fullname, @github.hook_id)
+    token = @owner.full_access_token.value
+    github_client = GithubService.new(token)
+    return false unless token && github_client.permission_scopes.include?('admin:repo_hook')
+    github_client.delete_hook(@github.repo_fullname, @github.hook_id)
+    @github.destroy
   end
 end
