@@ -1,5 +1,5 @@
 class SlackChannelUpdateContext < BaseContext
-  PERMITS = SlackChannelCreateContext::PERMITS + [:primary]
+  PERMITS = SlackChannelCreateContext::PERMITS
 
   before_perform :validates_owner
   before_perform :assign_attributes
