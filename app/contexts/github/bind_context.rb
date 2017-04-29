@@ -27,7 +27,7 @@ class Github::BindContext < BaseContext
   end
 
   def bind_github
-    @webhook = ::GithubService.new(@owner.full_access_token.value).auto_create_hook(@params[:repo_fullname], @github.webhook_url)
+    @webhook = ::GithubService.new(@owner.full_access_token.value).create_hook(@params[:repo_fullname], @github.webhook_url)
     if @webhook
       @github.hook_id = @webhook.attrs[:id]
     else

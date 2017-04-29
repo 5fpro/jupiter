@@ -20,8 +20,8 @@ RSpec.describe GithubService, type: :model do
     it { expect(subject.first).to eq("5fpro/chef_explorer") }
   end
 
-  describe "#auto_create_hook" do
-    subject { described_class.new("token").auto_create_hook("xxx/repo", "hook_url") }
+  describe "#create_hook" do
+    subject { described_class.new("token").create_hook("xxx/repo", "hook_url") }
 
     it { expect(subject.id.present?).to be_truthy }
   end
@@ -32,8 +32,8 @@ RSpec.describe GithubService, type: :model do
   #   it { expect(subject.id.present?).to be_truthy }
   # end
 
-  describe "#auto_delete_hook" do
-    subject { described_class.new("token").auto_delete_hook("xxx/repo", 99_999) }
+  describe "#delete_hook" do
+    subject { described_class.new("token").delete_hook("xxx/repo", 99_999) }
 
     it { expect(subject).to be_truthy }
   end
