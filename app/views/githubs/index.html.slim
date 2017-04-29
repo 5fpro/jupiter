@@ -1,3 +1,5 @@
+= render partial: "projects/menu", as: :project, object: @project
+br/
 = link_to "New Github Bind", new_project_github_path(@project), class: "btn btn-success"
 
 = render partial: "update_token"
