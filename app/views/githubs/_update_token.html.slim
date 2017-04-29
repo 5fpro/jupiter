@@ -1,1 +1,1 @@
-= link_to "Update Token Permisssion", auth_github_path(scope: "user,user:email,repo,admin:repo_hook", origin: new_project_github_url(@project)), class: "btn btn-danger" unless validates_current_github_token_for_webhook
+= link_to "Update Token Permisssion", auth_github_path(scope: "user,user:email,repo,admin:repo_hook", origin: url_for(params)), class: "btn btn-danger" unless validates_current_github_token_for_webhook
