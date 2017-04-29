@@ -10,6 +10,7 @@ class WebhooksController < BaseController
   private
 
   def find_github
-    @github = Github.find_by(webhook_token: params[:id])
+    @github = Github.find_by(webhook_token: params[:token])
+    render json: { error: 'token not found' }, status: 404 unless @github
   end
 end
