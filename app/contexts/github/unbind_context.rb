@@ -7,8 +7,9 @@ class Github::UnbindContext < BaseContext
   end
 
   def perform
-    github_client = GithubService.new(@owner.full_access_token.value)
-    return false unless github_client.permission_scopes.include?('admin:repo_hook')
+    token = @owner.full_access_token.value
+    github_client = GithubService.new(token)
+    return false unless token && github_client.permission_scopes.include?('admin:repo_hook')
     github_client.delete_hook(@github.repo_fullname, @github.hook_id)
     @github.destroy
   end
