@@ -12,10 +12,16 @@
 
 class Github < ActiveRecord::Base
   belongs_to :project
+  validates_presence_of :webhook_token
+  validates_uniqueness_of :webhook_token
 
-  store_accessor :data, :hook_id, :webhook_name, :repo_fullname
+  store_accessor :data, :hook_id, :repo_fullname
 
   def hook_id
     super.to_i
+  end
+
+  def webhook_url
+    "https://#{Setting.host}/webhooks/#{webhook_token}"
   end
 end
