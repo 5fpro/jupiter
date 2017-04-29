@@ -99,6 +99,11 @@ RSpec.describe SlackChannelsController, type: :request do
         follow_redirect!
         expect(response).to be_success
       end
+
+      describe "with primary" do
+        let(:data) { attributes_for :slack_channel_for_create, primary: '1' }
+        it { expect(SlackChannel.last.primary?).to eq(true) }
+      end
     end
 
     context "fail" do
