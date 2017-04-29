@@ -15,5 +15,5 @@ table.table.table-bordered.table-striped
       tr
         td= github.repo_fullname
         td
-          input type="text" value="#{github.webhook_url}"
+          input type="text" value="#{github.webhook_url}" style="width:100%"
         td= link_to "移除綁定", project_github_path(@project, github), method: :delete, data: { confirm: "確定移除？"}

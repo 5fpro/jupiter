@@ -36,4 +36,7 @@ class GithubService
     @client.remove_hook(repo_fullname, hook_id)
   end
 
+  def permission_scopes
+    @client.scopes
+  end
 end
