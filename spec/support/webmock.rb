@@ -24,7 +24,7 @@ module Webmock
       .with(headers: { 'Accept' => 'application/vnd.github.v3+json', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization' => 'token token', 'Content-Type' => 'application/json', 'User-Agent' => 'Octokit Ruby Gem 4.6.2' })
       .to_return(status: 200, body: '[{"id":26844289,"name":"chef_explorer","full_name":"5fpro/chef_explorer"}]', headers: { 'Content-Type' => 'application/json' })
 
-    # github auto_create_hook
+    # github create_hook
     stub_request(:post, /https:\/\/api\.github\.com\/repos\/[0-9a-z]+\/repo\/hooks/)
       .with(headers: { 'Accept' => 'application/vnd.github.v3+json', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization' => 'token token', 'Content-Type' => 'application/json', 'User-Agent' => 'Octokit Ruby Gem 4.6.2' })
       .to_return(status: 200, body: '{"url":"https://api.github.com/repos/phrase5036/chef-template/hooks/7628310","test_url":"https://api.github.com/repos/phrase5036/chef-template/hooks/7628310/test","ping_url":"https://api.github.com/repos/phrase5036/chef-template/hooks/7628310/pings","id":7628310,"name":"web","active":true,"events":["commit_comment","create","delete","deployment","deployment_status","fork","gollum","issue_comment","issues","member","page_build","public","pull_request","pull_request_review_comment","push","release","status","team_add","watch"],"config":{"url":"https://hooks.slack.com/services/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","content_type":"json"},"last_response":{"code":null,"status":"unused","message":null},"updated_at":"2016-03-10T08:03:12Z","created_at":"2016-03-10T08:03:12Z"}', headers: { 'Content-Type' => 'application/json' })
@@ -34,7 +34,7 @@ module Webmock
       .with(headers: { 'Accept' => 'application/vnd.github.v3+json', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization' => 'token token', 'Content-Type' => 'application/json', 'User-Agent' => 'Octokit Ruby Gem 4.6.2' })
       .to_return(status: 200, body: '{"url":"https://api.github.com/repos/phrase5036/chef-template/hooks/7628310","test_url":"https://api.github.com/repos/phrase5036/chef-template/hooks/7628310/test","ping_url":"https://api.github.com/repos/phrase5036/chef-template/hooks/7628310/pings","id":7628310,"name":"web","active":true,"events":["commit_comment","create","delete","deployment","deployment_status","fork","gollum","issues","issue_comment","member","page_build","public","pull_request","pull_request_review_comment","push","release","status","team_add","watch"],"config":{"url":"https://hooks.slack.com/services/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","content_type":"json"},"last_response":{"code":200,"status":"active","message":"OK"},"updated_at":"2016-03-10T08:03:12Z","created_at":"2016-03-10T08:03:12Z"}', headers: { 'Content-Type' => 'application/json' })
 
-    # github auto_delete_hook
+    # github delete_hook
     stub_request(:delete, /https:\/\/api\.github\.com\/repos\/[0-9a-z]+\/repo\/hooks\/[0-9]+/)
       .with(headers: { 'Accept' => 'application/vnd.github.v3+json', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization' => 'token token', 'Content-Type' => 'application/json', 'User-Agent' => 'Octokit Ruby Gem 4.6.2' })
       .to_return(status: 204, body: "{}", headers: { 'Content-Type' => 'application/json' })
