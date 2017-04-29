@@ -1,4 +1,4 @@
-h1 我參與的專案列表
+h1 專案列表
 
 .project_users
   - @project_users.each do |pu|
@@ -6,3 +6,4 @@ h1 我參與的專案列表
       = pu.project.name
       br
       = render_sorting_buttons(pu)
+= link_to '回到專案列表', projects_path

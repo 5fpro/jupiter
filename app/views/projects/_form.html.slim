@@ -1,4 +1,5 @@
 = f.input :name, label: "名稱"
+= f.input :description, as: :text, label: "描述"
 = f.input :price_of_hour, label: "每小時單價", as: :integer
 = f.input :hours_limit, label: "每月時數上限", as: :integer
 - if current_user == f.object.owner
@@ -7,4 +8,5 @@
 .form-group
   .col-sm-offset-3.col-sm-9
     .form-actions
-      = f.submit "新增", class: "btn btn-default"
+      - word = params[:action] == "new" ? "新增" : "更新"
+      = f.submit word, class: "btn btn-primary"

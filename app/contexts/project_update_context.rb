@@ -1,7 +1,7 @@
 class ProjectUpdateContext < BaseContext
-  PERMITS = [:description].freeze
+  PERMITS = [:description, :name, :price_of_hour, :owner_id, :hours_limit, :github_slack_users_mapping_json].freeze
 
-  before_perform :validates_project_user!
+  before_perform :validates_owner!
   before_perform :assign_value
 
   def initialize(user, project)
@@ -19,8 +19,8 @@ class ProjectUpdateContext < BaseContext
 
   private
 
-  def validates_project_user!
-    return add_error(:user_is_not_in_project) unless @project.has_user?(@user)
+  def validates_owner!
+    return add_error(:not_project_owner) unless @project.owner?(@user)
     true
   end
 

@@ -57,14 +57,11 @@ FactoryGirl.define do
 
   factory :project_for_update, class: Project do
 
-    trait :member do
-      description "hahaha"
-    end
-
     trait :setting do
       name "blablabla"
       price_of_hour 10_000_000
       hours_limit 100
+      description "hahaha"
     end
 
     trait :project_users do
