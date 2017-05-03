@@ -23,7 +23,7 @@ table.table.table-bordered.table-striped
         td= record.try(:id)
         td= @project ? record.try(:user).try(:name) : record.try(:project).try(:name)
         td= record_type_name(record.try(:record_type))
-        td= record.minutes
+        td= render_hours(record.minutes.minutes)
         td
           - if record.try(:data)
             = render_html(record.try(:note))
