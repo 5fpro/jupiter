@@ -1,10 +1,10 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
-  before_action :find_owned_project, only: [:edit, :update]
+  before_action :find_owned_project, only: [:edit, :update, :archive, :dearchive]
   before_action :find_project, except: [:edit_collection]
 
   def index
-    @projects = current_user.projects
+    @projects = current_user.projects.is_not_archived
     @my_records = current_user.records
   end
 
@@ -47,6 +47,22 @@ class ProjectsController < BaseController
     else
       redirect_to :back, flash: { error: context.error_messages.join(", ") }
     end
+  end
+
+  def archived
+    @projects = current_user.projects.is_archived
+  end
+  
+  def archive
+    @project.archived = true
+    @project.save
+    redirect_as_success(edit_projects_path, "project archived")
+  end
+
+  def dearchive
+    @project.archived = false
+    @project.save
+    redirect_as_success(archived_projects_path, "project dearchived")
   end
 
   private

@@ -43,6 +43,7 @@ RSpec.describe ProjectsController, type: :request do
 
       it { expect(response).to be_success }
     end
+
   end
 
   describe "#show" do
@@ -149,5 +150,66 @@ RSpec.describe ProjectsController, type: :request do
     subject { delete "/projects/#{project.id}" }
     it { expect { subject }.to change { Project.count }.by(-1) }
     it { expect(response).to be_redirect }
+  end
+
+  describe "#archived" do
+    subject { get "/projects/archived" }
+
+    context "empty" do
+      before { Project.is_archived.delete_all }
+      before { subject }
+  
+      it { expect(response).to be_success }
+    end
+
+    context "has archived projects" do
+      before { FactoryGirl.create :project_is_archived,  owner: current_user }
+      before { subject }
+
+      it { expect(response).to be_success }
+    end
+  end
+
+  describe "Archive the project" do
+    let(:data) { attributes_for(:project, archived: true) }
+    subject { post "/projects/#{project.id}/archive", project: data }
+
+
+    context "success" do
+      it { expect { subject }.to change { Project.is_archived.count }.by(1) }
+      it { expect(response).to be_redirect }
+
+      context "follow redirect" do
+        before { follow_redirect! }
+
+        it { expect(response).to be_success }
+      end
+    end
+
+    context "not owner" do
+      before { project.update_attribute :owner, user1 }
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
+  end
+
+  describe "Dearchive the project" do
+    let!(:project) { FactoryGirl.create :project_is_archived }
+    subject { post "/projects/#{project.id}/dearchive" }
+
+    context "success" do
+      it { expect { subject }.to change { Project.is_archived.count }.by(-1) }
+      it { expect(response).to be_redirect }
+
+      context "follow redirect" do
+        before { follow_redirect! }
+
+        it { expect(response).to be_success }
+      end
+    end
+
+    context "not owner" do
+      before { project.update_attribute :owner, user1 }
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
   end
 end

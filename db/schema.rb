@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161110021810) do
+ActiveRecord::Schema.define(version: 20170515163033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,9 +84,10 @@ ActiveRecord::Schema.define(version: 20161110021810) do
     t.integer  "price_of_hour"
     t.string   "name"
     t.integer  "owner_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.hstore   "data"
+    t.boolean  "archived",      default: false
   end
 
   add_index "projects", ["owner_id"], name: "index_projects_on_owner_id", using: :btree
