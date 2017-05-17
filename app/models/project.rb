@@ -30,7 +30,6 @@ class Project < ActiveRecord::Base
 
   scope :is_archived, -> { where(archived: true) }
   scope :is_not_archived, -> { where(archived: false) }
-  
 
   def has_user?(user)
     project_users.map(&:user_id).include?(user.id)
@@ -58,6 +57,6 @@ class Project < ActiveRecord::Base
   end
 
   def is_archived?
-    self.archived
+    archived
   end
 end

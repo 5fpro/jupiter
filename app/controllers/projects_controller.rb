@@ -52,7 +52,7 @@ class ProjectsController < BaseController
   def archived
     @projects = current_user.projects.is_archived
   end
-  
+
   def archive
     @project.archived = true
     @project.save

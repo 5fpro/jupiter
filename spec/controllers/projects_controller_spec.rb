@@ -158,12 +158,12 @@ RSpec.describe ProjectsController, type: :request do
     context "empty" do
       before { Project.is_archived.delete_all }
       before { subject }
-  
+
       it { expect(response).to be_success }
     end
 
     context "has archived projects" do
-      before { FactoryGirl.create :project_is_archived,  owner: current_user }
+      before { FactoryGirl.create :project_is_archived, owner: current_user }
       before { subject }
 
       it { expect(response).to be_success }
@@ -173,7 +173,6 @@ RSpec.describe ProjectsController, type: :request do
   describe "Archive the project" do
     let(:data) { attributes_for(:project, archived: true) }
     subject { post "/projects/#{project.id}/archive", project: data }
-
 
     context "success" do
       it { expect { subject }.to change { Project.is_archived.count }.by(1) }
