@@ -48,10 +48,15 @@ FactoryGirl.define do
       end
     end
 
+    trait :is_archived do
+      is_archived true
+    end
+
     factory :project_for_slack_notify, traits: [:with_project_user, :with_slack_channel]
     factory :project_has_members, traits: [:with_project_user, :with_other_user]
     factory :project_has_todos, traits: [:with_project_user, :with_todos]
     factory :project_has_records, traits: [:with_project_user, :with_records]
+    factory :project_is_archived, traits: [:with_project_user, :is_archived]
 
   end
 
