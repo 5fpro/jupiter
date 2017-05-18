@@ -1,10 +1,10 @@
 class ProjectsController < BaseController
   before_action :authenticate_user!
-  before_action :find_owned_project, only: [:edit, :update]
-  before_action :find_project, except: [:edit_collection]
+  before_action :find_owned_project, only: [:edit, :update, :click_archive]
+  before_action :find_project, except: [:edit_collection, :archived, :click_archive]
 
   def index
-    @projects = current_user.projects
+    @projects = current_user.projects.archived?(false)
     @my_records = current_user.records
   end
 
@@ -37,7 +37,21 @@ class ProjectsController < BaseController
   end
 
   def edit_collection
-    @project_users = current_user.project_users.sorted
+    @project_users = ProjectUser.project_archived(current_user.project_users.sorted, false)
+  end
+
+  def click_archive
+    if @project.is_archived?
+      @project.update_attribute(:is_archived, false)
+      redirect_to archived_projects_path
+    else
+      @project.update_attribute(:is_archived, true)
+      redirect_to edit_projects_path
+    end
+  end
+
+  def archived
+    @project_users = ProjectUser.project_archived(current_user.project_users.sorted, true)
   end
 
   def destroy

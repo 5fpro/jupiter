@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def collection_for_user_projects(user)
-    user.projects.map { |project| [project.name, project.id] }
+    user.projects.archived?(false).pluck(:name, :id)
   end
 
   def collection_for_slack_channel_events

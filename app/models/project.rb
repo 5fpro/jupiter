@@ -9,6 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  data          :hstore
+#  is_archived   :boolean          default(FALSE)
 #
 
 class Project < ActiveRecord::Base
@@ -26,6 +27,8 @@ class Project < ActiveRecord::Base
                  :github_slack_users_mapping_json
 
   validates :name, :owner_id, presence: true
+
+  scope :archived?, -> (option) { where(is_archived: option) }
 
   def has_user?(user)
     project_users.map(&:user_id).include?(user.id)
