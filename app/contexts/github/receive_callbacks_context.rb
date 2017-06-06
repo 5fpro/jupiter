@@ -71,7 +71,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
       @target[:url] = @params[:pull_request][:html_url]
       @target[:message] = "你在新的 PR 被提及: #{@target[:summary]}"
     else # disabled
-      object = @params[:issue] || @params[:pull_request]
+      object = @params[:issue] || @params[:pull_request] || {}
       @target[:summary] = object[:title]
       # @target[:body] = "@" + object[:assignee][:login]
       @target[:body] = "" # disable assignee
