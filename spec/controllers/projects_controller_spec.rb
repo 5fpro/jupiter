@@ -145,6 +145,32 @@ RSpec.describe ProjectsController, type: :request do
     it { expect(response).to be_success }
   end
 
+  describe "#archived" do
+    subject { get "/projects/archived" }
+    before { subject }
+
+    it { expect(response).to be_success }
+  end
+
+  describe "#click_archive" do
+    let(:project) { Project.create(data) }
+    context "archived to not archived" do
+      let(:data) { attributes_for(:project_is_archived) }
+      subject { post "/projects/#{project.id}/click_archive", project: data }
+      before { subject }
+
+      it { expect(response).to redirect_to(archived_projects_path) }
+    end
+
+    context "not archived to archived" do
+      let(:data) { attributes_for(:project_is_archived, is_archived: false) }
+      subject { post "/projects/#{project.id}/click_archive", project: data }
+      before { subject }
+
+      it { expect(response).to redirect_to(edit_projects_path) }
+    end
+  end
+
   describe "#destroy" do
     subject { delete "/projects/#{project.id}" }
     it { expect { subject }.to change { Project.count }.by(-1) }

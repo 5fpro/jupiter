@@ -9,6 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  data          :hstore
+#  is_archived   :boolean          default(FALSE)
 #
 
 class Admin::Project < ::Project

@@ -20,4 +20,8 @@ class ProjectUser < ActiveRecord::Base
   sortable column: :sort, add_new_at: nil
 
   store_accessor :data, :slack_user
+
+  def self.project_archived(project_users, option)
+    project_users.select { |project_user| project_user.project.is_archived? == option }
+  end
 end

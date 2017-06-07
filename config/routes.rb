@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   resources :projects do
     collection do
       get :edit, action: :edit_collection
+      get :archived
+    end
+    member do 
+      post :click_archive
     end
     resources :records do
       collection do

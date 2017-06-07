@@ -42,4 +42,15 @@ RSpec.describe Project, type: :model do
       it { expect(user.projects[1]).to eq(project_user1.project) }
     end
   end
+
+  describe "#archived?" do
+    let!(:project1) { create(:project, is_archived: false) }
+    let!(:project2) { create(:project, is_archived: true) }
+    subject { Project.archived?true }
+
+    it "is archived" do
+      expect(subject).to include(project2)
+      expect(subject).not_to include(project1)
+    end
+  end
 end
