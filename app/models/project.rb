@@ -9,6 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  data          :hstore
+#  archived      :boolean          default(FALSE)
 #
 
 class Project < ActiveRecord::Base
@@ -26,6 +27,9 @@ class Project < ActiveRecord::Base
                  :github_slack_users_mapping_json
 
   validates :name, :owner_id, presence: true
+
+  scope :is_archived, -> { where(archived: true) }
+  scope :is_not_archived, -> { where(archived: false) }
 
   def has_user?(user)
     project_users.map(&:user_id).include?(user.id)
@@ -50,5 +54,9 @@ class Project < ActiveRecord::Base
   def primary_slack_channel
     return if primary_slack_channel_id.blank?
     @primary_slack_channel ||= slack_channels.try(:find, primary_slack_channel_id)
+  end
+
+  def is_archived?
+    archived
   end
 end
