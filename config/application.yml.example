@@ -1,0 +1,54 @@
+defaults: &defaults
+  SECRET_KEY_BASE: 460a7f8ce194d269b9cebe459bfddea5ebc7d8343aabf2d0b844d4554b3107c2dec276aea710296a6de30fbc0adbd7f3931c925cc4898180e92024a0471ae425
+  host: localhost
+  assets_host: localhost:3000
+  asset_sync:
+    bucket: myapp.5fpro.com
+    region: us-east-1
+  redis:
+    url: redis://127.0.0.1:6379/0
+  dalli:
+    servers:
+    - 127.0.0.1
+    options:
+      namespace: jupiter
+      expires_in: 0
+      threadsafe: true
+      failover: true
+      compress: false
+      keepalive: true
+      username:
+      password:
+      pool_size: 1
+  aws:
+    access_key_id: abcdabcd
+    secret_access_key: abcdabcd
+  sidekiq:
+    url: redis://127.0.0.1:6379/0
+  carrierwave:
+    region: us-east-1
+    bucket: jupiter.5fpro.com
+    host: jupiter.5fpro.com.s3-website-us-east-1.amazonaws.com
+  mailer:
+    default_sender: "noreply@5fpro.com"
+  sitemap:
+    path: "sitemaps/"
+  omniauth:
+    providers:
+      github:
+        token: ""
+        secret: ""
+        options:
+          scope: "user,user:email"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+staging:
+  <<: *defaults
