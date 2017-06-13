@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     collection do
       get :edit, action: :edit_collection
     end
+    member do 
+      post :archive
+    end
     resources :records do
       collection do
         get :share

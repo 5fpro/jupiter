@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  sort       :integer
 #  data       :hstore
+#  archived   :boolean          default(FALSE)
 #
 
 class Admin::ProjectUser < ::ProjectUser

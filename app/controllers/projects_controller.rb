@@ -37,7 +37,7 @@ class ProjectsController < BaseController
   end
 
   def edit_collection
-    @project_users = current_user.project_users.sorted
+    @project_users = current_user.project_users.is_not_archived.sorted
   end
 
   def destroy
@@ -47,6 +47,13 @@ class ProjectsController < BaseController
     else
       redirect_to :back, flash: { error: context.error_messages.join(", ") }
     end
+  end
+
+  def archive
+    archive_project = @project.project_users.find_by(user_id: current_user)
+    archive_project.archived = true
+    archive_project.save
+    redirect_as_success(edit_projects_path, "project archived")
   end
 
   private
