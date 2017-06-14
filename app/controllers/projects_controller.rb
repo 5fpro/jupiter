@@ -4,7 +4,7 @@ class ProjectsController < BaseController
   before_action :find_project, except: [:edit_collection]
 
   def index
-    @projects = current_user.projects
+    @projects = current_user.project_users.is_not_archived.map { |project| Project.find(project.project_id) }
     @my_records = current_user.records
   end
 
@@ -54,6 +54,18 @@ class ProjectsController < BaseController
     archive_project.archived = true
     archive_project.save
     redirect_as_success(edit_projects_path, "project archived")
+  end
+
+  def archived
+    @projects = current_user.project_users.is_archived.map { |project| Project.find(project.project_id) }
+  end
+
+  def dearchive
+    project = @project.project_users.find_by(user_id: 2)
+    project.archived = false
+    project.save
+    redirect_as_success(edit_projects_path, "project restored")
+    
   end
 
   private

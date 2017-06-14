@@ -1,0 +1,8 @@
+.inner
+
+  h1 已歸檔專案列表
+
+  .projects
+    - @projects.each do |p|
+      .project id="project-#{p.id}"
+        = render partial: "project", object: p, locals: { my_records: @my_records }
