@@ -61,7 +61,7 @@ class ProjectsController < BaseController
   end
 
   def dearchive
-    project = @project.project_users.find_by(user_id: 2)
+    project = @project.project_users.find_by(user_id: current_user)
     project.archived = false
     project.save
     redirect_as_success(edit_projects_path, "project restored")

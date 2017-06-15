@@ -52,7 +52,6 @@ FactoryGirl.define do
     factory :project_has_members, traits: [:with_project_user, :with_other_user]
     factory :project_has_todos, traits: [:with_project_user, :with_todos]
     factory :project_has_records, traits: [:with_project_user, :with_records]
-
   end
 
   factory :project_for_update, class: Project do
