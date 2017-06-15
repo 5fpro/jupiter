@@ -65,7 +65,6 @@ class ProjectsController < BaseController
     project.archived = false
     project.save
     redirect_as_success(edit_projects_path, "project restored")
-    
   end
 
   private

@@ -15,6 +15,7 @@ table.table.table-striped
       tr
         td= todo.sort
         td= todo.id
+        - debugger
         td= link_to project.name, project_path(project)
         td class="js-edit-todo-#{todo.id} js-update-todo-#{todo.id}"
           = render_html todo.desc

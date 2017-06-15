@@ -150,37 +150,37 @@ RSpec.describe ProjectsController, type: :request do
     it { expect(response).to be_redirect }
   end
 
-  describe "#archive" do 
+  describe "#archive" do
     subject { post "/projects/#{project.id}/archive" }
 
-    context "archive project" do  
-      it { expect{ subject }.to change { project.project_users.find_by(user_id: current_user).archived }.from(false).to(true) }
-
-      context "follow redirect" do
-         before { follow_redirect! }
- 
-         it { expect(response).to be_success }
-       end
-    end
-
-    context "dearchive project" do 
-      before { subject }
-      
-      it { expect{ post "/projects/#{project.id}/dearchive" }.to change { project.project_users.find_by(user_id: current_user).archived }.from(true).to(false) }
+    context "archive project" do
+      it { expect { subject }.to change { project.project_users.find_by(user_id: current_user).archived }.from(false).to(true) }
 
       context "follow redirect" do
         before { follow_redirect! }
- 
+
+        it { expect(response).to be_success }
+      end
+    end
+
+    context "dearchive project" do
+      before { subject }
+
+      it { expect { post "/projects/#{project.id}/dearchive" }.to change { project.project_users.find_by(user_id: current_user).archived }.from(true).to(false) }
+
+      context "follow redirect" do
+        before { follow_redirect! }
+
         it { expect(response).to be_success }
       end
     end
 
   end
 
-  describe "#archived" do 
-    subject { get "/projects/archived"}
+  describe "#archived" do
+    subject { get "/projects/archived" }
     before { subject }
 
-    it { expect(response).to be_success}
+    it { expect(response).to be_success }
   end
 end

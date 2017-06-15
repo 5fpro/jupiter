@@ -23,5 +23,5 @@ class ProjectUser < ActiveRecord::Base
   store_accessor :data, :slack_user
 
   scope :is_archived, -> { where(archived: true) }
-  scope :is_not_archived, -> { where(archived: false)}
+  scope :is_not_archived, -> { where(archived: false) }
 end
