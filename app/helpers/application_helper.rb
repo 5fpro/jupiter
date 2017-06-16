@@ -20,7 +20,7 @@ module ApplicationHelper
   end
 
   def collection_for_not_archived_user_projects(user)
-    user.project_users.unarchived.sorted.includes(:project).map(&:project)
+    UserProjectsQuery.new(user).query(archived: false)
   end
 
   def collection_for_slack_channel_events

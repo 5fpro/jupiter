@@ -44,6 +44,21 @@ RSpec.describe ProjectUsersController, type: :request do
 
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
+
+    context 'archive project with remove from sorted list' do
+      let!(:project_users) { create_list(:project_user, 3, user: user) }
+      before { project_users.map { |pu| pu.update(sort: :last) } }
+
+      def get_max_sort_index
+        project_users.map { |pu| pu.reload.sort }.select(&:present?).max
+      end
+
+      it do
+        expect {
+          put "/project_users/#{project_users.last.id}", project_user: { archived: true, sort: :remove }
+        }.to change { get_max_sort_index }.from(3).to(2)
+      end
+    end
   end
 
 end

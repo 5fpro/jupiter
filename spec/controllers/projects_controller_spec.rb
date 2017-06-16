@@ -144,43 +144,14 @@ RSpec.describe ProjectsController, type: :request do
     it { expect(response).to be_success }
   end
 
-  describe "#destroy" do
-    subject { delete "/projects/#{project.id}" }
-    it { expect { subject }.to change { Project.count }.by(-1) }
-    it { expect(response).to be_redirect }
-  end
-
-  describe "#archive" do
-    subject { post "/projects/#{project.id}/archive" }
-
-    context "archive project" do
-      it { expect { subject }.to change { project.project_users.find_by(user_id: current_user).archived }.from(false).to(true) }
-
-      context "follow redirect" do
-        before { follow_redirect! }
-
-        it { expect(response).to be_success }
-      end
-    end
-
-    context "dearchive project" do
-      before { subject }
-
-      it { expect { post "/projects/#{project.id}/dearchive" }.to change { project.project_users.find_by(user_id: current_user).archived }.from(true).to(false) }
-
-      context "follow redirect" do
-        before { follow_redirect! }
-
-        it { expect(response).to be_success }
-      end
-    end
-
-  end
-
   describe "#archived" do
-    subject { get "/projects/archived" }
-    before { subject }
+    before { project.project_users.find_by(user_id: user.id).update(archived: true) }
+    subject! { get "/projects/archived" }
 
-    it { expect(response).to be_success }
+    it do
+      expect(response).to be_success
+      expect(response.body).to include(project.name)
+    end
   end
+
 end
