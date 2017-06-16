@@ -4,7 +4,7 @@ class ProjectsController < BaseController
   before_action :find_project, except: [:edit_collection]
 
   def index
-    @projects = current_user.project_users.unarchived.sorted.includes(:project).map(&:project)
+    @projects = UserProjectsQuery.new(current_user).query(archived: false)
     @my_records = current_user.records
   end
 
@@ -56,7 +56,7 @@ class ProjectsController < BaseController
   end
 
   def archived
-    @projects = current_user.project_users.archived.sorted.includes(:project).map(&:project)
+    @projects = UserProjectsQuery.new(current_user).query(archived: true)
   end
 
   def dearchive
