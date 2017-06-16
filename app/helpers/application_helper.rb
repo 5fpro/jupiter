@@ -19,6 +19,10 @@ module ApplicationHelper
     user.projects.map { |project| [project.name, project.id] }
   end
 
+  def collection_for_not_archived_user_projects(user)
+    user.project_users.unarchived.sorted.includes(:project).map(&:project)
+  end
+
   def collection_for_slack_channel_events
     Notify::Event.collection
   end

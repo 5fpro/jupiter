@@ -4,7 +4,7 @@ class ProjectsController < BaseController
   before_action :find_project, except: [:edit_collection]
 
   def index
-    @projects = current_user.projects
+    @projects = current_user.project_users.unarchived.sorted.includes(:project).map(&:project)
     @my_records = current_user.records
   end
 
@@ -37,7 +37,7 @@ class ProjectsController < BaseController
   end
 
   def edit_collection
-    @project_users = current_user.project_users.sorted
+    @project_users = current_user.project_users.unarchived.sorted.includes(:project)
   end
 
   def destroy
@@ -47,6 +47,22 @@ class ProjectsController < BaseController
     else
       redirect_to :back, flash: { error: context.error_messages.join(", ") }
     end
+  end
+
+  def archive
+    archive_project = @project.project_users.find_by(user_id: current_user.id)
+    archive_project.update(archived: true)
+    redirect_as_success(edit_projects_path, "project archived")
+  end
+
+  def archived
+    @projects = current_user.project_users.archived.sorted.includes(:project).map(&:project)
+  end
+
+  def dearchive
+    project = @project.project_users.find_by(user_id: current_user.id)
+    project.update(archived: false)
+    redirect_as_success(edit_projects_path, "project restored")
   end
 
   private

@@ -6,4 +6,8 @@ h1 專案列表
       = pu.project.name
       br
       = render_sorting_buttons(pu)
+      = link_to "Archive",archive_project_path(pu.project_id), method: 'post', class: 'btn btn-default btn-small'
 = link_to '回到專案列表', projects_path
+br     
+= link_to '已歸檔列表', archived_projects_path
+

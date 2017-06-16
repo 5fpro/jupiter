@@ -9,12 +9,14 @@ nav.navbar.navbar-inverse.navbar-fixed-top
       ul.nav.navbar-nav.side-nav
         li class=("active" if params[:controller] == "projects" && params[:action] == "new")
           = link_to "新增專案", new_project_path, class: "glyphicon glyphicon-plus"
-        li class=("active" if params[:controller] == "projects" && params[:action] != "new")
+        li class=("active" if params[:controller] == "projects" && params[:action] != "new" && params[:action] != "archived")
           = link_to "我的專案列表", projects_path, class: "glyphicon glyphicon-list-alt"
         li class=("active" if params[:controller] == "records")
           = link_to "我的工時記錄", records_path, class: "glyphicon glyphicon-time"
         li class=("active" if params[:controller] == "todos")
           = link_to "我的 TODO", todos_path, class: "glyphicon glyphicon-th-list"
+        li class=("active" if params[:controller] == "projects" && params[:action] == "archived")
+          = link_to "已歸檔專案", archived_projects_path, class: "glyphicon glyphicon-th-list"
       ul.nav.navbar-nav.navbar-right
         li= link_to "Logout", destroy_user_session_path, method: :delete, class: "glyphicon glyphicon-off"
 

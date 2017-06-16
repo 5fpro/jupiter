@@ -30,9 +30,8 @@ RSpec.describe ProjectsController, type: :request do
     subject { get "/projects" }
 
     context "empty" do
-      before { Project.delete_all }
+      before { Project.destroy_all }
       before { subject }
-
       it { expect(response).to be_success }
     end
 
@@ -149,5 +148,39 @@ RSpec.describe ProjectsController, type: :request do
     subject { delete "/projects/#{project.id}" }
     it { expect { subject }.to change { Project.count }.by(-1) }
     it { expect(response).to be_redirect }
+  end
+
+  describe "#archive" do
+    subject { post "/projects/#{project.id}/archive" }
+
+    context "archive project" do
+      it { expect { subject }.to change { project.project_users.find_by(user_id: current_user).archived }.from(false).to(true) }
+
+      context "follow redirect" do
+        before { follow_redirect! }
+
+        it { expect(response).to be_success }
+      end
+    end
+
+    context "dearchive project" do
+      before { subject }
+
+      it { expect { post "/projects/#{project.id}/dearchive" }.to change { project.project_users.find_by(user_id: current_user).archived }.from(true).to(false) }
+
+      context "follow redirect" do
+        before { follow_redirect! }
+
+        it { expect(response).to be_success }
+      end
+    end
+
+  end
+
+  describe "#archived" do
+    subject { get "/projects/archived" }
+    before { subject }
+
+    it { expect(response).to be_success }
   end
 end
