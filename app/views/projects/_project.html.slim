@@ -2,13 +2,8 @@ h2= link_to project.name, project_path(project)
 
 = render partial: "projects/record_stats", object: { "我" => project.records.merge(my_records), "專案" => project.records }
 
-- unless params[:action] == 'archived'
-  = link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".projects .project#project-#{project.id} .form-new-record"), remote: true
-  .form-new-record
+= link_to "記錄時間", new_project_record_path(project, format: :js, dom_selector: ".projects .project#project-#{project.id} .form-new-record"), remote: true
+.form-new-record
 
-  = link_to "新增 TODO", new_todo_path(project_id: project.id, format: :js), remote: true
-  div class="form-new-todo js-new-todo-form-#{project.id}"
-- else
-  = link_to '取消歸檔', dearchive_project_path(project), method: 'post'
-
-
+= link_to "新增 TODO", new_todo_path(project_id: project.id, format: :js), remote: true
+div class="form-new-todo js-new-todo-form-#{project.id}"

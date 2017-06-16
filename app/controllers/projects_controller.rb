@@ -49,20 +49,8 @@ class ProjectsController < BaseController
     end
   end
 
-  def archive
-    archive_project = @project.project_users.find_by(user_id: current_user.id)
-    archive_project.update(archived: true)
-    redirect_as_success(edit_projects_path, "project archived")
-  end
-
-  def archived
-    @projects = UserProjectsQuery.new(current_user).query(archived: true)
-  end
-
-  def dearchive
-    project = @project.project_users.find_by(user_id: current_user.id)
-    project.update(archived: false)
-    redirect_as_success(edit_projects_path, "project restored")
+  def edit_archived
+    @project_users = current_user.project_users.archived.sorted.includes(:project)
   end
 
   private
