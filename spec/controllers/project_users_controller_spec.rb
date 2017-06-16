@@ -50,7 +50,7 @@ RSpec.describe ProjectUsersController, type: :request do
       before { project_users.map { |pu| pu.update(sort: :last) } }
 
       def get_max_sort_index
-        project_users.map { |pu| pu.reload.sort }.select { |sort| sort.present? }.max
+        project_users.map { |pu| pu.reload.sort }.select(&:present?).max
       end
 
       it do
