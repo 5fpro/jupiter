@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613063720) do
+ActiveRecord::Schema.define(version: 20170915212733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20170613063720) do
     t.integer  "sort"
     t.hstore   "data"
     t.boolean  "archived",   default: false
+    t.integer  "wage"
   end
 
   add_index "project_users", ["project_id", "user_id"], name: "index_project_users_on_project_id_and_user_id", using: :btree

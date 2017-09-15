@@ -10,6 +10,7 @@
 #  sort       :integer
 #  data       :hstore
 #  archived   :boolean          default(FALSE)
+#  wage       :integer
 #
 
 class ProjectUser < ActiveRecord::Base
