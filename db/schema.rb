@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20170613063720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
   enable_extension "hstore"
+  enable_extension "postgis"
 
   create_table "authorizations", force: :cascade do |t|
     t.integer  "provider"
