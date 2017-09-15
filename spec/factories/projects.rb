@@ -64,7 +64,7 @@ FactoryGirl.define do
     end
 
     trait :project_users do
-      project_users_attributes { [{ slack_user: "haha", id: ProjectUser.last.try(:id) }] }
+      project_users_attributes { [{ slack_user: "haha", id: ProjectUser.last.try(:id), wage: 123 }] }
     end
   end
 end

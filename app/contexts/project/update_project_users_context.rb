@@ -1,5 +1,5 @@
 class Project::UpdateProjectUsersContext < BaseContext
-  PERMITS = [{ project_users_attributes: [:slack_user, :id] }].freeze
+  PERMITS = [{ project_users_attributes: [:slack_user, :id, :wage] }].freeze
 
   before_perform :assign_attrs
 
