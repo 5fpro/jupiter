@@ -21,13 +21,13 @@ class SettleValue < BaseValue
 
   def hour_round(hours_value)
     v = hours_value.to_f - hours_value.to_i
-    if v <= 0.25
-      v = 0
-    elsif v <= 0.75
-      v = 0.5
-    else
-      v = 1
-    end
+    v = if v <= 0.25
+          0
+        elsif v <= 0.75
+          0.5
+        else
+          1
+        end
     hours_value.to_i + v
   end
 end
