@@ -2,6 +2,8 @@ h1
   = link_to project.name, project_path(project)
 
 .menu
+  = link_to '每月結算', settlement_project_path(@project), class: 'btn btn-default'
+  = '  '
   = link_to '時數清單', project_records_path(@project), class: 'btn btn-default'
   = '  '
   - if @project.owner?(current_user)

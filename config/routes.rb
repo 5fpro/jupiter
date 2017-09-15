@@ -43,6 +43,9 @@ Rails.application.routes.draw do
       end
     end
     resources :githubs
+    member do
+      get :settlement
+    end
   end
 
   post '/webhooks/:token', to: 'webhooks#webhook_data'
