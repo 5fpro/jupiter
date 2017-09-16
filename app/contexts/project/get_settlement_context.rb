@@ -39,7 +39,7 @@ class Project::GetSettlementContext < ::BaseContext
   def each_user
     @each_user ||= project_users.inject({}) do |h, project_user|
       h.merge(project_user.user_id => build_settle_value(project_user))
-    end
+    end.select { |k, v| v.minutes.to_i != 0 }
   end
 
   def project_wage

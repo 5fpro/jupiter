@@ -40,6 +40,7 @@ table.table.table-striped.project-member
   tbody
     - @settlement.users.each do |user|
       - user_settlement = @settlement.each_user[user.id]
+      - next unless user_settlement
       tr
         td= image_tag(user.github_avatar, size: "50x50")
         td= user.name
