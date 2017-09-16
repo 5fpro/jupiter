@@ -33,7 +33,7 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def my_settlement
-    @my_settlement ||= settlements.select { |o| o.user.id == @user.id }.first
+    @my_settlement ||= settlements.find { |o| o.user.id == @user.id }
   end
 
   def others_settlments
@@ -85,6 +85,6 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def get_array_max_count_value(a)
-    a.group_by{ |e| e }.inject([]) { |h, aa| h << [aa[0], aa[1].length] }.sort_by { |aa| aa[1] }.last[0]
+    a.group_by { |e| e }.inject([]) { |h, aa| h << [aa[0], aa[1].length] }.sort_by { |aa| aa[1] }.last[0]
   end
 end
