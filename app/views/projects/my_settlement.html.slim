@@ -6,7 +6,7 @@ form method='get' action=''
 
 h2= "所有專案結算"
 
-h4= "月份: #{@time.year}/#{@time.month}"
+h4= "月份: #{@time.to_date.year}/#{@time.to_date.month}"
 
 - if @settlements_data.my_settlement
   = render partial: 'user_settlement', object: @settlements_data.my_settlement, as: :settlement
