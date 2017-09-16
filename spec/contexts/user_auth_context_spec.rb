@@ -119,12 +119,20 @@ describe UserAuthContext do
     subject { described_class.new(omniauth_data) }
 
     context "new user" do
-      it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify_admin).by(1) }
+      it do
+        expect {
+          subject.perform
+        }.to enqueue_job(SlackNotifyJob)
+      end
     end
 
     context "exists user" do
       before { FactoryGirl.create :user, email: email }
-      it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(SlackService, :notify_admin) }
+      it do
+        expect {
+          subject.perform
+        }.not_to enqueue_job(SlackNotifyJob)
+      end
     end
   end
 

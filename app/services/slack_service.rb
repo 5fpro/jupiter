@@ -12,12 +12,12 @@ class SlackService
     end
 
     def notify_async(message, channel: "#general", name: "slackbot", icon_url: DEFAULT_ICON_URL, webhook: nil)
-      delay.notify(message, channel: channel, name: name, icon_url: icon_url, webhook: webhook)
+      SlackNotifyJob.perform_later(message, channel: channel, name: name, icon_url: icon_url, webhook: webhook)
     end
 
     def notify_admin(message, channel = 'jupiter-notify')
       webhook = "https://hooks.slack.com/services/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"
-      notify(message, channel: channel, name: "Jupiter", icon_url: "http://i.imgur.com/4G30GGh.jpg", webhook: webhook)
+      notify_async(message, channel: channel, name: "Jupiter", icon_url: "http://i.imgur.com/4G30GGh.jpg", webhook: webhook)
     end
 
     # see more message formating:

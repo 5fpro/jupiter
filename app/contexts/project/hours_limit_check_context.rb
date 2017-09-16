@@ -6,12 +6,6 @@ class Project::HoursLimitCheckContext < BaseContext
 
   THRESHOLD = 0.8
 
-  class << self
-    def perform(project_id)
-      new(Project.find(project_id)).perform
-    end
-  end
-
   def initialize(project)
     @project = project
   end

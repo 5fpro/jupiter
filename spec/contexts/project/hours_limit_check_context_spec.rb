@@ -13,17 +13,21 @@ describe Project::HoursLimitCheckContext, type: :context do
     context "slack notify" do
       before { FactoryGirl.create :slack_channel, :approach_hours_limit, project: project }
 
-      it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
+      it do
+        expect {
+          subject.perform
+        }.to enqueue_job(SlackNotifyJob)
+      end
 
       context "approached" do
         before { project.update_attribute :approached_hours_limit, true }
 
-        it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(SlackService, :notify) }
+        it do
+          expect {
+            subject.perform
+          }.not_to enqueue_job(SlackNotifyJob)
+        end
       end
-    end
-
-    describe "#perform" do
-      it { expect { described_class.perform(project.id) }.to change { project.reload.approached_hours_limit } }
     end
   end
 

@@ -7,13 +7,17 @@ describe TodoPublishContext, type: :context do
   it "empty" do
     expect {
       subject.perform
-    }.to change_sidekiq_jobs_size_of(SlackService, :notify)
+    }.to enqueue_job(SlackNotifyJob)
   end
 
   context "has todo & record" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
     let!(:done_todo) { FactoryGirl.create :todo, :finished, :with_records, user: user }
-    it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify) }
+    it do
+      expect {
+        subject.perform
+      }.to enqueue_job(SlackNotifyJob)
+    end
   end
 
   describe "#update_user_todos_published" do

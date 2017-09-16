@@ -5,13 +5,18 @@ RSpec.describe TodosAutoPublishWorker, type: :worker do
   subject { described_class.new }
 
   context "empty record" do
-    it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(TodoPublishContext, :perform) }
+    it { expect { subject.perform }.not_to enqueue_job(TodosAutoPublishJob) }
   end
 
   context "has todo & record" do
     let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
     let!(:done_todo) { FactoryGirl.create :todo, :with_records, :finished, user: user }
 
-    it { expect { subject.perform }.to change_sidekiq_jobs_size_of(TodoPublishContext, :perform) }
+    it do
+      count = User.all.reject { |user| user.todos_published? || user.records.today.empty? }.size
+      expect {
+        subject.perform
+      }.to have_enqueued_job(TodosAutoPublishJob).exactly(count)
+    end
   end
 end

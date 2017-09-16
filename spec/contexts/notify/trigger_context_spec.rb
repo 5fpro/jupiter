@@ -11,24 +11,40 @@ describe Notify::TriggerContext do
     before { FactoryGirl.create :slack_channel, :record_created, project: project }
     before { project.reload }
 
-    it { expect { subject.perform(record: record) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
+    it do
+      expect {
+        subject.perform(record: record)
+      }.to have_enqueued_job(SlackNotifyJob)
+    end
 
     context "two slack channel" do
       before { FactoryGirl.create :slack_channel, :record_created, project: project }
       before { project.reload }
 
-      it { expect { subject.perform(record: record) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(2) }
+      it do
+        expect {
+          subject.perform(record: record)
+        }.to have_enqueued_job(SlackNotifyJob).exactly(2)
+      end
     end
 
     context "slack channel without events" do
       before { FactoryGirl.create :slack_channel, project: project, events: [""] }
       before { project.reload }
 
-      it { expect { subject.perform(record: record) }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
+      it do
+        expect {
+          subject.perform(record: record)
+        }.to have_enqueued_job(SlackNotifyJob)
+      end
     end
   end
 
   context "no slack channels" do
-    it { expect { subject.perform(record: record) }.not_to change_sidekiq_jobs_size_of(SlackService, :notify) }
+    it do
+      expect {
+        subject.perform(record: record)
+      }.not_to have_enqueued_job(SlackNotifyJob)
+    end
   end
 end

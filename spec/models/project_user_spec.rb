@@ -9,6 +9,8 @@
 #  updated_at :datetime         not null
 #  sort       :integer
 #  data       :hstore
+#  archived   :boolean          default(FALSE)
+#  wage       :integer
 #
 
 require 'rails_helper'

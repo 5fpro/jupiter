@@ -10,8 +10,9 @@
 #  data             :hstore
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  done             :boolean          default(FALSE)
 #  last_recorded_at :datetime
+#  sort             :integer
+#  status           :integer
 #
 
 require 'rails_helper'

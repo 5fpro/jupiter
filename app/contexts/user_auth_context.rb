@@ -117,6 +117,6 @@ class UserAuthContext < BaseContext
 
   def new_user_comming
     return unless @new_user_comming
-    SlackService.delay(retry: false).notify_admin("新使用者註冊! (##{@user.id})#{@user.name}<#{@user.email}>")
+    SlackService.notify_admin("新使用者註冊! (##{@user.id})#{@user.name}<#{@user.email}>")
   end
 end

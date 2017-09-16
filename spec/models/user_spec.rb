@@ -23,6 +23,7 @@
 #  admin                  :boolean          default(FALSE)
 #  avatar                 :string
 #  data                   :hstore
+#  todos_published        :boolean          default(FALSE)
 #
 
 require 'rails_helper'
@@ -41,6 +42,6 @@ RSpec.describe User, type: :model do
   it "devise async" do
     expect {
       FactoryGirl.create :unconfirmed_user
-    }.not_to change_sidekiq_jobs_size_of(Devise::Async::Backend::Sidekiq)
+    }.not_to enqueue_job(Devise::Async::Backend::Sidekiq)
   end
 end

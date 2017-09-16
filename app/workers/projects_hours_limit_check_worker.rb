@@ -9,7 +9,7 @@ class ProjectsHoursLimitCheckWorker
 
   def perform
     Project.find_each do |project|
-      Project::HoursLimitCheckContext.delay(retry: false).perform(project.id)
+      Project::HoursLimitCheckJob.perform_later(project.id)
     end
   end
 end
