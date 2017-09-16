@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -8,7 +8,10 @@ Bundler.require(*Rails.groups)
 
 module Jupiter
   class Application < Rails::Application
-    config.action_mailer.delivery_method = :amazon_ses
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
+
+    config.action_mailer.delivery_method = :aws_sdk
 
     # disable some file generators
     config.generators.stylesheets = false
@@ -21,6 +24,9 @@ module Jupiter
       g.factory_girl dir: "spec/factories"
     end
 
+    # serve error pages from the Rails app itself (routes.rb)
+    config.exceptions_app = self.routes
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -32,9 +38,6 @@ module Jupiter
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-
-    # disable after_commit & after_rollback of model callbacks
-    config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = :sidekiq
   end

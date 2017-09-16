@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 5.1'
 
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 
@@ -27,7 +27,7 @@ gem 'slim'
 
 # assets
 gem 'asset_sync'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.2'
 gem 'uglifier', '>= 1.3.0'
 
 # JS plugin
@@ -39,7 +39,7 @@ gem 'turbolinks'
 gem 'sidekiq'
 gem 'sidekiq-limit_fetch'
 gem 'sidetiq'
-gem 'sinatra', '>= 1.3.0', require: nil
+gem 'sinatra', '~> 2.0.0.beta2'
 
 # file upload
 gem 'carrierwave'
@@ -77,7 +77,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'spring'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.0'
   gem 'xray-rails'
 end
 
@@ -90,7 +90,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'test_after_commit'
   gem 'timecop'
   gem 'webmock'
 end

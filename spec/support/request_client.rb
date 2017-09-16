@@ -6,12 +6,12 @@ module RequestClient
 
   def signin_user(user = nil)
     user ||= FactoryGirl.create(:admin_user)
-    post '/users/sign_in', user: { email: user.email, password: user.password }
+    post '/users/sign_in', params: { user: { email: user.email, password: user.password } }
     @current_user = user if response.status == 302
   end
 
   def omniauth_signin
-    get '/authorizations/facebook/callback', nil, 'omniauth.auth' => omniauth_mock(:github)
+    get '/authorizations/facebook/callback', headers: { 'omniauth.auth' => omniauth_mock(:github) }
   end
 
   def current_user

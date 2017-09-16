@@ -17,8 +17,8 @@ require 'rails_helper'
 
 describe AuthorizationsController, type: :request do
   context '#callback' do
-    let(:fb_auth) { omniauth_signin }
-    let(:google_auth) { get '/authorizations/google_oauth2/callback', nil, 'omniauth.auth' => omniauth_mock(:google_oauth2) }
+    let(:fb_auth) { get '/authorizations/facebook/callback', env: { 'omniauth.auth' => omniauth_mock(:facebook) } }
+    let(:google_auth) { get '/authorizations/google_oauth2/callback', env: { 'omniauth.auth' => omniauth_mock(:google_oauth2) } }
     it 'success' do
       expect {
         fb_auth
@@ -29,7 +29,7 @@ describe AuthorizationsController, type: :request do
     end
 
     context 'user auth fb & signed in' do
-      let(:user2) { FactoryGirl.create :user, email: omniauth_mock(:facebook)[:info][:email] }
+      let(:user2) { create(:user, email: omniauth_mock(:facebook)[:info][:email]) }
       before { fb_auth }
       before { follow_redirect! }
       before { @user = User.last }
