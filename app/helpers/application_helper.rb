@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def collection_for_project_todos(project)
-    project.todos.merge(current_user.todos).for_bind.map { |todo| ["#{todo.finished? ? "[已完成] " : ""}#{todo.desc}", todo.id] }
+    project.todos.merge(current_user.todos).for_bind.map { |todo| ["#{todo.finished? ? '[已完成] ' : ''}#{todo.desc}", todo.id] }
   end
 
   def collection_for_user_projects(user)
@@ -33,19 +33,19 @@ module ApplicationHelper
 
   def render_html(text)
     text = simple_format(text, {}, wrapper_tag: 'div')
-    text = auto_link(text, html: { target: "_blank" }, sanitize: false)
+    text = auto_link(text, html: { target: '_blank' }, sanitize: false)
     raw text
   end
 
   def render_sorting_buttons(instance, column: :sort)
-    scope = instance.class.to_s.split("::").last.underscore
+    scope = instance.class.to_s.split('::').last.underscore
     html = [:first, :up, :down, :last, :remove].map do |action|
       if action == :remove && instance.try(column).nil?
-        ""
+        ''
       else
-        link_to action.to_s.camelize, send("#{scope}_path", instance, "#{scope}[#{column}]" => action, redirect_to: url_for), method: :put, class: "btn btn-default btn-small"
+        link_to action.to_s.camelize, send("#{scope}_path", instance, "#{scope}[#{column}]" => action, redirect_to: url_for), method: :put, class: 'btn btn-default btn-small'
       end
-    end.join(" ")
+    end.join(' ')
     raw html
   end
 
@@ -57,7 +57,7 @@ module ApplicationHelper
 
   def validates_current_github_token_for_webhook
     token = current_user.full_access_token.value
-    return false unless token.present?
+    return false if token.blank?
     scopes = GithubService.new(token).permission_scopes
     required = ['admin:repo_hook', 'repo']
     (scopes & required).size == required.size

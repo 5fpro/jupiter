@@ -50,7 +50,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
 
   def find_target
     @target = {}
-    if @action_type == "comment"
+    if @action_type == 'comment'
       @target[:summary] = strip_body(@params[:comment][:body])
       @target[:body] = @params[:comment][:body]
       @target[:url] = @params[:comment][:html_url]
@@ -74,7 +74,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
       object = @params[:issue] || @params[:pull_request] || {}
       @target[:summary] = object[:title]
       # @target[:body] = "@" + object[:assignee][:login]
-      @target[:body] = "" # disable assignee
+      @target[:body] = '' # disable assignee
       @target[:url] = object[:html_url]
       @target[:message] = "你有新的指派: #{@target[:summary]}"
     end
@@ -85,7 +85,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
     @mentions = []
     if @target[:body].present?
       mapping.each do |github_user, slack_user|
-        @mentions << slack_user if @target[:body].index("@" + github_user)
+        @mentions << slack_user if @target[:body].index('@' + github_user)
       end
     end
   end
@@ -95,7 +95,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   end
 
   def send_notification(slack_user)
-    message = @target[:message] + " ......#{SlackService.render_link(@target[:url], "點擊查看")}"
+    message = @target[:message] + " ......#{SlackService.render_link(@target[:url], '點擊查看')}"
     Notify::SendToUserContext.new(@project, slack_user, message).perform(async: false)
   end
 
@@ -118,6 +118,6 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   end
 
   def strip_body(body)
-    body.to_s.strip.tr("\n", "").tr("\r", "").tr("\t", "")
+    body.to_s.strip.tr("\n", '').tr("\r", '').tr("\t", '')
   end
 end

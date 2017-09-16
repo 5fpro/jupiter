@@ -4,11 +4,11 @@ RSpec.describe TodosAutoPublishWorker, type: :worker do
   let(:user) { FactoryGirl.create :user }
   subject { described_class.new }
 
-  context "empty record" do
+  context 'empty record' do
     it { expect { subject.perform }.not_to enqueue_job(TodosAutoPublishJob) }
   end
 
-  context "has todo & record" do
+  context 'has todo & record' do
     let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
     let!(:done_todo) { FactoryGirl.create :todo, :with_records, :finished, user: user }
 

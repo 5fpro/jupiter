@@ -6,15 +6,13 @@ class CommentsController < BaseController
     @comments = record.comments
   end
 
-  def show
-  end
+  def show; end
 
-  def new
-  end
+  def new; end
 
   def create
     if comment.save
-      redirect_to params[:redirect_to] || record_comment_path(record, comment), flash: { success: "comment created" }
+      redirect_to params[:redirect_to] || record_comment_path(record, comment), flash: { success: 'comment created' }
     else
       new
       flash.now[:error] = comment.errors.full_messages
@@ -22,12 +20,11 @@ class CommentsController < BaseController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if comment.update_attributes(comment_params)
-      redirect_to params[:redirect_to] || record_comment_path(record, comment), flash: { success: "comment updated" }
+      redirect_to params[:redirect_to] || record_comment_path(record, comment), flash: { success: 'comment updated' }
     else
       edit
       flash.now[:error] = comment.errors.full_messages
@@ -37,7 +34,7 @@ class CommentsController < BaseController
 
   def destroy
     if comment.destroy
-      redirect_to params[:redirect_to] || record_comments_path, flash: { success: "comment deleted" }
+      redirect_to params[:redirect_to] || record_comments_path, flash: { success: 'comment deleted' }
     else
       redirect_to :back, flash: { error: comment.errors.full_messages }
     end

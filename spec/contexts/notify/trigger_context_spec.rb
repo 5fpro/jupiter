@@ -7,7 +7,7 @@ describe Notify::TriggerContext do
 
   subject { described_class.new(project, :record_created) }
 
-  context "one slack channel" do
+  context 'one slack channel' do
     before { FactoryGirl.create :slack_channel, :record_created, project: project }
     before { project.reload }
 
@@ -17,7 +17,7 @@ describe Notify::TriggerContext do
       }.to have_enqueued_job(SlackNotifyJob)
     end
 
-    context "two slack channel" do
+    context 'two slack channel' do
       before { FactoryGirl.create :slack_channel, :record_created, project: project }
       before { project.reload }
 
@@ -28,8 +28,8 @@ describe Notify::TriggerContext do
       end
     end
 
-    context "slack channel without events" do
-      before { FactoryGirl.create :slack_channel, project: project, events: [""] }
+    context 'slack channel without events' do
+      before { FactoryGirl.create :slack_channel, project: project, events: [''] }
       before { project.reload }
 
       it do
@@ -40,7 +40,7 @@ describe Notify::TriggerContext do
     end
   end
 
-  context "no slack channels" do
+  context 'no slack channels' do
     it do
       expect {
         subject.perform(record: record)

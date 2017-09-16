@@ -15,7 +15,7 @@
 #  status           :integer
 #
 
-class Todo < ActiveRecord::Base
+class Todo < ApplicationRecord
   include TodoStatusConcern
   sortable column: :sort, scope: :user, add_new_at: nil
 
@@ -28,7 +28,7 @@ class Todo < ActiveRecord::Base
   scope :today_finished, -> { today.finished }
   scope :today_doing_and_not_finished, -> { where(status: [Todo.statuses[:pending], Todo.statuses[:doing]]).where(last_recorded_on: Time.zone.now.to_date) }
   scope :today, -> { where(last_recorded_on: Time.zone.now.to_date) }
-  scope :not_today, -> { where("last_recorded_on != ? OR last_recorded_on is ?", Time.zone.now.to_date, nil) }
+  scope :not_today, -> { where('last_recorded_on != ? OR last_recorded_on is ?', Time.zone.now.to_date, nil) }
   scope :project_sorted, -> { order(project_id: :asc) }
   store_accessor :data, :total_time, :original_id
 

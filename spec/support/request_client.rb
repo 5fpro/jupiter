@@ -1,17 +1,17 @@
 module RequestClient
   def signout_user
-    delete "/users/sign_out"
+    delete '/users/sign_out'
     @current_user = nil
   end
 
   def signin_user(user = nil)
     user ||= FactoryGirl.create(:admin_user)
-    post "/users/sign_in", user: { email: user.email, password: user.password }
+    post '/users/sign_in', user: { email: user.email, password: user.password }
     @current_user = user if response.status == 302
   end
 
   def omniauth_signin
-    get "/authorizations/facebook/callback", nil, "omniauth.auth" => omniauth_mock(:github)
+    get '/authorizations/facebook/callback', nil, 'omniauth.auth' => omniauth_mock(:github)
   end
 
   def current_user
@@ -19,6 +19,6 @@ module RequestClient
   end
 
   def file_data
-    fixture_file_upload("spec/fixtures/5fpro.png", "image/png")
+    fixture_file_upload('spec/fixtures/5fpro.png', 'image/png')
   end
 end

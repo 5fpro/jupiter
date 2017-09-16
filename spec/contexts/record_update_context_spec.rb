@@ -7,13 +7,13 @@ describe RecordUpdateContext do
 
   subject { described_class.new(user, record) }
 
-  it "success" do
+  it 'success' do
     expect {
       subject.perform(params)
     }.to change { record.reload.note }.to(params[:note])
   end
 
-  context "not owner" do
+  context 'not owner' do
     let(:user1) { FactoryGirl.create :user }
 
     subject { described_class.new(user1, record) }
@@ -25,7 +25,7 @@ describe RecordUpdateContext do
     end
   end
 
-  describe "#calculate_todo" do
+  describe '#calculate_todo' do
     let!(:record) { FactoryGirl.create(:record, :with_todo) }
     let(:params) { attributes_for(:record_for_params) }
     let(:todo) { Todo.last }

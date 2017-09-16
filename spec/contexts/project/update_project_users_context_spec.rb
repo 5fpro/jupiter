@@ -9,8 +9,8 @@ describe Project::UpdateProjectUsersContext, type: :context do
 
   it { expect { subject.perform }.to change { project_user.reload.slack_user } }
 
-  context "fail" do
-    before { project.update_column :name, "" }
+  context 'fail' do
+    before { project.update_column :name, '' }
     it { expect { subject.perform }.not_to change { project_user.reload.slack_user } }
   end
 end

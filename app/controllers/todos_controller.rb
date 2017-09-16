@@ -13,8 +13,7 @@ class TodosController < BaseController
     @todo = @todos.new(project_id: params[:project_id])
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     context = TodoCreateContext.new(current_user, params[:todo])
@@ -57,7 +56,7 @@ class TodosController < BaseController
 
   def publish
     TodoPublishContext.new(current_user).perform
-    redirect_to :back, flash: { success: "已發佈" }
+    redirect_to :back, flash: { success: '已發佈' }
   end
 
   private

@@ -22,8 +22,7 @@ class TodoCreateByRecordContext < BaseContext
 
   def attributes_for_todo
     { project_id: @record.project_id,
-      desc: @record.note
-    }
+      desc: @record.note }
   end
 
   def assign_to_record

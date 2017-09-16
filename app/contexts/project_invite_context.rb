@@ -25,7 +25,7 @@ class ProjectInviteContext < BaseContext
   end
 
   def validates_me_in_project!
-    return add_error(:user_is_not_in_project, "@me is not in project") unless @project.has_user?(@me)
+    return add_error(:user_is_not_in_project, '@me is not in project') unless @project.has_user?(@me)
     true
   end
 
@@ -35,7 +35,7 @@ class ProjectInviteContext < BaseContext
   end
 
   def validates_user_is_not_me!
-    return add_error(:cant_do_for_yourself, "invite") if @me.id == @user.id
+    return add_error(:cant_do_for_yourself, 'invite') if @me.id == @user.id
     true
   end
 end

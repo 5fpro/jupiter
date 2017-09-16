@@ -31,7 +31,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:user) { FactoryGirl.create :user }
 
-  context "FactoryGirl" do
+  context 'FactoryGirl' do
     it { expect(user).not_to be_new_record }
     it { expect(FactoryGirl.create(:user_with_avatar).avatar.url).to be_present }
     it { expect(FactoryGirl.create(:unconfirmed_user).confirmed?).to eq false }
@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
     it { attributes_for :user_for_create }
   end
 
-  it "devise async" do
+  it 'devise async' do
     expect {
       FactoryGirl.create :unconfirmed_user
     }.not_to enqueue_job(Devise::Async::Backend::Sidekiq)

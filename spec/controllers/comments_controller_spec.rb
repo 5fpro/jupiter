@@ -17,22 +17,22 @@ RSpec.describe CommentsController, type: :request do
   let!(:record) { FactoryGirl.create :record }
   let!(:comment) { FactoryGirl.create :comment, item: record }
 
-  it "#index" do
+  it '#index' do
     get "/records/#{record.id}/comments"
     expect(response).to be_success
   end
 
-  it "#show" do
+  it '#show' do
     get "/records/#{record.id}/comments/#{comment.id}"
     expect(response).to be_success
   end
 
-  it "#new" do
+  it '#new' do
     get "/records/#{record.id}/comments/new"
     expect(response).to be_success
   end
 
-  it "#create" do
+  it '#create' do
     expect {
       post "/records/#{record.id}/comments", comments: attributes_for(:comment_for_create)
     }.to change { Comment.count }.by(1)
@@ -41,21 +41,21 @@ RSpec.describe CommentsController, type: :request do
     expect(response).to be_success
   end
 
-  it "#edit" do
+  it '#edit' do
     get "/records/#{record.id}/comments/#{comment.id}/edit"
     expect(response).to be_success
   end
 
-  it "#update" do
+  it '#update' do
     expect {
-      put "/records/#{record.id}/comments/#{comment.id}", comments: { tmp: "12321" }
+      put "/records/#{record.id}/comments/#{comment.id}", comments: { tmp: '12321' }
     }.to change { comment.reload.tmp }
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
   end
 
-  it "#destroy" do
+  it '#destroy' do
     expect {
       delete "/records/#{record.id}/comments/#{comment.id}"
     }.to change { Comment.count }.by(-1)

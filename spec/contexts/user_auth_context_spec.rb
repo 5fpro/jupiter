@@ -7,29 +7,29 @@ describe UserAuthContext do
 
   subject { described_class.new(omniauth_data, user).perform }
 
-  context "with current_user" do
-    it "first bind" do
+  context 'with current_user' do
+    it 'first bind' do
       expect {
         @result = subject
       }.to change { user.reload.authorizations.count }.from(0).to(1)
       expect(user.authorizations.last.auth_data).to be_present
       expect(@result[:user].id).to eq user.id
     end
-    it "unconfirm to confirm" do
+    it 'unconfirm to confirm' do
       if user.confirmable?
         expect {
           subject
         }.to change { user.reload.confirmed? }.to(true)
       end
     end
-    it "user2 has the same email" do
+    it 'user2 has the same email' do
       FactoryGirl.create :user, email: email
       expect {
         @result = subject
       }.not_to change { user.reload.authorizations.count }
       expect(@result).to eq false
     end
-    it "user2 has the same email with google auth" do
+    it 'user2 has the same email with google auth' do
       expect {
         described_class.new(omniauth_mock(:google_oauth2)).perform
       }.to change { User.count }.by(1)
@@ -37,7 +37,7 @@ describe UserAuthContext do
         subject
       }.not_to change { user.reload.authorizations.count }
     end
-    it "facebook then google with the same user" do
+    it 'facebook then google with the same user' do
       expect {
         subject
       }.to change { user.reload.authorizations.count }.from(0).to(1)
@@ -45,25 +45,25 @@ describe UserAuthContext do
         described_class.new(omniauth_mock(:google_oauth2), user).perform
       }.to change { user.reload.authorizations.count }.from(1).to(2)
     end
-    context "already bind" do
+    context 'already bind' do
       before { subject }
 
-      it "bind the same" do
+      it 'bind the same' do
         expect {
           subject
         }.not_to change { user.reload.authorizations.count }
       end
     end
-    context "already bind to user2" do
+    context 'already bind to user2' do
       let!(:user2) { FactoryGirl.create :user, email: email }
       before { described_class.new(omniauth_data, user2).perform }
 
-      it "authorizations count" do
+      it 'authorizations count' do
         expect {
           subject
         }.not_to change { user.reload.authorizations.count }
       end
-      it "update auth_data" do
+      it 'update auth_data' do
         authorization = user2.authorizations.last
         authorization.update_attribute :auth_data, nil
         expect {
@@ -73,20 +73,20 @@ describe UserAuthContext do
     end
   end
 
-  context "no current_user" do
-    it "success" do
+  context 'no current_user' do
+    it 'success' do
       expect {
         described_class.new(omniauth_data).perform
       }.to change { User.count }.by(1)
       expect(User.last.authorizations.count).to eq 1
     end
-    it "email exists will auto find and bind" do
+    it 'email exists will auto find and bind' do
       user.update_column :email, email
       expect {
         described_class.new(omniauth_data).perform
       }.to change { user.reload.authorizations.count }.by(1)
     end
-    it "new user bind to google" do
+    it 'new user bind to google' do
       user = described_class.new(omniauth_data).perform[:user]
       expect {
         described_class.new(omniauth_mock(:google_oauth2), user).perform
@@ -94,8 +94,8 @@ describe UserAuthContext do
     end
   end
 
-  context "#update_github_data!" do
-    it "success" do
+  context '#update_github_data!' do
+    it 'success' do
       user = subject[:user]
       expect(user.github_id).to be_present
       expect(user.github_account).to be_present
@@ -103,22 +103,22 @@ describe UserAuthContext do
       expect(user.github_token).to be_present
       expect(user.name).to be_present
     end
-    it "sync if auth_data changed" do
+    it 'sync if auth_data changed' do
       subject
-      ori_name = omniauth_data["info"]["name"]
+      ori_name = omniauth_data['info']['name']
       data = omniauth_data
-      data["info"]["name"] = "Venus"
+      data['info']['name'] = 'Venus'
       expect {
         described_class.new(data, user).perform
-      }.to change { user.reload.name }.from(ori_name).to("Venus")
-      expect(user.authorizations.last.auth_data["info"]["name"]).to eq "Venus"
+      }.to change { user.reload.name }.from(ori_name).to('Venus')
+      expect(user.authorizations.last.auth_data['info']['name']).to eq 'Venus'
     end
   end
 
-  describe "#new_user_comming" do
+  describe '#new_user_comming' do
     subject { described_class.new(omniauth_data) }
 
-    context "new user" do
+    context 'new user' do
       it do
         expect {
           subject.perform
@@ -126,7 +126,7 @@ describe UserAuthContext do
       end
     end
 
-    context "exists user" do
+    context 'exists user' do
       before { FactoryGirl.create :user, email: email }
       it do
         expect {
@@ -136,12 +136,12 @@ describe UserAuthContext do
     end
   end
 
-  describe "#update_github_full_access_token" do
+  describe '#update_github_full_access_token' do
     subject { described_class.new(omniauth_data) }
 
     before { subject.perform }
 
-    context "update full_access_token" do
+    context 'update full_access_token' do
       it { expect(user.full_access_token).to be_present }
     end
   end

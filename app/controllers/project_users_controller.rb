@@ -4,9 +4,9 @@ class ProjectUsersController < BaseController
 
   def update
     if @project_user.update_attributes(project_user_params)
-      redirect_as_success(edit_projects_path, "Projects Updated")
+      redirect_as_success(edit_projects_path, 'Projects Updated')
     else
-      redirect_as_fail(edit_projects_path, "Projects Updated failed")
+      redirect_as_fail(edit_projects_path, 'Projects Updated failed')
     end
   end
 

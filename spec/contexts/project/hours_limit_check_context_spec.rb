@@ -4,13 +4,13 @@ describe Project::HoursLimitCheckContext, type: :context do
   let!(:project) { FactoryGirl.create :project, :with_project_user }
   subject { described_class.new(project) }
 
-  context "success" do
+  context 'success' do
     before { project.update_attribute :hours_limit, 1 }
     let!(:record) { FactoryGirl.create :record, project: project, minutes: 100 }
 
     it { expect { subject.perform }.to change { project.reload.approached_hours_limit }.to(true) }
 
-    context "slack notify" do
+    context 'slack notify' do
       before { FactoryGirl.create :slack_channel, :approach_hours_limit, project: project }
 
       it do
@@ -19,7 +19,7 @@ describe Project::HoursLimitCheckContext, type: :context do
         }.to enqueue_job(SlackNotifyJob)
       end
 
-      context "approached" do
+      context 'approached' do
         before { project.update_attribute :approached_hours_limit, true }
 
         it do
@@ -31,12 +31,12 @@ describe Project::HoursLimitCheckContext, type: :context do
     end
   end
 
-  context "no value" do
+  context 'no value' do
     it { expect(subject.perform).to eq false }
     it { expect { subject.perform }.not_to change { project.reload.approached_hours_limit } }
   end
 
-  context "not approach" do
+  context 'not approach' do
     before { project.update_attribute :hours_limit, 1 }
     let!(:record) { FactoryGirl.create :record, project: project, minutes: 30 }
 

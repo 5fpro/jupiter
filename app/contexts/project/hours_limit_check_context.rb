@@ -32,7 +32,7 @@ class Project::HoursLimitCheckContext < BaseContext
   end
 
   def notify_to_slack
-    if @approached && @changes["data"].try(:last).try(:[], "approached_hours_limit")
+    if @approached && @changes['data'].try(:last).try(:[], 'approached_hours_limit')
       Notify::TriggerContext.new(@project, :approach_hours_limit).perform(project: @project)
     end
   end

@@ -13,7 +13,7 @@
 #  wage       :integer
 #
 
-class ProjectUser < ActiveRecord::Base
+class ProjectUser < ApplicationRecord
   belongs_to :project
   belongs_to :user
 

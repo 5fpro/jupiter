@@ -25,17 +25,17 @@ RSpec.describe ProjectsController, type: :request do
 
   before { signin_user(user) }
 
-  describe "#index" do
+  describe '#index' do
 
-    subject { get "/projects" }
+    subject { get '/projects' }
 
-    context "empty" do
+    context 'empty' do
       before { Project.destroy_all }
       before { subject }
       it { expect(response).to be_success }
     end
 
-    context "has projects & records" do
+    context 'has projects & records' do
       before { FactoryGirl.create :project_has_records, owner: current_user }
 
       before { subject }
@@ -44,23 +44,23 @@ RSpec.describe ProjectsController, type: :request do
     end
   end
 
-  describe "#show" do
+  describe '#show' do
     subject { get "/projects/#{project.id}" }
 
-    context "empty" do
+    context 'empty' do
       before { subject }
 
       it { expect(response).to be_success }
     end
 
-    context "has member" do
+    context 'has member' do
       let(:member) { project.users.last }
 
       before { subject }
 
       it { expect(response).to be_success }
 
-      context "has reocrds" do
+      context 'has reocrds' do
         let(:time) { (50 * 60) + 10 }
 
         before { FactoryGirl.create :record, project: project, user: member, minutes: time, created_at: 1.minute.ago }
@@ -71,65 +71,65 @@ RSpec.describe ProjectsController, type: :request do
 
     end
 
-    context "not in project" do
+    context 'not in project' do
       before { remove_user_from_project!(project, user) }
 
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 
-  it "#new" do
-    get "/projects/new"
+  it '#new' do
+    get '/projects/new'
     expect(response).to be_success
   end
 
-  it "#create" do
+  it '#create' do
     expect {
-      post "/projects", project: attributes_for(:project)
+      post '/projects', project: attributes_for(:project)
     }.to change { Project.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
     expect(response).to be_success
   end
 
-  describe "#edit" do
+  describe '#edit' do
     subject { get "/projects/#{project.id}/edit" }
 
-    context "success" do
+    context 'success' do
       before { subject }
 
       it { expect(response).to be_success }
     end
 
-    context "not owner" do
+    context 'not owner' do
       before { project.update_attribute :owner, user1 }
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 
-  describe "#update" do
+  describe '#update' do
     let(:data) { attributes_for(:project_for_update, :setting) }
     subject { put "/projects/#{project.id}", project: data }
 
-    context "success" do
+    context 'success' do
       before { subject }
 
       it { expect(response).to be_redirect }
 
-      context "follow redirect" do
+      context 'follow redirect' do
         before { follow_redirect! }
 
         it { expect(response).to be_success }
       end
     end
 
-    context "not owner" do
+    context 'not owner' do
       before { project.update_attribute :owner, user1 }
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
 
-    context "update fail" do
-      let!(:data) { attributes_for(:project_for_update, :setting, name: "") }
+    context 'update fail' do
+      let!(:data) { attributes_for(:project_for_update, :setting, name: '') }
       before { subject }
 
       it { expect(response).to be_success }
@@ -137,16 +137,16 @@ RSpec.describe ProjectsController, type: :request do
     end
   end
 
-  describe "#edit_collection" do
-    subject { get "/projects/edit" }
+  describe '#edit_collection' do
+    subject { get '/projects/edit' }
     before { subject }
 
     it { expect(response).to be_success }
   end
 
-  describe "#archived" do
+  describe '#archived' do
     before { project.project_users.find_by(user_id: user.id).update(archived: true) }
-    subject! { get "/projects/archived" }
+    subject! { get '/projects/archived' }
 
     it do
       expect(response).to be_success

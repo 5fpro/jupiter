@@ -34,8 +34,7 @@ class UserAuthContext < BaseContext
 
   def responds
     { user: @user,
-      authorization: @authorization
-    }
+      authorization: @authorization }
   end
 
   def find_authorization
@@ -53,7 +52,7 @@ class UserAuthContext < BaseContext
 
   def email_uniqueness?
     scope = User.where(email: @email)
-    scope = scope.where("id != ?", @user.id)
+    scope = scope.where('id != ?', @user.id)
     return add_error(:omniauth_email_registered) unless scope.count == 0
   end
 
@@ -66,7 +65,7 @@ class UserAuthContext < BaseContext
   end
 
   def bind_authorization_to_user
-    @authorization = @user.authorizations.create!(uid: @params[:uid], provider: @provider, auth_data: @params) unless @authorization
+    @authorization ||= @user.authorizations.create!(uid: @params[:uid], provider: @provider, auth_data: @params)
   end
 
   def update_user_omniauth_data
@@ -103,16 +102,16 @@ class UserAuthContext < BaseContext
 
   def update_github_data!
     if @provider.to_sym == :github
-      @user.update_attributes(name: @authorization.auth_data["info"]["name"],
+      @user.update_attributes(name: @authorization.auth_data['info']['name'],
                               github_id: @authorization.uid,
-                              github_account: @authorization.auth_data["info"]["nickname"],
-                              github_avatar: @authorization.auth_data["info"]["image"],
-                              github_token: @authorization.auth_data["credentials"]["token"])
+                              github_account: @authorization.auth_data['info']['nickname'],
+                              github_avatar: @authorization.auth_data['info']['image'],
+                              github_token: @authorization.auth_data['credentials']['token'])
     end
   end
 
   def update_github_full_access_token
-    @user.full_access_token = @authorization.auth_data["credentials"]["token"] if @provider.to_sym == :github
+    @user.full_access_token = @authorization.auth_data['credentials']['token'] if @provider.to_sym == :github
   end
 
   def new_user_comming

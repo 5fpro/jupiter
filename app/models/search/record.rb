@@ -40,15 +40,15 @@ class Search::Record < ::Record
     end
 
     def group_by(group)
-      scoped = select("SUM(minutes) as minutes")
+      scoped = select('SUM(minutes) as minutes')
       case group.to_sym
       when :record_type then scoped.select(:record_type).group(:record_type).reorder(:record_type)
-      when :user        then scoped.select(:user_id).group(:user_id).reorder("minutes")
-      when :project     then scoped.select(:project_id).group(:project_id).reorder("minutes")
-      when :day         then scoped.select("date(created_at) as time_text").group(:time_text).reorder("time_text")
-      when :week        then scoped.select("EXTRACT(YEAR FROM created_at)::text ||  EXTRACT(WEEK FROM created_at)::text AS time_text, max(created_at) as max_time").group(:time_text).reorder("max_time")
-      when :month       then scoped.select("EXTRACT(YEAR FROM created_at)::text ||  EXTRACT(MONTH FROM created_at)::text AS time_text, max(created_at) as max_time").group(:time_text).reorder("max_time")
-      when :todo        then scoped.select(:todo_id).select("max(created_at) as created_at, max(user_id) as user_id, max(project_id) as project_id").group(:todo_id).reorder("created_at DESC")
+      when :user        then scoped.select(:user_id).group(:user_id).reorder('minutes')
+      when :project     then scoped.select(:project_id).group(:project_id).reorder('minutes')
+      when :day         then scoped.select('date(created_at) as time_text').group(:time_text).reorder('time_text')
+      when :week        then scoped.select('EXTRACT(YEAR FROM created_at)::text ||  EXTRACT(WEEK FROM created_at)::text AS time_text, max(created_at) as max_time').group(:time_text).reorder('max_time')
+      when :month       then scoped.select('EXTRACT(YEAR FROM created_at)::text ||  EXTRACT(MONTH FROM created_at)::text AS time_text, max(created_at) as max_time').group(:time_text).reorder('max_time')
+      when :todo        then scoped.select(:todo_id).select('max(created_at) as created_at, max(user_id) as user_id, max(project_id) as project_id').group(:todo_id).reorder('created_at DESC')
       end
     end
 
@@ -62,7 +62,7 @@ class Search::Record < ::Record
 
     def to_csv(opts = {})
       CSV.generate(opts) do |csv|
-        csv << ["ID", "User", "Type", "minutes", "note", "time"]
+        csv << ['ID', 'User', 'Type', 'minutes', 'note', 'time']
         all.find_each do |o| # reset pagination
           csv << [o.id, o.user.try(:name), record_type_name(o.record_type), o.minutes, o.note, o.created_at]
         end

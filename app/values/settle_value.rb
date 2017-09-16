@@ -1,5 +1,6 @@
 class SettleValue < BaseValue
-  attr_accessor :minutes, :wage, :project_wage, :income, :hours, :project_hours
+  attr_accessor :minutes, :project_wage
+  attr_writer :hours, :wage, :income, :project_hours
 
   def hours
     @hours ||= hour_round(minutes.to_f / 60)

@@ -17,6 +17,6 @@ FactoryGirl.define do
 
   factory :category_for_create, class: Category do
     sequence(:name) { |n| "category #{n}" }
-    tag_list "a,b,c"
+    tag_list 'a,b,c'
   end
 end

@@ -28,7 +28,7 @@ FactoryGirl.define do
   factory :record_for_params, class: Record do
     record_type :etc
     minutes 10
-    note "update minutes"
+    note 'update minutes'
 
     trait :has_todo_id do
       todo_id { FactoryGirl.create(:todo).id }

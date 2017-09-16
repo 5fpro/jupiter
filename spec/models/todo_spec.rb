@@ -20,11 +20,11 @@ require 'rails_helper'
 RSpec.describe Todo, type: :model do
   let(:todo) { FactoryGirl.create :todo }
 
-  context "FactoryGirl" do
+  context 'FactoryGirl' do
     it { expect(todo).not_to be_new_record }
   end
 
-  describe ".for_bind" do
+  describe '.for_bind' do
     let!(:todo1) { FactoryGirl.create :todo, :doing, last_recorded_at: nil }
     let!(:todo2) { FactoryGirl.create :todo, last_recorded_at: Time.zone.now.to_date }
     let!(:todo3) { FactoryGirl.create :todo, :finished, last_recorded_at: 1.day.ago }
@@ -45,7 +45,7 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo8.id) }
   end
 
-  describe ".today_doing_and_not_finished" do
+  describe '.today_doing_and_not_finished' do
     let!(:todo1) { FactoryGirl.create :todo, :doing, last_recorded_at: nil }
     let!(:todo2) { FactoryGirl.create :todo, :pending, last_recorded_at: 1.day.from_now }
     let!(:todo3) { FactoryGirl.create :todo, :pending, last_recorded_at: Time.zone.now.to_date }
@@ -60,7 +60,7 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo5.id) }
   end
 
-  describe ".not_today" do
+  describe '.not_today' do
     let!(:todo1) { FactoryGirl.create :todo, last_recorded_on: nil }
     let!(:todo2) { FactoryGirl.create :todo, last_recorded_on: Time.zone.now.to_date }
     let!(:todo3) { FactoryGirl.create :todo, last_recorded_on: 1.day.ago }
@@ -72,10 +72,10 @@ RSpec.describe Todo, type: :model do
     it { expect(subject).to be_include(todo3.id) }
   end
 
-  describe "has many records" do
+  describe 'has many records' do
     let(:todo) { FactoryGirl.create :todo, :with_records }
 
-    it "destroy dependent" do
+    it 'destroy dependent' do
       record = todo.records.last
       expect {
         todo.destroy
@@ -83,19 +83,19 @@ RSpec.describe Todo, type: :model do
     end
   end
 
-  describe "#last_recorded_at=" do
-    it "present" do
+  describe '#last_recorded_at=' do
+    it 'present' do
       expect {
         todo.last_recorded_at = Time.now
       }.to change { todo.last_recorded_on }
     end
-    context "nil" do
+    context 'nil' do
       let(:todo) { FactoryGirl.create(:todo, :finished) }
       it { expect { todo.last_recorded_at = nil }.to change { todo.last_recorded_on }.to(nil) }
     end
   end
 
-  describe "without sort" do
+  describe 'without sort' do
     it { expect(todo.not_in_list?).to be_truthy }
   end
 end

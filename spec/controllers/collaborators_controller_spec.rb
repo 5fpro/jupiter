@@ -9,32 +9,32 @@ RSpec.describe CollaboratorsController, type: :request do
     signin_user(user)
   end
 
-  it "#index" do
+  it '#index' do
     get "/projects/#{project.id}/collaborators"
     expect(response).to be_success
   end
 
-  it "#new" do
+  it '#new' do
     get "/projects/#{project.id}/collaborators/new"
     expect(response).to be_success
   end
 
-  it "#edit" do
+  it '#edit' do
     get "/projects/#{project.id}/collaborators/edit"
     expect(response).to be_success
   end
 
-  describe "#update" do
+  describe '#update' do
     let(:params) { attributes_for(:project_for_update, :project_users) }
 
-    it "success" do
+    it 'success' do
       put "/projects/#{project.id}/collaborators", project: params
       expect(response).to be_redirect
       expect(project.project_users.last.reload.wage).to be_present
     end
 
-    context "fail" do
-      before { project.update_column :name, "" }
+    context 'fail' do
+      before { project.update_column :name, '' }
 
       it do
         put "/projects/#{project.id}/collaborators", project: params
@@ -43,7 +43,7 @@ RSpec.describe CollaboratorsController, type: :request do
     end
   end
 
-  it "#create" do
+  it '#create' do
     user = FactoryGirl.create :user
     expect {
       post "/projects/#{project.id}/collaborators", project_user: { email: user.email }
@@ -53,7 +53,7 @@ RSpec.describe CollaboratorsController, type: :request do
     expect(response).to be_success
   end
 
-  it "#destroy" do
+  it '#destroy' do
     project_user = project.project_users.last
     expect {
       delete "/projects/#{project.id}/collaborators/#{project_user.id}"
