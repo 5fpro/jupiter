@@ -58,7 +58,7 @@ class TodoPublishContext < BaseContext
 
   # TODO: team
   def slack_setting
-    @slack_setting = { channel: '#standup-meeting', webhook: 'https://hooks.slack.com/services/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' }
+    @slack_setting = { channel: '#standup-meeting' }
   end
 
   def update_user_todos_published

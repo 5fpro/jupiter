@@ -10,7 +10,7 @@ class Admin::BaseController < ApplicationController
 
   def index
     @admin_page_title = 'Admin'
-    set_meta(title: 'Jupiter@5FPRO')
+    set_meta(title: "#{ENV['APP_NAME']} Admin")
   end
 
   private

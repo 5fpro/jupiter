@@ -1,9 +1,12 @@
+require 'dotenv'
+Dotenv.overload
+
 # see more
 #   https://github.com/tablexi/capistrano3-unicorn/blob/master/examples/unicorn.rb
-app_path = "/home/apps/jupiter"
+app_path = "/home/apps/#{ENV['APP_NAME']}"
 working_directory "#{app_path}/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
-listen '/tmp/unicorn.jupiter.sock'
+listen "/tmp/unicorn.#{ENV['APP_NAME']}.sock"
 
 # log rotate config example
 #   https://github.com/defunkt/unicorn/blob/master/examples/logrotate.conf
@@ -13,6 +16,7 @@ stdout_path 'log/unicorn.log'
 worker_processes 1
 
 before_exec do |server|
+  Dotenv.overload
   ENV['BUNDLE_GEMFILE'] = "#{app_path}/current/Gemfile"
 end
 

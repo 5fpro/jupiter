@@ -15,10 +15,11 @@
 /log/*.log
 /tmp
 
-/config/database.yml
 /config/application.yml
-/config/database.*.yml
 /config/application.*.yml
+/.env
+/.env.production
+/.env.staging
 .DS_Store
 /public/assets
 /public/uploads

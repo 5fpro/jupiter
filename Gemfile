@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 gem 'rails', '~> 4.2'
 
+gem 'dotenv-rails', require: 'dotenv/rails-now'
+
 # DB
 gem 'activerecord-postgis-adapter'
 gem 'pg'
