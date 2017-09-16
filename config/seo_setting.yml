@@ -1,0 +1,28 @@
+# Config@initial
+default: &default
+  defaults:
+    site: "Jupiter"
+    title: "Jupiter"
+    description: "Jupiter project management system"
+    keywords: "5FPRO, Jupiter"
+    separator: " | "
+    reverse: true
+    og:
+      type: "website"
+      image:
+        url: "<%= ActionController::Base.helpers.asset_path('icon-300px.png') %>"
+        type: "image/png"
+        width: "300"
+        height: "300"
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

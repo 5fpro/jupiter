@@ -7,9 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :http_auth_for_staging
 
   def default_url_options
-    # SUPPORT: SSL
-    # { protocol: "https" }
-    {}
+    { protocol: Setting.default_protocol }
   end
 
   private

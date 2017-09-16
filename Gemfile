@@ -40,7 +40,6 @@ gem 'sidekiq'
 gem 'sidekiq-limit_fetch'
 gem 'sidetiq'
 gem 'sinatra', '>= 1.3.0', require: nil
-gem 'whenever'
 
 # file upload
 gem 'carrierwave'
@@ -108,8 +107,7 @@ gem 'devise'
 gem 'devise-async'
 
 # aws
-gem 'aws-sdk'
-gem 'aws-sdk-v1'
+gem 'aws-sdk-rails'
 
 # unicorn
 gem 'unicorn'
