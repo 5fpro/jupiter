@@ -1,0 +1,41 @@
+h3= settlement.user.name
+= image_tag(settlement.user.github_avatar, size: "100x100")
+
+table.table.table-striped.project-member
+  thead
+    tr
+      th 專案
+      th 專案時薪
+      th 專案時數
+      th 個人時數
+      th 個人時薪
+      th 個人費用
+  tbody
+    - settlement.settlements.each do |project_settelment_data|
+      - project = project_settelment_data.project
+      - s = project_settelment_data.settlement
+      tr
+        td= project.name
+        td= project.price_of_hour
+        td= s.project_hours
+        td= "#{s.hours} 小時 (#{s.minutes} 分)"
+        td= s.wage
+        td= s.income
+
+    - total_settlement = settlement.total_settlement
+  thead
+    tr
+      th Total
+      th 專案數
+      th 實際總時數
+      th 結算時數
+      th 結算時薪
+      th 結算費用
+  tbody
+    tr
+      td= "Total"
+      td= settlement.settlements.size
+      td= "#{total_settlement.project_hours} 小時 (#{total_settlement.minutes} 分)"
+      td= total_settlement.hours
+      td= total_settlement.wage
+      td= total_settlement.income

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     collection do
       get :edit, action: :edit_collection
       get :archived, action: :edit_archived
+      get :settlement, action: :my_settlement
     end
     resources :records do
       collection do
