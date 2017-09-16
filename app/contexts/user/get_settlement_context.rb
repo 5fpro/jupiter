@@ -73,10 +73,10 @@ class User::GetSettlementContext < ::BaseContext
 
   def get_total_settelment(settlements_list)
     wage = get_array_max_count_value(settlements_list.map(&:wage))
-    minutes = settlements_list.map(&:minutes).inject(&:+)
-    income = settlements_list.map(&:income).inject(&:+)
-    project_hours = (income.to_f / wage).round(2)
-    hours = (minutes.to_f / 60).round(2)
+    minutes = settlements_list.map(&:minutes).select(&:present?).inject(&:+)
+    income = settlements_list.map(&:income).select(&:present?).inject(&:+)
+    project_hours = wage ? (income.to_f / wage).round(2) : nil
+    hours = minutes ? (minutes.to_f / 60).round(2) : nil
     SettleValue.new(wage: wage, project_wage: nil, income: income, hours: hours, project_hours: project_hours, minutes: minutes)
   end
 
