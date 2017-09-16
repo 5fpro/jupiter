@@ -154,4 +154,17 @@ RSpec.describe ProjectsController, type: :request do
     end
   end
 
+  describe '#settlement' do
+    it do
+      get "/projects/#{project.id}/settlement"
+      expect(response).to be_success
+      get "/projects/#{project.id}/settlement", date: ''
+      expect(response).to be_success
+      get "/projects/#{project.id}/settlement", date: '2017-5-1'
+      expect(response).to be_success
+      FactoryGirl.create :record, project: project, user: project.users.last, minutes: 100, created_at: 1.minute.ago
+      get "/projects/#{project.id}/settlement"
+      expect(response).to be_success
+    end
+  end
 end

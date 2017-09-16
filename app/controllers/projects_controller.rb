@@ -11,6 +11,18 @@ class ProjectsController < BaseController
   def show
   end
 
+  def settlement
+    @time = params[:date]
+    @time = Time.now if @time.blank?
+    @settlement = Project::GetSettlementContext.new(@project, @time).perform
+  end
+
+  def my_settlement
+    @time = params[:date]
+    @time = Time.now if @time.blank?
+    @settlements_data = User::GetSettlementContext.new(current_user, @time).perform
+  end
+
   def new
     @project ||= current_user.projects.new
   end

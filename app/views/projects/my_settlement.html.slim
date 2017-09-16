@@ -1,0 +1,15 @@
+form method='get' action=''
+  | 選擇月份（當月任一天即可）：
+  input name="date" type="date" value="#{params[:date]}" /
+  input type="submit" value="送出"
+
+
+h2= "所有專案結算"
+
+h4= "月份: #{@time.to_date.year}/#{@time.to_date.month}"
+
+- if @settlements_data.my_settlement
+  = render partial: 'user_settlement', object: @settlements_data.my_settlement, as: :settlement
+
+- @settlements_data.settlements.each do |settlement|
+  = render partial: 'user_settlement', object: settlement, as: :settlement

@@ -6,6 +6,7 @@
         td= "Name"
         td= "Avatar"
         td= "Slack User"
+        td= "時薪"
     tbody
       = f.fields_for :project_users do |ff|
         tr
@@ -13,4 +14,5 @@
           td= user.name
           td= image_tag(user.github_avatar, size: "50x50")
           td= ff.input_field :slack_user, as: :string
+          td= ff.input_field :wage, as: :integer
   = f.submit class: "btn btn-default"

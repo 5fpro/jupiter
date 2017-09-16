@@ -30,6 +30,7 @@ RSpec.describe CollaboratorsController, type: :request do
     it "success" do
       put "/projects/#{project.id}/collaborators", project: params
       expect(response).to be_redirect
+      expect(project.project_users.last.reload.wage).to be_present
     end
 
     context "fail" do

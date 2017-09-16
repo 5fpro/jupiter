@@ -20,6 +20,8 @@ FactoryGirl.define do
 
   factory :project_user_for_update, class: ProjectUser do
     sort :last
+    slack_user 'haha'
+    wage 123
   end
 
 end
