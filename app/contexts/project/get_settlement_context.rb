@@ -53,7 +53,7 @@ class Project::GetSettlementContext < ::BaseContext
   end
 
   def project_data
-    income = @each_user.values.map(&:income).map(&:to_i).inject(&:+)
+    income = @each_user.values.map(&:income).map(&:to_i).inject(&:+) || 0
     project_hours = (income.to_f / project_wage).round(2)
     minutes = @each_user.values.map(&:minutes).map(&:to_i).inject(&:+)
     SettleValue.new(wage: project_wage, project_wage: project_wage, income: income, minutes: minutes, project_hours: project_hours)
