@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  sort       :integer
 #  data       :hstore
+#  archived   :boolean          default(FALSE)
 #
 
 class ProjectUser < ActiveRecord::Base
@@ -20,4 +21,7 @@ class ProjectUser < ActiveRecord::Base
   sortable column: :sort, add_new_at: nil
 
   store_accessor :data, :slack_user
+
+  scope :archived, -> { where(archived: true) }
+  scope :unarchived, -> { where(archived: false) }
 end

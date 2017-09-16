@@ -6,4 +6,8 @@ h1 專案列表
       = pu.project.name
       br
       = render_sorting_buttons(pu)
+      = link_to "Archive", project_user_path(pu, project_user: { archived: true, sort: :remove }), method: 'put', class: 'btn btn-default btn-small'
 = link_to '回到專案列表', projects_path
+br/
+= link_to '已歸檔列表', archived_projects_path
+

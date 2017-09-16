@@ -9,7 +9,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
       ul.nav.navbar-nav.side-nav
         li class=("active" if params[:controller] == "projects" && params[:action] == "new")
           = link_to "新增專案", new_project_path, class: "glyphicon glyphicon-plus"
-        li class=("active" if params[:controller] == "projects" && params[:action] != "new")
+        li class=("active" if params[:controller] == "projects" && params[:action] != "new" && params[:action] != "archived")
           = link_to "我的專案列表", projects_path, class: "glyphicon glyphicon-list-alt"
         li class=("active" if params[:controller] == "records")
           = link_to "我的工時記錄", records_path, class: "glyphicon glyphicon-time"

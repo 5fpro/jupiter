@@ -3,7 +3,7 @@
 = search_form_for @q, :builder => SimpleForm::FormBuilder, html: { class: "form-horizontal filter-form" }, defaults: { required: false }, url: url do |f|
   = f.input :user_id_eq, label: "User", as: :select, collection: collection_for_users(@project), disabled: disabled
 
-  = f.input :project_id_eq, label: "Project", as: :select, collection: collection_for_user_projects(current_user) unless @project
+  = f.input :project_id_eq, label: "Project", as: :select, collection: collection_for_not_archived_user_projects(current_user) unless @project
 
   = f.input :record_type_key_in, label: "Type", as: :check_boxes, collection: collection_for_record_types, checked: params[:q].try(:[], :record_type_key_in), disabled: disabled
 

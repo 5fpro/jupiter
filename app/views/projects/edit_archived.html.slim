@@ -1,0 +1,11 @@
+h1 已歸檔專案列表
+
+.project_users
+  - @project_users.each do |pu|
+    .project_user id="project-user-#{pu.id}"
+      = pu.project.name
+      br/
+      = link_to "Restore", project_user_path(pu, project_user: { archived: false }), method: 'put', class: 'btn btn-default btn-small'
+= link_to '回到專案列表', projects_path
+br/
+= link_to '回到專案排序更新', edit_projects_path
