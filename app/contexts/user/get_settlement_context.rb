@@ -23,7 +23,7 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def projects_map
-    @projects_map ||= UserProjectsQuery.new(@user).query(archived: false).inject({}) { |h, p| h.merge(p.id => p) }
+    @projects_map ||= UserProjectsQuery.new(@user).query(archived: false).inject({}) { |a, e| a.merge(e.id => e) }
   end
 
   def projects_settlement
@@ -41,14 +41,13 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def each_user
-    @each_user ||= projects_settlement.inject({}) do |h, a|
-      project_id = a[0]
-      settlement = a[1]
+    @each_user ||= projects_settlement.each_with_object({}) do |arr, h|
+      project_id = arr[0]
+      settlement = arr[1]
       settlement.each_user.each do |user_id, user_settlement|
         h[user_id] ||= {}
         h[user_id][project_id] = user_settlement
       end
-      h
     end
   end
 
@@ -81,10 +80,10 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def users_map
-    @users_map ||= User.where(id: each_user.keys).all.inject({}) { |h, u| h.merge(u.id => u) }
+    @users_map ||= User.where(id: each_user.keys).all.each_with_object({}) { |o, h| h[o.id] = o }
   end
 
-  def get_array_max_count_value(a)
-    a.group_by { |e| e }.inject([]) { |h, aa| h << [aa[0], aa[1].length] }.sort_by { |aa| aa[1] }.last[0]
+  def get_array_max_count_value(array)
+    array.group_by { |e| e }.inject([]) { |a, e| a << [e[0], e[1].length] }.sort_by { |e| e[1] }.last[0]
   end
 end
