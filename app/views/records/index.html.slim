@@ -4,7 +4,7 @@
 
 = render partial: "filtering", as: :q, object: @q
 
-= link_to "分享用連結", url_for(params.merge(action: :share)), class: "link-to-share" if @project
+= link_to "分享用連結", current_url(action: :share), class: "link-to-share" if @project
 br/
 h4 總工時: #{render_hours(@total_time)}
 table.table.table-bordered.table-striped
@@ -32,8 +32,8 @@ table.table.table-bordered.table-striped
         td= record.try(:created_at)
         td
           - if record.try(:id) && record.user_id == current_user.id
-            = link_to "編輯", edit_project_record_path(record.project, record, redirect_to: url_for(params))
+            = link_to "編輯", edit_project_record_path(record.project, record, redirect_to: current_url)
             = " | "
-            = link_to "刪除", project_record_path(record.project, record, redirect_to: url_for(params)), method: :delete, data: { confirm: "確定刪除？" }
+            = link_to "刪除", project_record_path(record.project, record, redirect_to: current_url), method: :delete, data: { confirm: "確定刪除？" }
 - # TODO: fix for grouped results
 = paginate @records rescue nil

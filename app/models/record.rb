@@ -18,7 +18,7 @@ class Record < ApplicationRecord
 
   belongs_to :project
   belongs_to :user
-  belongs_to :todo
+  belongs_to :todo, optional: true
   has_many :comments, as: :item, dependent: :destroy
 
   validates :user_id, :project_id, :record_type, :minutes, presence: true

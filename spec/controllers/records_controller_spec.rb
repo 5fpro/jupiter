@@ -40,27 +40,27 @@ RSpec.describe RecordsController, type: :request do
         before { FactoryGirl.create :record, :with_todo, user: user, record_type: :meeting }
 
         it 'by project' do
-          get '/records', q: { group_by: 'project' }
+          get '/records', params: { q: { group_by: 'project' } }
           expect(response).to be_success
         end
 
         it 'by record_type' do
-          get '/records', q: { group_by: 'record_type' }
+          get '/records', params: { q: { group_by: 'record_type' } }
           expect(response).to be_success
         end
 
         it 'by week' do
-          get '/records', q: { group_by: 'week' }
+          get '/records', params: { q: { group_by: 'week' } }
           expect(response).to be_success
         end
 
         it 'by user' do
-          get '/records', q: { user_id_eq: member.id }
+          get '/records', params: { q: { user_id_eq: member.id } }
           expect(response).to be_success
         end
 
         it 'by todo' do
-          get '/records', q: { group_by: 'todo' }
+          get '/records', params: { q: { group_by: 'todo' } }
           expect(response).to be_success
         end
       end
@@ -116,7 +116,7 @@ RSpec.describe RecordsController, type: :request do
 
       context 'by user' do
         let!(:record2) { FactoryGirl.create(:record, note: '4567') }
-        before { get '/records', q: { user_id_eq: record2.user.id } }
+        before { get '/records', params: { q: { user_id_eq: record2.user.id } } }
         it { expect(response).to be_success }
         it { expect(response.body).to match(record2.note) }
       end
@@ -130,17 +130,17 @@ RSpec.describe RecordsController, type: :request do
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
 
         it 'by user' do
-          get "/projects/#{project.id}/records", q: { group_by: 'user' }
+          get "/projects/#{project.id}/records", params: { q: { group_by: 'user' } }
           expect(response).to be_success
         end
 
         it 'by record_type' do
-          get "/projects/#{project.id}/records", q: { group_by: 'record_type' }
+          get "/projects/#{project.id}/records", params: { q: { group_by: 'record_type' } }
           expect(response).to be_success
         end
 
         it 'by week' do
-          get "/projects/#{project.id}/records", q: { group_by: 'week' }
+          get "/projects/#{project.id}/records", params: { q: { group_by: 'week' } }
           expect(response).to be_success
         end
       end
@@ -203,7 +203,7 @@ RSpec.describe RecordsController, type: :request do
     describe '#create' do
       it 'html' do
         expect {
-          post "/projects/#{project.id}/records", record: attributes_for(:record)
+          post "/projects/#{project.id}/records", params: { record: attributes_for(:record) }
         }.to change { Record.count }.by(1)
         expect(response).to be_redirect
         follow_redirect!
@@ -211,7 +211,7 @@ RSpec.describe RecordsController, type: :request do
       end
       it 'js' do
         expect {
-          xhr :post, "/projects/#{project.id}/records", record: attributes_for(:record)
+          xhr :post, "/projects/#{project.id}/records", params: { record: attributes_for(:record) }
         }.to change { Record.count }.by(1)
         expect(response).to be_success
       end
@@ -250,7 +250,7 @@ RSpec.describe RecordsController, type: :request do
       let(:params) { attributes_for(:record_for_params) }
       it do
         expect {
-          put "/projects/#{project.id}/records/#{record.id}", record: params
+          put "/projects/#{project.id}/records/#{record.id}", params: { record: params }
         }.to change { record.reload.minutes }.to(params[:minutes])
         expect(response).to be_redirect
         follow_redirect!

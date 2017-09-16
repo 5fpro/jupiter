@@ -9,7 +9,10 @@ class TodoCreateByRecordContext < BaseContext
 
   def perform
     run_callbacks :perform do
-      return add_error(:data_create_fail, @todo.errors.full_messages.join("\n")) unless @todo.save
+      unless @todo.save
+        errors.add(:base, :data_create_fail, message: @todo.errors.full_messages.join("\n"))
+        return false
+      end
       @todo
     end
   end

@@ -20,7 +20,7 @@ describe Project::HoursLimitCheckContext, type: :context do
       end
 
       context 'approached' do
-        before { project.update_attribute :approached_hours_limit, true }
+        before { project.update approached_hours_limit: true }
 
         it do
           expect {

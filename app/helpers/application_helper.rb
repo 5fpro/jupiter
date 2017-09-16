@@ -62,4 +62,8 @@ module ApplicationHelper
     required = ['admin:repo_hook', 'repo']
     (scopes & required).size == required.size
   end
+
+  def current_url(opts = {})
+    url_for(params.permit!.to_h.with_indifferent_access.merge(opts))
+  end
 end

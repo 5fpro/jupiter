@@ -21,7 +21,8 @@ class RecordCreateContext < BaseContext
       if @record.save
         @record
       else
-        return add_error(:data_create_fail, @record.errors.full_messages.join("\n"))
+        errors.add(:base, :data_create_fail, message: @record.errors.full_messages.join("\n"))
+        false
       end
     end
   end
@@ -31,12 +32,10 @@ class RecordCreateContext < BaseContext
   def init_params
     @params = permit_params(@params, PERMITS)
     @todo_finished = 'finished' unless false?(@params.delete(:todo_finished))
-    true
   end
 
   def validates_user_in_project!
-    return add_error(:user_is_not_in_project) unless @project.has_user?(@user)
-    true
+    add_error(:user_is_not_in_project) unless @project.has_user?(@user)
   end
 
   def build_record

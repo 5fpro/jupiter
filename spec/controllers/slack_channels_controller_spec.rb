@@ -89,7 +89,7 @@ RSpec.describe SlackChannelsController, type: :request do
 
   describe '#create' do
     let(:data) { attributes_for :slack_channel_for_create }
-    subject { post "/projects/#{project.id}/slack_channels/", slack_channel: data }
+    subject { post "/projects/#{project.id}/slack_channels/", params: { slack_channel: data } }
 
     context 'success' do
       before { subject }
@@ -115,7 +115,7 @@ RSpec.describe SlackChannelsController, type: :request do
 
   describe '#edit' do
     let(:data) { { name: 'venus' } }
-    subject { put "/projects/#{project.id}/slack_channels/#{slack_channel.id}", slack_channel: data }
+    subject { put "/projects/#{project.id}/slack_channels/#{slack_channel.id}", params: { slack_channel: data } }
 
     context 'success' do
       before { subject }

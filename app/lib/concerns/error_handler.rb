@@ -22,6 +22,11 @@ module ErrorHandler
     @errors = errors
   end
 
+  def add_error(key, message = nil)
+    errors.add(:base, key.to_sym, message: message)
+    throw :abort
+  end
+
   private
 
   # to:
