@@ -24,12 +24,12 @@ class TodoChangeStatusContext < BaseContext
 
   def change_status
     case @status
-    when "finished"
+    when 'finished'
       # TODO: return false and add error if can't finish
       @todo.to_finished if @todo.last_recorded_at
-    when "doing"
+    when 'doing'
       @todo.to_doing
-    when "pending"
+    when 'pending'
       @todo.to_pending
     end
   end

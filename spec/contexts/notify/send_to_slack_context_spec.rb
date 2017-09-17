@@ -3,23 +3,39 @@ require 'rails_helper'
 describe Notify::SendToSlackContext do
   let(:slack_channel) { FactoryGirl.create :slack_channel }
 
-  subject { described_class.new("haha", slack_channel) }
+  subject { described_class.new('haha', slack_channel) }
 
-  it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify).by(1) }
+  it do
+    expect {
+      subject.perform
+    }.to enqueue_job(SlackNotifyJob)
+  end
 
-  it { expect { subject.perform(async: false) }.not_to change_sidekiq_jobs_size_of(SlackService, :notify) }
+  it do
+    expect {
+      subject.perform(async: false)
+    }.not_to enqueue_job(SlackNotifyJob)
+  end
 
-  context "webhook null" do
+  context 'webhook null' do
     let(:slack_channel) { FactoryGirl.create :slack_channel, webhook: nil }
 
     it { expect(subject.perform).to eq false }
-    it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(SlackService, :notify) }
+    it do
+      expect {
+        subject.perform
+      }.not_to enqueue_job(SlackNotifyJob)
+    end
   end
 
-  context "room null" do
+  context 'room null' do
     let(:slack_channel) { FactoryGirl.create :slack_channel, room: nil }
 
     it { expect(subject.perform).to eq false }
-    it { expect { subject.perform }.not_to change_sidekiq_jobs_size_of(SlackService, :notify) }
+    it do
+      expect {
+        subject.perform
+      }.not_to enqueue_job(SlackNotifyJob)
+    end
   end
 end

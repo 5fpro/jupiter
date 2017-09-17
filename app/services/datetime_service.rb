@@ -12,7 +12,7 @@ class DatetimeService
           time = time % unit
         end
       end
-      results.join(" ")
+      results.join(' ')
     end
 
   end

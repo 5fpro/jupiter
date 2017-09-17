@@ -7,20 +7,18 @@ class SlackChannelsController < BaseController
     @slack_channels = @project.slack_channels
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @slack_channel ||= @project.slack_channels.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     context = SlackChannelCreateContext.new(current_user, @project)
     if @slack_channel = context.perform(params)
-      redirect_as_success project_slack_channels_path(@project), "Slack Channel created"
+      redirect_as_success project_slack_channels_path(@project), 'Slack Channel created'
     else
       render_as_fail :new, context.error_messages
     end
@@ -29,7 +27,7 @@ class SlackChannelsController < BaseController
   def update
     context = SlackChannelUpdateContext.new(current_user, @slack_channel)
     if context.perform(params)
-      redirect_as_success project_slack_channel_path(@project, @slack_channel), "Slack Channel updated"
+      redirect_as_success project_slack_channel_path(@project, @slack_channel), 'Slack Channel updated'
     else
       render_as_fail :edit, context.error_messages
     end
@@ -38,9 +36,9 @@ class SlackChannelsController < BaseController
   def destroy
     context = SlackChannelDeleteContext.new(current_user, @slack_channel)
     if context.perform
-      redirect_as_success project_slack_channels_path(@project), "Deleted"
+      redirect_as_success project_slack_channels_path(@project), 'Deleted'
     else
-      redirect_as_fail project_slack_channels_path(@project), "Delete fail"
+      redirect_as_fail project_slack_channels_path(@project), 'Delete fail'
     end
   end
 
@@ -48,7 +46,7 @@ class SlackChannelsController < BaseController
     message = "test slack channel: #{@slack_channel.name}"
     context = Notify::SendToSlackContext.new(message, @slack_channel)
     if context.perform(async: false)
-      redirect_as_success project_slack_channels_path(@project), "testing message send!"
+      redirect_as_success project_slack_channels_path(@project), 'testing message send!'
     else
       redirect_as_fail project_slack_channels_path(@project), "testing failed! #{context.error_messages}"
     end

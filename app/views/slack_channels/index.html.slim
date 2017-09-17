@@ -29,4 +29,4 @@ table.table.table-striped
           = " | "
           = link_to "刪除", project_slack_channel_path(@project, slack_channel), "data-confirm" => "確定刪除", method: :delete
           = " | "
-          = link_to "測試", testing_project_slack_channel_path(@project, slack_channel, redirect_to: url_for(params)), method: :post
+          = link_to "測試", testing_project_slack_channel_path(@project, slack_channel, redirect_to: current_url), method: :post

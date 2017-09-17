@@ -26,7 +26,7 @@ class TodoPublishContext < BaseContext
   def perform(skip_user_update: false)
     @skip_user_update = skip_user_update
     run_callbacks :perform do
-      @messages << "---------------------------------------"
+      @messages << '---------------------------------------'
       SlackService.notify_async(@messages.join("\n"), @slack_setting)
     end
   end
@@ -34,8 +34,8 @@ class TodoPublishContext < BaseContext
   private
 
   def to_messages
-    @messages = ["#{@user.name} 本日工作報告:", ""]
-    { "[今日已完成]" => @finished_todos, "[今日有做 & 未完成]" => @today_doing_todos, "[明日預定]" => @doing_todos }.each do |title, todos|
+    @messages = ["#{@user.name} 本日工作報告:", '']
+    { '[今日已完成]' => @finished_todos, '[今日有做 & 未完成]' => @today_doing_todos, '[明日預定]' => @doing_todos }.each do |title, todos|
       @messages << title
       todos.includes(:project, :records).each do |todo|
         msg = "#{todo.project.name} - #{todo.desc}"
@@ -46,8 +46,8 @@ class TodoPublishContext < BaseContext
         end
         @messages << msg
       end
-      @messages << "無" if todos.count == 0
-      @messages << ""
+      @messages << '無' if todos.count == 0
+      @messages << ''
     end
   end
 
@@ -58,7 +58,7 @@ class TodoPublishContext < BaseContext
 
   # TODO: team
   def slack_setting
-    @slack_setting = { channel: "#standup-meeting", webhook: "https://hooks.slack.com/services/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" }
+    @slack_setting = { channel: '#standup-meeting' }
   end
 
   def update_user_todos_published

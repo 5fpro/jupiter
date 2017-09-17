@@ -1,26 +1,28 @@
 class UserAuthContext < BaseContext
-  before_perform :find_authorization
-  before_perform :parse_email!
   # before_perform :already_auth?, if: :current_user?
   before_perform :email_uniqueness?, if: :current_user?
   before_perform :find_or_create_user, unless: :current_user?
-  before_perform :bind_authorization_to_user
+  before_perform :bind_authorization_to_user, unless: :has_authorization?
   after_perform :update_user_omniauth_data
-  after_perform :update_github_full_access_token
   after_perform :user_confirm!
+  after_perform :update_github_full_access_token
   after_perform :update_github_data!
   after_perform :new_user_comming
 
+  attr_reader :email, :authorization
+
   # params should be env["omniauth.auth"] in controller
   def initialize(params, current_user = nil)
-    @params = ActionController::Parameters.new(params)
+    @params = params.to_h.with_indifferent_access
     @provider = @params[:provider]
     @user = current_user
     @authorization = nil
-    @new_user_comming = false
   end
 
   def perform
+    @authorization = find_authorization
+    @email = parse_email
+    return false if error?
     run_callbacks :perform do
       if @authorization
         responds
@@ -34,43 +36,53 @@ class UserAuthContext < BaseContext
 
   def responds
     { user: @user,
-      authorization: @authorization
-    }
+      authorization: @authorization }
   end
 
   def find_authorization
-    @authorization = Authorization.find_by(provider: Authorization.providers[@provider], uid: @params[:uid])
+    Authorization.find_by(provider: Authorization.providers[@provider], uid: @params[:uid])
   end
 
-  def parse_email!
-    @email = params_to_user_attributes[:email]
-    add_error(:omniauth_parse_email_fail) unless @email
+  def has_authorization?
+    @authorization
+  end
+
+  def parse_email
+    email = params_to_user_attributes[:email]
+    errors.add(:email, :not_found) unless email
+    email
   end
 
   def already_auth?
-    return add_error(:omniauth_already_auth) if @authorization
+    if @authorization
+      errors.add(:authorization, :taken)
+      throw :abort
+    end
   end
 
   def email_uniqueness?
-    scope = User.where(email: @email)
-    scope = scope.where("id != ?", @user.id)
-    return add_error(:omniauth_email_registered) unless scope.count == 0
+    query = User.where(email: @email).where('id != ?', @user.id)
+    unless query.count == 0
+      errors.add(:email, :taken)
+      throw :abort
+    end
   end
 
   def find_or_create_user
     @user = @authorization.try(:auth) || User.find_by(email: @email) || initialize_user
     if @user.new_record?
-      @user.save!
       @new_user_comming = true
+      @user.save!
     end
   end
 
   def bind_authorization_to_user
-    @authorization = @user.authorizations.create!(uid: @params[:uid], provider: @provider, auth_data: @params) unless @authorization
+    @authorization = @user.authorizations.new(uid: @params[:uid], provider: @provider, auth_data: @params)
+    self.errors = @authorization.errors unless @authorization.save
   end
 
   def update_user_omniauth_data
-    @authorization.update_attribute :auth_data, @params
+    @authorization.update auth_data: @params.to_h.to_h
   end
 
   def user_confirm!
@@ -91,9 +103,9 @@ class UserAuthContext < BaseContext
 
   def params_to_user_attributes
     case @provider.to_sym
-    when :facebook      then { email: @params[:info][:email], name: @params[:info][:name] }
-    when :google_oauth2 then { email: @params[:info][:email], name: @params[:info][:name] }
-    when :github        then { email: @params[:info][:email], name: @params[:info][:name] }
+    when :facebook, :google_oauth2, :github
+      info = @params[:info] || {}
+      { email: info[:email], name: info[:name] }
     end
   end
 
@@ -103,20 +115,20 @@ class UserAuthContext < BaseContext
 
   def update_github_data!
     if @provider.to_sym == :github
-      @user.update_attributes(name: @authorization.auth_data["info"]["name"],
-                              github_id: @authorization.uid,
-                              github_account: @authorization.auth_data["info"]["nickname"],
-                              github_avatar: @authorization.auth_data["info"]["image"],
-                              github_token: @authorization.auth_data["credentials"]["token"])
+      @user.update(name: @authorization.auth_data['info']['name'],
+                   github_id: @authorization.uid,
+                   github_account: @authorization.auth_data['info']['nickname'],
+                   github_avatar: @authorization.auth_data['info']['image'],
+                   github_token: @authorization.auth_data['credentials']['token'])
     end
   end
 
   def update_github_full_access_token
-    @user.full_access_token = @authorization.auth_data["credentials"]["token"] if @provider.to_sym == :github
+    @user.full_access_token = @authorization.auth_data['credentials']['token'] if @provider.to_sym == :github
   end
 
   def new_user_comming
     return unless @new_user_comming
-    SlackService.delay(retry: false).notify_admin("新使用者註冊! (##{@user.id})#{@user.name}<#{@user.email}>")
+    SlackService.notify_admin("新使用者註冊! (##{@user.id})#{@user.name}<#{@user.email}>")
   end
 end

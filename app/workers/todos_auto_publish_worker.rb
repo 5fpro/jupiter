@@ -12,7 +12,7 @@ class TodosAutoPublishWorker
       if user.todos_published? || user.records.today.empty?
         user.update(todos_published: false)
       else
-        TodoPublishContext.delay(retry: false).perform(user.id, skip_user_update: true)
+        TodosAutoPublishJob.perform_later(user.id, skip_user_update: true)
       end
     end
   end

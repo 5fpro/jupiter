@@ -10,7 +10,10 @@ class Project::UpdateProjectUsersContext < BaseContext
 
   def perform
     run_callbacks :perform do
-      return add_error(:data_update_fail, @project.errors.full_messages.join("\n")) unless @project.save
+      unless @project.save
+        errors.add(:base, :data_update_fail, message: @project.errors.full_messages.join("\n"))
+        return false
+      end
       true
     end
   end

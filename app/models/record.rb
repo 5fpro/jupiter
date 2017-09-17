@@ -13,13 +13,13 @@
 #  todo_id     :integer
 #
 
-class Record < ActiveRecord::Base
+class Record < ApplicationRecord
   enum record_type: [:coding, :meeting, :discuss, :plan, :research, :documentation, :etc]
 
   belongs_to :project
   belongs_to :user
-  belongs_to :todo
-  has_many :comments, as: :item
+  belongs_to :todo, optional: true
+  has_many :comments, as: :item, dependent: :destroy
 
   validates :user_id, :project_id, :record_type, :minutes, presence: true
 

@@ -1,0 +1,22 @@
+development: &default
+  adapter: 'postgis'
+  encoding: 'unicode'
+  database: '<%= ENV['DB_NAME'] %>_development'
+  host: '<%= ENV['DB_HOST'] %>'
+  username: '<%= ENV['DB_USER'] %>'
+  password: '<%= ENV['DB_PASSWORD'] %>'
+  postgis_extension: true
+  schema_search_path: 'public, postgis'
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+test: &TEST
+  <<: *default
+  database: '<%= ENV['DB_NAME'] %>_test'
+
+production:
+  <<: *default
+  database: '<%= ENV['DB_NAME'] %>'
+
+staging:
+  <<: *default
+  database: '<%= ENV['DB_NAME'] %>'

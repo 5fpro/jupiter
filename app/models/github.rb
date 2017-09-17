@@ -10,7 +10,7 @@
 #  updated_at    :datetime         not null
 #
 
-class Github < ActiveRecord::Base
+class Github < ApplicationRecord
   belongs_to :project
   validates :webhook_token, presence: true, uniqueness: true
 

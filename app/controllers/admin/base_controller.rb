@@ -5,13 +5,12 @@ class Admin::BaseController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_admin_user!
   before_action do
-    add_crumb "Admin", admin_root_path
+    add_crumb 'Admin', admin_root_path
+    set_meta(title: "#{ENV['APP_NAME']} Admin")
+    @admin_page_title = 'Admin'
   end
 
-  def index
-    @admin_page_title = "Admin"
-    set_meta(title: "Jupiter@5FPRO")
-  end
+  def index; end
 
   private
 

@@ -1,15 +1,13 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  protect_from_forgery prepend: true, with: :exception
   include MetaTagHelper
 
   before_action :http_auth_for_staging
 
   def default_url_options
-    # SUPPORT: SSL
-    # { protocol: "https" }
-    {}
+    { protocol: Setting.default_protocol }
   end
 
   private
@@ -17,7 +15,7 @@ class ApplicationController < ActionController::Base
   def http_auth_for_staging
     return unless Rails.env.staging?
     authenticate_or_request_with_http_basic do |username, password|
-      username == "myapp" && password == "myapp"
+      username == ENV['STAGING_USERNAME'] && password == ENV['STAGING_PASSWORD']
     end
   end
 end

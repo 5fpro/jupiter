@@ -37,7 +37,7 @@ class Project::GetSettlementContext < ::BaseContext
   end
 
   def each_user
-    @each_user ||= project_users.each_with_object({}) { |project_user, h| h[project_user.user_id] = build_settle_value(project_user) }.select { |_k, v| v.minutes.to_i != 0 }
+    @each_user ||= project_users.each_with_object({}) { |project_user, h| h[project_user.user_id] = build_settle_value(project_user) }.reject { |_k, v| v.minutes.to_i == 0 }
   end
 
   def project_wage

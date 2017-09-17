@@ -26,7 +26,7 @@
 #  todos_published        :boolean          default(FALSE)
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include Redis::Objects
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -42,12 +42,12 @@ class User < ActiveRecord::Base
 
   omniauthable
 
-  has_many :project_users
+  has_many :project_users, dependent: :destroy
   has_many :projects, -> { order('project_users.sort') }, through: :project_users
-  has_many :owned_projects, foreign_key: :owner_id, class_name: "Project"
-  has_many :records
-  has_many :comments
-  has_many :todos
+  has_many :owned_projects, foreign_key: :owner_id, class_name: 'Project', dependent: :nullify
+  has_many :records, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :todos, dependent: :destroy
 
   def avatar_url
     return avatar.url if avatar?

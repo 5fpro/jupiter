@@ -7,27 +7,25 @@ class CollaboratorsController < BaseController
     @project_users = project.project_users
   end
 
-  def new
-  end
+  def new; end
 
   def create
     context = ProjectInviteContext.new(current_user, params[:project_user][:email], @project)
     if context.perform
-      redirect_as_success(project_collaborators_path(project), "project_user created")
+      redirect_as_success(project_collaborators_path(project), 'project_user created')
     else
       render_as_fail(:new, context.error_messages)
     end
   end
 
   # GET /projects/123/collaborators/edit
-  def edit
-  end
+  def edit; end
 
   # PUT /projects/123/collaborators
   def update
     context = Project::UpdateProjectUsersContext.new(@project, params[:project])
     if context.perform
-      redirect_as_success(project_collaborators_path(project), "Update success")
+      redirect_as_success(project_collaborators_path(project), 'Update success')
     else
       render_as_fail(:edit, context.error_messages)
     end
@@ -36,9 +34,9 @@ class CollaboratorsController < BaseController
   def destroy
     context = ProjectRemoveUserContext.new(current_user, @project_user.user, @project)
     if context.perform
-      redirect_as_success(project_collaborators_path(@project), "project_user deleted")
+      redirect_as_success(project_collaborators_path(@project), 'project_user deleted')
     else
-      redirect_to :back, flash: { error: context.error_messages.join(",") }
+      redirect_to :back, flash: { error: context.error_messages.join(',') }
     end
   end
 

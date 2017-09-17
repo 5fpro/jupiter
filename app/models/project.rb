@@ -11,15 +11,15 @@
 #  data          :hstore
 #
 
-class Project < ActiveRecord::Base
-  belongs_to :owner, class_name: "User", foreign_key: "owner_id"
+class Project < ApplicationRecord
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   has_many :project_users, dependent: :destroy
   accepts_nested_attributes_for :project_users
-  has_many :users, through: :project_users
-  has_many :records
+  has_many :users, through: :project_users, dependent: :nullify
+  has_many :records, dependent: :destroy
   has_many :slack_channels, dependent: :destroy
-  has_many :todos
-  has_many :githubs
+  has_many :todos, dependent: :destroy
+  has_many :githubs, dependent: :destroy
 
   store_accessor :data, :users_count, :description, :hours_limit,
                  :approached_hours_limit, :primary_slack_channel_id,
@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
   end
 
   def approached_hours_limit
-    super == "true"
+    super == 'true'
   end
 
   def primary_slack_channel

@@ -31,6 +31,6 @@ class RecordDeleteContext < BaseContext
   end
 
   def change_todo_status_if_no_records
-    TodoChangeStatusContext.new(@todo, "doing").perform if @todo.finished? && @todo.records.count == 0
+    TodoChangeStatusContext.new(@todo, 'doing').perform if @todo.finished? && @todo.records.count == 0
   end
 end

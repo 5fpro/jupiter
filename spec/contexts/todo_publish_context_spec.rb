@@ -4,21 +4,25 @@ describe TodoPublishContext, type: :context do
   let(:user) { FactoryGirl.create(:user) }
   subject { described_class.new(user) }
 
-  it "empty" do
+  it 'empty' do
     expect {
       subject.perform
-    }.to change_sidekiq_jobs_size_of(SlackService, :notify)
+    }.to enqueue_job(SlackNotifyJob)
   end
 
-  context "has todo & record" do
+  context 'has todo & record' do
     let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
     let!(:done_todo) { FactoryGirl.create :todo, :finished, :with_records, user: user }
-    it { expect { subject.perform }.to change_sidekiq_jobs_size_of(SlackService, :notify) }
+    it do
+      expect {
+        subject.perform
+      }.to enqueue_job(SlackNotifyJob)
+    end
   end
 
-  describe "#update_user_todos_published" do
+  describe '#update_user_todos_published' do
     it { expect { subject.perform }.to change { user.reload.todos_published? }.to(true) }
-    context "skip_user_update" do
+    context 'skip_user_update' do
       it { expect { subject.perform(skip_user_update: true) }.not_to change { user.reload.todos_published? } }
     end
   end
@@ -30,12 +34,12 @@ describe TodoPublishContext, type: :context do
     end
 
     def to_pending(todo)
-      TodoChangeStatusContext.new(todo, "pending").perform
+      TodoChangeStatusContext.new(todo, 'pending').perform
       expect(todo).to be_pending
     end
 
     def to_doing(todo)
-      TodoChangeStatusContext.new(todo, "doing").perform
+      TodoChangeStatusContext.new(todo, 'doing').perform
       expect(todo).to be_doing
     end
 
