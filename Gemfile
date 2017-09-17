@@ -33,7 +33,6 @@ gem 'uglifier', '>= 1.3.0'
 # JS plugin
 gem 'jquery-rails'
 gem 'select2-rails', '~> 3'
-gem 'turbolinks'
 
 # background jobs
 gem 'sidekiq'
