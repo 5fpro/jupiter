@@ -19,5 +19,5 @@ class Authorization < ApplicationRecord
   validates :provider, :uid, :auth, presence: true
   validates :provider, uniqueness: { scope: :uid }
   belongs_to :auth, polymorphic: true
-  serialize :auth_data, Hash
+  serialize :auth_data
 end

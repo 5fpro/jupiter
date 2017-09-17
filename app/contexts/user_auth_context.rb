@@ -13,7 +13,7 @@ class UserAuthContext < BaseContext
 
   # params should be env["omniauth.auth"] in controller
   def initialize(params, current_user = nil)
-    @params = params.with_indifferent_access
+    @params = params.to_h.with_indifferent_access
     @provider = @params[:provider]
     @user = current_user
     @authorization = nil
@@ -82,7 +82,7 @@ class UserAuthContext < BaseContext
   end
 
   def update_user_omniauth_data
-    @authorization.update_attribute :auth_data, @params
+    @authorization.update auth_data: @params.to_h.to_h
   end
 
   def user_confirm!
