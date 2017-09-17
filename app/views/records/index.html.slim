@@ -21,14 +21,18 @@ table.table.table-bordered.table-striped
     - @records.each do |record|
       tr
         td= record.try(:id)
-        td= @project ? record.try(:user).try(:name) : record.try(:project).try(:name)
+        td
+          - if @project
+            = record.try(:user).try(:name) if record.try(:user_id)
+          - else
+            = record.try(:project).try(:name) if record.try(:project_id)
         td= record_type_name(record.try(:record_type))
         td= render_hours(record.minutes.minutes)
         td
           - if record.try(:data)
             = render_html(record.try(:note))
           - else
-            = record.try(:todo).try(:desc)
+            = record.try(:todo).try(:desc) if record.try(:todo_id)
         td= record.try(:created_at)
         td
           - if record.try(:id) && record.user_id == current_user.id

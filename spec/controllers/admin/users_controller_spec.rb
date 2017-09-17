@@ -61,19 +61,19 @@ RSpec.describe Admin::UsersController, type: :request do
   context 'POST /admin/users' do
     it 'success' do
       expect {
-        post '/admin/users', user: attributes_for(:user_for_create)
+        post '/admin/users', params: { user: attributes_for(:user_for_create) }
       }.to change { User.count }.by(1)
       expect(response).to be_redirect
       follow_redirect!
       expect(response).to be_success
     end
     it 'with avatar' do
-      post '/admin/users', user: attributes_for(:user_for_create, avatar: file_data)
+      post '/admin/users', params: { user: attributes_for(:user_for_create, avatar: file_data) }
       expect(User.last.avatar.url).to be_present
     end
     it 'fail' do
       expect {
-        post '/admin/users', user: attributes_for(:user_for_create, email: '')
+        post '/admin/users', params: { user: attributes_for(:user_for_create, email: '') }
       }.not_to change { User.count }
       expect(response).not_to be_redirect
       expect(response_flash_message('error')).to be_present
@@ -83,7 +83,7 @@ RSpec.describe Admin::UsersController, type: :request do
   context 'PUT /admin/users/123' do
     it 'success' do
       expect {
-        put "/admin/users/#{current_user.id}", user: { name: 'Venus' }
+        put "/admin/users/#{current_user.id}", params: { user: { name: 'Venus' } }
       }.to change { current_user.reload.name }.to('Venus')
       expect(response).to be_redirect
       follow_redirect!
@@ -91,7 +91,7 @@ RSpec.describe Admin::UsersController, type: :request do
     end
     it 'fail' do
       expect {
-        put "/admin/users/#{current_user.id}", user: { email: '' }
+        put "/admin/users/#{current_user.id}", params: { user: { email: '' } }
       }.not_to change { current_user.reload.name }
       expect(response).not_to be_redirect
       expect(response_flash_message('error')).to be_present

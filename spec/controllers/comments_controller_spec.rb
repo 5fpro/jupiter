@@ -34,7 +34,7 @@ RSpec.describe CommentsController, type: :request do
 
   it '#create' do
     expect {
-      post "/records/#{record.id}/comments", comments: attributes_for(:comment_for_create)
+      post "/records/#{record.id}/comments", params: { comments: attributes_for(:comment_for_create) }
     }.to change { Comment.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
@@ -48,7 +48,7 @@ RSpec.describe CommentsController, type: :request do
 
   it '#update' do
     expect {
-      put "/records/#{record.id}/comments/#{comment.id}", comments: { tmp: '12321' }
+      put "/records/#{record.id}/comments/#{comment.id}", params: { comments: { tmp: '12321' } }
     }.to change { comment.reload.tmp }
     expect(response).to be_redirect
     follow_redirect!

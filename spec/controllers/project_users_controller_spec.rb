@@ -28,7 +28,7 @@ RSpec.describe ProjectUsersController, type: :request do
     end
 
     context 'success' do
-      subject { put "/project_users/#{project_user.id}", project_user: data }
+      subject { put "/project_users/#{project_user.id}", params: { project_user: data } }
       before { subject }
 
       it { expect(response).to be_redirect }
@@ -42,7 +42,7 @@ RSpec.describe ProjectUsersController, type: :request do
     end
 
     context 'not in project' do
-      subject { put '/project_users/xxxxxx', project_user: data }
+      subject { put '/project_users/xxxxxx', params: { project_user: data } }
 
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
@@ -57,7 +57,7 @@ RSpec.describe ProjectUsersController, type: :request do
 
       it do
         expect {
-          put "/project_users/#{project_users.last.id}", project_user: { archived: true, sort: :remove }
+          put "/project_users/#{project_users.last.id}", params: { project_user: { archived: true, sort: :remove } }
         }.to change { get_max_sort_index }.from(3).to(2)
       end
     end

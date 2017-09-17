@@ -1,4 +1,6 @@
 class RecordsController < BaseController
+  respond_to :html, :csv
+
   before_action :authenticate_user!, except: [:share]
 
   before_action :find_project, except: [:share]
@@ -8,7 +10,7 @@ class RecordsController < BaseController
   # GET /projects/:project_id/records
   # GET /records
   def index
-    @q = Search::Record.where(nil).merge(@scoped.order('id DESC')).ransack(params[:q])
+    @q = Search::Record.all.merge(@scoped.order('id DESC')).ransack(params[:q])
     @records = @q.result.page(params[:page]).per(30)
     @total_time = @q.result.total_time
   end
@@ -17,12 +19,8 @@ class RecordsController < BaseController
     @project = Project.find(params[:project_id])
     @scoped = @project.records
     index
-    respond_to do |f|
+    respond_with @records.offset(0).limit(nil) do |f|
       f.html { render :share, layout: 'public' }
-      f.csv do
-        data = @records.offset(0).limit(nil).to_csv
-        send_data data, type: Mime::CSV, disposition: 'attachment'
-      end
     end
   end
 

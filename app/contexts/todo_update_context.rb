@@ -11,7 +11,10 @@ class TodoUpdateContext < BaseContext
 
   def perform
     run_callbacks :perform do
-      return add_error(:data_create_fail, @todo.errors.full_messages.join("\n")) unless @todo.save
+      unless @todo.save
+        errors.add(:base, :data_create_fail, message: @todo.errors.full_messages.join("\n"))
+        return false
+      end
       true
     end
   end
@@ -23,15 +26,13 @@ class TodoUpdateContext < BaseContext
   end
 
   def validates_project!
-    return add_error(:user_is_not_in_project) unless @todo.user.projects.where(id: @params[:project_id]).count > 0
-    true
+    add_error(:user_is_not_in_project) unless @todo.user.projects.where(id: @params[:project_id]).count > 0
   end
 
   def sorting
     if @params.key?(:sort)
       @todo.sort = @params.delete :sort
     end
-    true
   end
 
   def assign_value

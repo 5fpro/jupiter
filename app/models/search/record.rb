@@ -22,7 +22,7 @@ class Search::Record < ::Record
     include RecordHelper
 
     def ransackable_scopes(_auth_object = nil)
-      [:record_type_key_in, :created_at_period_is, :group_by]
+      [:record_type_key_in, :created_at_period_is, :group_with]
     end
 
     def record_type_key_in(*values)
@@ -39,7 +39,7 @@ class Search::Record < ::Record
       end
     end
 
-    def group_by(group)
+    def group_with(group)
       scoped = select('SUM(minutes) as minutes')
       case group.to_sym
       when :record_type then scoped.select(:record_type).group(:record_type).reorder(:record_type)

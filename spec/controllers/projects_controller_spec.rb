@@ -85,7 +85,7 @@ RSpec.describe ProjectsController, type: :request do
 
   it '#create' do
     expect {
-      post '/projects', project: attributes_for(:project)
+      post '/projects', params: { project: attributes_for(:project) }
     }.to change { Project.count }.by(1)
     expect(response).to be_redirect
     follow_redirect!
@@ -109,7 +109,7 @@ RSpec.describe ProjectsController, type: :request do
 
   describe '#update' do
     let(:data) { attributes_for(:project_for_update, :setting) }
-    subject { put "/projects/#{project.id}", project: data }
+    subject { put "/projects/#{project.id}", params: { project: data } }
 
     context 'success' do
       before { subject }
@@ -158,9 +158,9 @@ RSpec.describe ProjectsController, type: :request do
     it do
       get "/projects/#{project.id}/settlement"
       expect(response).to be_success
-      get "/projects/#{project.id}/settlement", date: ''
+      get "/projects/#{project.id}/settlement", params: { date: '' }
       expect(response).to be_success
-      get "/projects/#{project.id}/settlement", date: '2017-5-1'
+      get "/projects/#{project.id}/settlement", params: { date: '2017-5-1' }
       expect(response).to be_success
       FactoryGirl.create :record, project: project, user: project.users.last, minutes: 100, created_at: 1.minute.ago
       get "/projects/#{project.id}/settlement"

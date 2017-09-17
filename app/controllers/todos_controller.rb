@@ -56,7 +56,7 @@ class TodosController < BaseController
 
   def publish
     TodoPublishContext.new(current_user).perform
-    redirect_to :back, flash: { success: '已發佈' }
+    redirect_to request.headers['REFERER'], flash: { success: '已發佈' }
   end
 
   private

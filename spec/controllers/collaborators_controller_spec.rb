@@ -28,7 +28,7 @@ RSpec.describe CollaboratorsController, type: :request do
     let(:params) { attributes_for(:project_for_update, :project_users) }
 
     it 'success' do
-      put "/projects/#{project.id}/collaborators", project: params
+      put "/projects/#{project.id}/collaborators", params: { project: params }
       expect(response).to be_redirect
       expect(project.project_users.last.reload.wage).to be_present
     end
@@ -37,7 +37,7 @@ RSpec.describe CollaboratorsController, type: :request do
       before { project.update_column :name, '' }
 
       it do
-        put "/projects/#{project.id}/collaborators", project: params
+        put "/projects/#{project.id}/collaborators", params: { project: params }
         expect(response).to be_success
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe CollaboratorsController, type: :request do
   it '#create' do
     user = FactoryGirl.create :user
     expect {
-      post "/projects/#{project.id}/collaborators", project_user: { email: user.email }
+      post "/projects/#{project.id}/collaborators", params: { project_user: { email: user.email } }
     }.to change { project.users.count }.by(1)
     expect(response).to redirect_to("/projects/#{project.id}/collaborators")
     follow_redirect!

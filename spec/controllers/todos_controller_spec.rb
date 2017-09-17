@@ -34,20 +34,20 @@ RSpec.describe TodosController, type: :request do
   end
 
   context 'GET /todos/new.js' do
-    subject { xhr :get, '/todos/new.js' }
+    subject { get '/todos/new.js', xhr: true }
     before { subject }
     it { expect(response).to be_success }
 
     context 'with :project_id' do
       let!(:project) { FactoryGirl.create :project }
-      subject { xhr :get, '/todos/new.js', project_id: project.id }
+      subject { get '/todos/new.js', params: { project_id: project.id }, xhr: true }
       it { expect(response).to be_success }
     end
   end
 
   context 'GET /todos/123/edit.js' do
     let!(:todo) { FactoryGirl.create :todo, user: user }
-    subject { xhr :get, "/todos/#{todo.id}/edit.js" }
+    subject { get "/todos/#{todo.id}/edit.js", xhr: true }
 
     context 'success' do
       before { subject }
@@ -63,7 +63,7 @@ RSpec.describe TodosController, type: :request do
   context 'POST /todos.js' do
     let!(:project) { FactoryGirl.create :project, :with_project_user, owner: user }
     let(:params) { attributes_for(:todo_for_params, project_id: project.id) }
-    subject { xhr :post, '/todos.js', todo: params }
+    subject { post '/todos.js', params: { todo: params }, xhr: true }
 
     context 'success' do
       before { subject }
@@ -79,7 +79,7 @@ RSpec.describe TodosController, type: :request do
 
   context 'PUT /todos/123.js' do
     let!(:todo) { FactoryGirl.create :todo, user: user }
-    subject { xhr :put, "/todos/#{todo.id}.js", todo: { desc: '123' } }
+    subject { put "/todos/#{todo.id}.js", params: { todo: { desc: '123' } }, xhr: true }
     context 'success' do
       before { subject }
       it { expect(response).to be_success }
@@ -94,7 +94,7 @@ RSpec.describe TodosController, type: :request do
 
   context 'DELETE /todos/123.js' do
     let!(:todo) { FactoryGirl.create :todo, user: user }
-    subject { xhr :delete, "/todos/#{todo.id}.js" }
+    subject { delete "/todos/#{todo.id}.js", xhr: true }
     context 'success' do
       before { subject }
       it { expect(response).to be_success }
@@ -108,7 +108,7 @@ RSpec.describe TodosController, type: :request do
   end
 
   context 'POST /todos/123/change_status.js' do
-    subject { xhr :post, "/todos/#{todo.id}/change_status.js", status: status }
+    subject { post "/todos/#{todo.id}/change_status.js", params: { status: status }, xhr: true }
 
     context 'finished change to doing' do
       let(:status) { 'doing' }
@@ -158,7 +158,7 @@ RSpec.describe TodosController, type: :request do
   end
 
   context 'POST /todos/publish' do
-    subject { post '/todos/publish', nil, 'HTTP_REFERER' => '/todos' }
+    subject { post '/todos/publish', headers: { 'HTTP_REFERER' => '/todos' } }
     before { subject }
     it { expect(response).to redirect_to('/todos') }
   end

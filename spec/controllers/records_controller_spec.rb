@@ -40,17 +40,17 @@ RSpec.describe RecordsController, type: :request do
         before { FactoryGirl.create :record, :with_todo, user: user, record_type: :meeting }
 
         it 'by project' do
-          get '/records', params: { q: { group_by: 'project' } }
+          get '/records', params: { q: { group_with: 'project' } }
           expect(response).to be_success
         end
 
         it 'by record_type' do
-          get '/records', params: { q: { group_by: 'record_type' } }
+          get '/records', params: { q: { group_with: 'record_type' } }
           expect(response).to be_success
         end
 
         it 'by week' do
-          get '/records', params: { q: { group_by: 'week' } }
+          get '/records', params: { q: { group_with: 'week' } }
           expect(response).to be_success
         end
 
@@ -60,7 +60,7 @@ RSpec.describe RecordsController, type: :request do
         end
 
         it 'by todo' do
-          get '/records', params: { q: { group_by: 'todo' } }
+          get '/records', params: { q: { group_with: 'todo' } }
           expect(response).to be_success
         end
       end
@@ -130,17 +130,17 @@ RSpec.describe RecordsController, type: :request do
         before { FactoryGirl.create :record, user: user, record_type: :meeting }
 
         it 'by user' do
-          get "/projects/#{project.id}/records", params: { q: { group_by: 'user' } }
+          get "/projects/#{project.id}/records", params: { q: { group_with: 'user' } }
           expect(response).to be_success
         end
 
         it 'by record_type' do
-          get "/projects/#{project.id}/records", params: { q: { group_by: 'record_type' } }
+          get "/projects/#{project.id}/records", params: { q: { group_with: 'record_type' } }
           expect(response).to be_success
         end
 
         it 'by week' do
-          get "/projects/#{project.id}/records", params: { q: { group_by: 'week' } }
+          get "/projects/#{project.id}/records", params: { q: { group_with: 'week' } }
           expect(response).to be_success
         end
       end
@@ -186,7 +186,7 @@ RSpec.describe RecordsController, type: :request do
         end
 
         it 'js' do
-          xhr :get, "/projects/#{project.id}/records/new.js"
+          get "/projects/#{project.id}/records/new.js", xhr: true
           expect(response.body).to match('我愛羅')
         end
       end
@@ -195,7 +195,7 @@ RSpec.describe RecordsController, type: :request do
         expect(response).to be_success
       end
       it 'js' do
-        xhr :get, "/projects/#{project.id}/records/new.js"
+        get "/projects/#{project.id}/records/new.js", xhr: true
         expect(response).to be_success
       end
     end
@@ -211,7 +211,7 @@ RSpec.describe RecordsController, type: :request do
       end
       it 'js' do
         expect {
-          xhr :post, "/projects/#{project.id}/records", params: { record: attributes_for(:record) }
+          post "/projects/#{project.id}/records", params: { record: attributes_for(:record) }, xhr: true
         }.to change { Record.count }.by(1)
         expect(response).to be_success
       end
