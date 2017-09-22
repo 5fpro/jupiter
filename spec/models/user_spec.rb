@@ -42,6 +42,6 @@ RSpec.describe User, type: :model do
   it 'devise async' do
     expect {
       FactoryGirl.create :unconfirmed_user
-    }.not_to enqueue_job(Devise::Async::Backend::Sidekiq)
+    }.not_to have_enqueued_job(Devise::Mailer)
   end
 end
