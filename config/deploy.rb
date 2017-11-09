@@ -60,6 +60,8 @@ end
 
 
 after 'deploy:publishing', 'deploy:restart'
+after 'deploy:published', 'bundler:clean'
+
 namespace :deploy do
   task :restart do
     invoke 'unicorn:legacy_restart'
