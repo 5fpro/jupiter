@@ -138,3 +138,5 @@ gem 'omniauth-github'
 
 # third-party api
 gem 'octokit'
+
+gem 'lograge'
