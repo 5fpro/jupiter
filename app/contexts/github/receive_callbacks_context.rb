@@ -10,7 +10,6 @@ class Github::ReceiveCallbacksContext < ::BaseContext
     @github = github
     @request = request
     @event = request.headers.to_h['HTTP_X_GITHUB_EVENT']
-    @action = request.request_parameters['action'] || request.query_parameters['action']
     @params = request.params
   end
 
@@ -28,7 +27,16 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   def init_vars!
     @project = @github.project
     @project_users = @project.project_users
-    @params = JSON.parse(@params[:payload]).deep_symbolize_keys if @params[:payload]
+    if @params[:payload]
+      @params = JSON.parse(@params[:payload]).deep_symbolize_keys
+      @action = @params[:action] if @params[:action]
+    end
+    GithubLogger.debug(
+      github_id: @github.id,
+      event: @event,
+      action: @action,
+      params: @params.to_json
+    )
   end
 
   def find_action_type
