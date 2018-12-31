@@ -1,0 +1,33 @@
+zh-TW:
+  models:
+    record:
+      record_types:
+        coding: 開發
+        meeting: 開會
+        discuss: 討論
+        plan: 規劃
+        research: 研究
+        documentation: 文件
+        etc: 其他
+      created_at_periods:
+        this_week: 本週
+        last_week: 上週
+        this_month: 本月
+        last_month: 上月
+      groups:
+        record_type: 時間記錄類型
+        user: 使用者
+        project: 專案
+        week: 周
+        month: 月
+        day: 日
+        todo: 待辦
+    slack_channel:
+      events:
+        record_created: 時間記錄已建立
+        approach_hours_limit: 時數已接近本月上限
+  contexts:
+    notify:
+      event-messages:
+        record_created: "Project: %{project_name}\nUser: %{user_name}\n Time: %{time}\nRecord: #%{record_id} - %{record_type_name}\nNote:\n%{record_note}"
+        approach_hours_limit: "Hours of %{project_name} is approached to limit: %{current_hours} / %{limit_hours}"
