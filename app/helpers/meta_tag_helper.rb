@@ -30,6 +30,7 @@ module MetaTagHelper
   def append_og_image_protocol(url)
     return if url.blank?
     return "#{Setting.default_protocol}:#{url}" if url[0, 2] == '//'
+
     url
   end
 end

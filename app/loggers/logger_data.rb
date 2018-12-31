@@ -2,8 +2,8 @@ class LoggerData
 
   # 順序有差，先符合先 call
   CLASS_MAP = {
-    ::ActionController::Base           => 'controller',
-    ::Rack::Request                    => 'rack_request',
+    ::ActionController::Base => 'controller',
+    ::Rack::Request => 'rack_request',
     ::ActionDispatch::ExceptionWrapper => 'exception_wrapper'
   }.freeze
 

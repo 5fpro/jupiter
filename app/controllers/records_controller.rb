@@ -98,6 +98,7 @@ class RecordsController < BaseController
 
   def find_record
     return unless params[:id]
+
     @record = @scoped_with_user.find(params[:id])
   end
 end

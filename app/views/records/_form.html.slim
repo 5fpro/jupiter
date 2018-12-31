@@ -6,6 +6,7 @@
 = f.input :todo_id, as: :select, collection: collection_for_project_todos(@project || f.object.project), disabled: disabled
 - unless disabled || @record.todo.try(:finished?)
   = f.input :id, as: :boolean, label: "已完成 todo", input_html: { name: "record[todo_finished]" }
+= f.input :created_at, as: :datetime
 = f.submit class: "btn btn-primary"
 = ' '
 = link_to "回到上一頁", project_records_path(@project || f.object.project), class: "btn btn-default"

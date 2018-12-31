@@ -23,6 +23,7 @@ class UserAuthContext < BaseContext
     @authorization = find_authorization
     @email = parse_email
     return false if error?
+
     run_callbacks :perform do
       if @authorization
         responds
@@ -129,6 +130,7 @@ class UserAuthContext < BaseContext
 
   def new_user_comming
     return unless @new_user_comming
+
     SlackService.notify_admin("新使用者註冊! (##{@user.id})#{@user.name}<#{@user.email}>")
   end
 end

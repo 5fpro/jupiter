@@ -49,6 +49,7 @@ class Project < ApplicationRecord
 
   def primary_slack_channel
     return if primary_slack_channel_id.blank?
+
     @primary_slack_channel ||= slack_channels.try(:find, primary_slack_channel_id)
   end
 end

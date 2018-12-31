@@ -142,5 +142,27 @@ Lint/AmbiguousBlockAssociation:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-Lint/RescueWithoutErrorClass:
+Style/RescueStandardError:
   Enabled: false
+
+Rails/ActiveRecordAliases:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/ConstantName:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+

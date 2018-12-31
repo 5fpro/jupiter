@@ -22,6 +22,7 @@ class TodoCreateContext < BaseContext
 
   def validates_project!
     return add_error(:user_is_not_in_project) unless @user.projects.where(id: @params[:project_id]).count > 0
+
     true
   end
 

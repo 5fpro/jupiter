@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Jupiter
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.1
+    config.load_defaults 5.2
 
     config.action_mailer.delivery_method = :aws_sdk
 
@@ -37,7 +37,7 @@ module Jupiter
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.default_locale = :'zh-TW'
 
     config.active_job.queue_adapter = :sidekiq
   end

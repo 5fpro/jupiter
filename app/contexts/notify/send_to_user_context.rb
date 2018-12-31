@@ -29,8 +29,10 @@ class Notify::SendToUserContext < BaseContext
 
   def find_slack_user
     return true if @slack_user
+
     project_user = @project.project_users.where(user_id: @user.id).first
     return add_error(:data_not_found, 'project_user not found') unless project_user
+
     @slack_user = project_user.slack_user
     return add_error(:value_blank, 'slack user should be presence') if @slack_user.blank?
   end

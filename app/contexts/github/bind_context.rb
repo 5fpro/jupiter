@@ -21,9 +21,7 @@ class Github::BindContext < BaseContext
 
   def generate_webhook_token
     token = nil
-    while !token || Github.where(webhook_token: token).count > 0
-      token = Digest::MD5.hexdigest(Time.now.to_f.to_s)
-    end
+    token = Digest::MD5.hexdigest(Time.now.to_f.to_s) while !token || Github.where(webhook_token: token).count > 0
     token
   end
 

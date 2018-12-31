@@ -122,6 +122,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
                 nil
               end
     return {} unless mapping.is_a?(Array)
+
     mapping.inject({}) { |a, e| a.merge(e.first => e.last) }
   end
 

@@ -25,6 +25,7 @@ class RecordUpdateContext < BaseContext
 
   def validates_user!
     return add_error(:not_project_owner) unless @record.user_id == @user.id
+
     true
   end
 
