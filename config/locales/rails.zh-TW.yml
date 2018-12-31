@@ -98,6 +98,9 @@ zh-TW:
       x_seconds:
         one: 一秒
         other: "%{count} 秒"
+      x_hours:
+        one: 一小時
+        other: "%{count} 小時"
     prompts:
       day: 日
       hour: 時
