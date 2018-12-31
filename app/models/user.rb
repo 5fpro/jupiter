@@ -52,6 +52,7 @@ class User < ApplicationRecord
   def avatar_url
     return avatar.url if avatar?
     return github_avatar if github_avatar.present?
+
     nil
   end
 

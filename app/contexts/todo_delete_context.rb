@@ -15,6 +15,7 @@ class TodoDeleteContext < BaseContext
 
   def validates_done_yet
     return add_error(:data_delete_fail, "Todo ##{@todo.id} has done") if @todo.finished?
+
     true
   end
 end

@@ -63,6 +63,7 @@ class TodoPublishContext < BaseContext
 
   def update_user_todos_published
     return true if @skip_user_update
+
     @user.update(todos_published: true)
   end
 end

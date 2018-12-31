@@ -84,6 +84,6 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def get_array_max_count_value(array)
-    array.group_by { |e| e }.inject([]) { |a, e| a << [e[0], e[1].length] }.sort_by { |e| e[1] }.last[0]
+    array.group_by { |e| e }.inject([]) { |a, e| a << [e[0], e[1].length] }.max_by { |e| e[1] }[0]
   end
 end

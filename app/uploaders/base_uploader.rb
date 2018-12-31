@@ -1,4 +1,3 @@
-
 class BaseUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:

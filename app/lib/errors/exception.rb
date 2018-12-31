@@ -12,9 +12,9 @@ class Errors::Exception < RuntimeError
 
   def to_hash
     {
-      message:  message,
-      info:     info,
-      key:      key
+      message: message,
+      info: info,
+      key: key
     }
   end
 end

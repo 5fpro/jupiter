@@ -13,6 +13,7 @@ class ProjectUpdateContext < BaseContext
     @params = permit_params(params[:project] || params, PERMITS)
     run_callbacks :perform do
       return @project if @project.save
+
       errors.add(:base, :data_update_fail, message: @project.errors.full_messages.join("\n"))
       return false
     end
@@ -22,6 +23,7 @@ class ProjectUpdateContext < BaseContext
 
   def validates_owner!
     return add_error(:not_project_owner) unless @project.owner?(@user)
+
     true
   end
 

@@ -5,11 +5,13 @@ module AdminHelper
 
   def convert_changes_string(string, hstore_columns: nil)
     return {} unless string
+
     hstore_columns ||= ['data']
     diffs = YAML.safe_load(string)
     hstore_columns.each do |hstore_col|
       data = diffs.delete(hstore_col)
       next unless data
+
       HashDiff.diff(data[0] || {}, data[1] || {}).each do |diff|
         diffs[diff[1]] = [diff[2], diff[3]] if diff[0] == '~'
       end

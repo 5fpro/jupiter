@@ -19,10 +19,12 @@ module Sortable
     def define_column_setter!(column)
       send :define_method, "#{column}=", lambda { |value|
         return if new_record?
+
         orig_value = public_send(column)
         if value.present?
           insert_at && move_to_bottom if orig_value.blank?
           return insert_at(value) if value.to_s.to_i > 0 || value == '0' || value == 0
+
           method = { up: :move_higher,
                      down: :move_lower,
                      first: :move_to_top,
