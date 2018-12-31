@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.2'
 
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 # DB
 gem 'activerecord-postgis-adapter'
-gem 'pg'
-gem 'redis'
+gem 'pg', '~> 1.0'
+gem 'redis', '~> 3.3'
 gem 'redis-objects', require: 'redis/objects'
 
 gem 'aasm'
@@ -42,7 +42,6 @@ gem 'sinatra', '~> 2.0.0.beta2'
 
 # file upload
 gem 'carrierwave'
-gem 'carrierwave_backgrounder'
 gem 'fog'
 gem 'mini_magick'
 
