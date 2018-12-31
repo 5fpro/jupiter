@@ -1,6 +1,4 @@
-
 AllCops:
-  TargetRubyVersion: 2.2
   Exclude:
     - bin/**/*
     - config/**/*
@@ -15,6 +13,12 @@ AllCops:
     - Guardfile
     - .gems/**/*
 
+Metrics/BlockLength:
+  Max: 250
+
+Metrics/ClassLength:
+  Max: 150
+
 Rails:
   Enabled: true
 
@@ -23,7 +27,7 @@ Metrics/ModuleLength:
   Max: 100
   Enabled: false
 
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Enabled: false
 
 Style/AndOr:
@@ -32,13 +36,13 @@ Style/AndOr:
 Style/Documentation:
   Enabled: false
 
-Style/EmptyLinesAroundBlockBody:
+Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
-Style/EmptyLinesAroundClassBody:
+Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
-Style/EmptyLinesAroundModuleBody:
+Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
 Style/GuardClause:
@@ -49,12 +53,6 @@ Style/IfUnlessModifier:
 
 Style/Semicolon:
   AllowAsExpressionSeparator: true
-
-Style/StringLiterals:
-  Enabled: false
-
-Style/StringLiteralsInInterpolation:
-  Enabled: false
 
 Style/ClassAndModuleChildren:
   Enabled: false
@@ -90,7 +88,7 @@ Style/BlockDelimiters:
 Style/RegexpLiteral:
   AllowInnerSlashes: true
 
-Style/PredicateName:
+Naming/PredicateName:
   Enabled: false
 
 Metrics/MethodLength:
@@ -108,5 +106,63 @@ Metrics/AbcSize:
 Metrics/PerceivedComplexity:
   Max: 30
 
-Metrics/ClassLength:
-  Max: 200
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+  Enabled: true
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: single_quotes
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Security/YAMLLoad:
+  Exclude:
+    - 'spec/**/**'
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/RescueStandardError:
+  Enabled: false
+
+Rails/ActiveRecordAliases:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/ConstantName:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+

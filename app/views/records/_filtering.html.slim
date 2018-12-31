@@ -9,7 +9,7 @@
 
   = f.input :created_at_period_is, as: :select, collection: Search::Record.created_at_collection, label: "Period", disabled: disabled
 
-  = f.input :group_by, as: :select, collection: Search::Record.group_collection, label: "Group by", disabled: disabled
+  = f.input :group_with, as: :select, collection: Search::Record.group_collection, label: "Group by", disabled: disabled
 
   = f.input :created_at_gteq, as: :date, html5: true, label: "create at start from"
   = f.input :created_at_lteq, as: :date, html5: true, label: "to"

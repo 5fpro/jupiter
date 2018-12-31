@@ -7,7 +7,7 @@ describe SlackChannelCreateContext do
 
   subject { described_class.new(user, project) }
 
-  context "success" do
+  context 'success' do
     it { expect { subject.perform(params) }.to change { project.slack_channels.count }.by(1) }
     it do
       slack_channel = subject.perform(params)
@@ -15,7 +15,7 @@ describe SlackChannelCreateContext do
     end
   end
 
-  context "user is not owner" do
+  context 'user is not owner' do
     let(:user) { FactoryGirl.create :user }
     subject { described_class.new(user, project) }
 

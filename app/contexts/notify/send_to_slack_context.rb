@@ -26,8 +26,9 @@ class Notify::SendToSlackContext < BaseContext
   end
 
   def validates
-    return add_error(:params_required, "no webhook") if @params[:webhook].blank?
-    return add_error(:params_required, "no channel") if @params[:channel].blank?
+    return add_error(:params_required, 'no webhook') if @params[:webhook].blank?
+    return add_error(:params_required, 'no channel') if @params[:channel].blank?
+
     true
   end
 end

@@ -10,9 +10,10 @@
 #  sort       :integer
 #  data       :hstore
 #  archived   :boolean          default(FALSE)
+#  wage       :integer
 #
 
-class ProjectUser < ActiveRecord::Base
+class ProjectUser < ApplicationRecord
   belongs_to :project
   belongs_to :user
 

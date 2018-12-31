@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe TodoCreateByRecordContext do
-  let(:record) { FactoryGirl.create :record, note: "123123" }
+  let(:record) { FactoryGirl.create :record, note: '123123' }
 
   subject { described_class.new(record) }
 
@@ -12,8 +12,8 @@ describe TodoCreateByRecordContext do
   it { expect(subject.perform.reload.last_recorded_on).to be_present }
   it { expect(subject.perform.reload.last_recorded_at).to be_present }
 
-  context "record desc blank" do
-    let(:record) { FactoryGirl.create :record, note: "" }
+  context 'record desc blank' do
+    let(:record) { FactoryGirl.create :record, note: '' }
 
     it { expect { subject.perform }.not_to change { record.user.todos.count } }
   end

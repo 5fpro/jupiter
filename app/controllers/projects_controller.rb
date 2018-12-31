@@ -8,7 +8,18 @@ class ProjectsController < BaseController
     @my_records = current_user.records
   end
 
-  def show
+  def show; end
+
+  def settlement
+    @time = params[:date]
+    @time = Time.now if @time.blank?
+    @settlement = Project::GetSettlementContext.new(@project, @time).perform
+  end
+
+  def my_settlement
+    @time = params[:date]
+    @time = Time.now if @time.blank?
+    @settlements_data = User::GetSettlementContext.new(current_user, @time).perform
   end
 
   def new
@@ -18,19 +29,18 @@ class ProjectsController < BaseController
   def create
     context = UserCreateProjectContext.new(current_user, params)
     if @project = context.perform
-      redirect_as_success(project_path(@project), "project created")
+      redirect_as_success(project_path(@project), 'project created')
     else
       render_as_fail(:new, context.error_messages)
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     context = ProjectUpdateContext.new(current_user, @project)
     if context.perform(params)
-      redirect_as_success(project_path(@project), "project updated")
+      redirect_as_success(project_path(@project), 'project updated')
     else
       render_as_fail(:edit, context.error_messages)
     end
@@ -43,9 +53,9 @@ class ProjectsController < BaseController
   def destroy
     context = ProjectDeleteContext.new(current_user, @project)
     if context.perform
-      redirect_as_success(projects_path, "project deleted")
+      redirect_as_success(projects_path, 'project deleted')
     else
-      redirect_to :back, flash: { error: context.error_messages.join(", ") }
+      redirect_to :back, flash: { error: context.error_messages.join(', ') }
     end
   end
 

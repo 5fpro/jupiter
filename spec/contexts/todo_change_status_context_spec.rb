@@ -3,48 +3,48 @@ require 'rails_helper'
 describe TodoChangeStatusContext do
   subject { described_class.new(todo, status) }
 
-  context "to finished" do
+  context 'to finished' do
     let(:todo) { FactoryGirl.create :todo, :with_records, :doing }
-    let(:status) { "finished" }
+    let(:status) { 'finished' }
     it { expect { subject.perform }.to change { todo.reload.finished? }.to(true) }
   end
 
-  context "to doing" do
+  context 'to doing' do
     let(:todo) { FactoryGirl.create :todo, :with_records, :finished }
-    let(:status) { "doing" }
+    let(:status) { 'doing' }
     it { expect { subject.perform }.to change { todo.reload.doing? }.to(true) }
   end
 
-  context "to pending" do
+  context 'to pending' do
     let(:todo) { FactoryGirl.create :todo, :with_records, :doing }
-    let(:status) { "pending" }
+    let(:status) { 'pending' }
     it { expect { subject.perform }.to change { todo.pending? }.to(true) }
   end
 
-  context "to pending if no reocrds" do
+  context 'to pending if no reocrds' do
     let(:todo) { FactoryGirl.create :todo, :doing }
-    let(:status) { "finished" }
+    let(:status) { 'finished' }
     it { expect { subject.perform }.not_to change { todo.reload.status } }
   end
 
-  describe "#update_todo_last_recorded_at" do
+  describe '#update_todo_last_recorded_at' do
     let!(:todo) { FactoryGirl.create :todo, :with_records, :doing }
-    let(:status) { "finished" }
+    let(:status) { 'finished' }
     before { Timecop.freeze 1.hour.from_now }
     it { expect { subject.perform }.to change { todo.reload.last_recorded_at } }
   end
 
-  context "remove sort if finished" do
+  context 'remove sort if finished' do
     let!(:todo) { FactoryGirl.create :todo, :with_records, :doing }
-    let(:status) { "finished" }
+    let(:status) { 'finished' }
     before { todo.insert_at(1) }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
   end
 
-  context "remove sort if pending" do
+  context 'remove sort if pending' do
     let!(:todo) { FactoryGirl.create :todo, :with_records, :doing, sort: 1 }
-    let(:status) { "pending" }
+    let(:status) { 'pending' }
     before { todo.insert_at(1) }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(nil) }
@@ -56,16 +56,16 @@ describe TodoChangeStatusContext do
     end
   end
 
-  context "add sort finished to doing" do
+  context 'add sort finished to doing' do
     let!(:todo) { FactoryGirl.create :todo, :with_records, :finished }
-    let(:status) { "doing" }
+    let(:status) { 'doing' }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }
   end
 
-  context "add sort pending to doing" do
+  context 'add sort pending to doing' do
     let!(:todo) { FactoryGirl.create :todo, :with_records }
-    let(:status) { "doing" }
+    let(:status) { 'doing' }
 
     it { expect { subject.perform }.to change { todo.reload.sort }.to(1) }
   end

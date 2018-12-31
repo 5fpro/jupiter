@@ -23,6 +23,7 @@ class RecordDeleteContext < BaseContext
 
   def validates_user!
     return add_error(:not_project_owner) unless @record.user_id == @user.id
+
     true
   end
 
@@ -31,6 +32,6 @@ class RecordDeleteContext < BaseContext
   end
 
   def change_todo_status_if_no_records
-    TodoChangeStatusContext.new(@todo, "doing").perform if @todo.finished? && @todo.records.count == 0
+    TodoChangeStatusContext.new(@todo, 'doing').perform if @todo.finished? && @todo.records.count == 0
   end
 end

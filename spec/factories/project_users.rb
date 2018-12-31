@@ -9,6 +9,8 @@
 #  updated_at :datetime         not null
 #  sort       :integer
 #  data       :hstore
+#  archived   :boolean          default(FALSE)
+#  wage       :integer
 #
 
 FactoryGirl.define do
@@ -20,6 +22,8 @@ FactoryGirl.define do
 
   factory :project_user_for_update, class: ProjectUser do
     sort :last
+    slack_user 'haha'
+    wage 123
   end
 
 end

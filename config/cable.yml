@@ -1,0 +1,15 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  channel_prefix: <%= ENV['APP_NAME'] %>
+  url: <%= ENV['REDIS_URL'] %>
+
+staging:
+  adapter: redis
+  channel_prefix: <%= ENV['APP_NAME'] %>
+  url: <%= ENV['REDIS_URL'] %>

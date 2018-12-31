@@ -1,0 +1,52 @@
+= render partial: "menu", as: :project, object: @project
+
+form method='get' action=''
+  | 選擇月份（當月任一天即可）：
+  input name="date" type="date" value="#{params[:date]}" /
+  input type="submit" value="送出"
+
+h2= "每月結算"
+
+table.table.project-info
+  tbody
+    tr
+      td 時間
+      td= @settlement.date
+    tr
+      td 專案時薪
+      td= @settlement.project.wage
+    tr
+      td 專案時數
+      td= @settlement.project.project_hours
+    tr
+      td 總費用
+      td= @settlement.project.income
+    tr
+      td 實際總時數
+      td
+        = @settlement.project.hours
+        = " 小時"
+        = " (#{@settlement.project.minutes} 分)"
+
+table.table.table-striped.project-member
+  thead
+    tr
+      td avatar
+      td Name
+      td 總時數
+      td 時薪
+      td 總費用
+      td 專案時數
+  tbody
+    - @settlement.users.each do |user|
+      - user_settlement = @settlement.each_user[user.id]
+      - next unless user_settlement
+      tr
+        td= image_tag(user.github_avatar, size: "50x50")
+        td= user.name
+        td= user_settlement.hours
+        td= user_settlement.wage
+        td= user_settlement.income
+        td= user_settlement.project_hours
+
+

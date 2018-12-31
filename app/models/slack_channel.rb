@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class SlackChannel < ActiveRecord::Base
+class SlackChannel < ApplicationRecord
   belongs_to :project
 
   validates :project, presence: true
@@ -19,7 +19,7 @@ class SlackChannel < ActiveRecord::Base
 
   def events
     value = (super || [])
-    value = value.gsub(/[^a-zA-Z,_]+/, "").split(",") if value.is_a?(String) && value.present?
+    value = value.gsub(/[^a-zA-Z,_]+/, '').split(',') if value.is_a?(String) && value.present?
     value.select(&:present?)
   end
 

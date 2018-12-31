@@ -8,19 +8,19 @@ describe RecordDeleteContext do
 
   subject { described_class.new(user, record) }
 
-  it "success" do
+  it 'success' do
     expect {
       subject.perform
     }.to change { project.records.count }.by(-1)
   end
 
-  it "not owner" do
+  it 'not owner' do
     expect {
       described_class.new(user1, record).perform
     }.not_to change { project.records.count }
   end
 
-  describe "#calculate_todo" do
+  describe '#calculate_todo' do
     let!(:todo) { FactoryGirl.create :todo, :finished, total_time: 123, project: project }
     before { record.update_attribute :todo, todo }
     it { expect { subject.perform }.to change { todo.reload.total_time }.to(0) }

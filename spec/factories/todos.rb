@@ -36,15 +36,15 @@ FactoryGirl.define do
 
     trait :finished do
       last_recorded_at { Time.zone.now }
-      status "finished"
+      status 'finished'
     end
 
     trait :doing do
-      status "doing"
+      status 'doing'
     end
 
     trait :pending do
-      status "pending"
+      status 'pending'
     end
   end
 

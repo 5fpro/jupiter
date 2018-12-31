@@ -17,18 +17,18 @@ FactoryGirl.define do
   factory :record do
     project { FactoryGirl.create :project }
     user    { FactoryGirl.create :user }
+    todo    { FactoryGirl.create(:todo) }
     record_type :coding
     minutes 100
 
     trait :with_todo do
-      todo_id { FactoryGirl.create(:todo).id }
     end
   end
 
   factory :record_for_params, class: Record do
     record_type :etc
     minutes 10
-    note "update minutes"
+    note 'update minutes'
 
     trait :has_todo_id do
       todo_id { FactoryGirl.create(:todo).id }

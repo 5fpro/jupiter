@@ -1,5 +1,5 @@
 = render partial: "filtering", as: :q, object: @q, locals: { disabled: true }
-= link_to "Download", url_for(params.merge(format: :csv))
+= link_to "Download", current_url(format: :csv)
 br/
 = "總工時: #{render_hours(@total_time)}"
 table.table

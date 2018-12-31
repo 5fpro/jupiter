@@ -1,6 +1,4 @@
-# encoding: utf-8
 class BaseUploader < CarrierWave::Uploader::Base
-  include ::CarrierWave::Backgrounder::Delay
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -66,9 +64,9 @@ class BaseUploader < CarrierWave::Uploader::Base
   def id_partition(attachment)
     case id = attachment.id
     when Integer
-      format("%09d", id).scan(/\d{3}/).join("/")
+      format('%09d', id).scan(/\d{3}/).join('/')
     when String
-      id.scan(/.{3}/).first(3).join("/")
+      id.scan(/.{3}/).first(3).join('/')
     end
   end
 

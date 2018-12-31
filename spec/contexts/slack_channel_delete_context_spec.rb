@@ -10,7 +10,7 @@ describe SlackChannelDeleteContext do
 
   it { expect { subject.perform }.to change { project.slack_channels.count }.by(-1) }
 
-  context "not owner" do
+  context 'not owner' do
     let(:user2) { project.users.last }
     subject { described_class.new(user2, slack_channel) }
 

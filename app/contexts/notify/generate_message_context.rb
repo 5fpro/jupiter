@@ -28,15 +28,13 @@ class Notify::GenerateMessageContext < BaseContext
       user_name: record.user.name,
       time: render_hours(record.total_time),
       record_type_name: record_type_name(record.record_type),
-      record_note: record.note
-    }
+      record_note: record.note }
   end
 
   def to_params_approach_hours_limit
     project = @objects[:project]
     { project_name: project.name,
       limit_hours: render_hours(project.hours_limit.hours),
-      current_hours: render_hours(project.records.this_month.total_time)
-    }
+      current_hours: render_hours(project.records.this_month.total_time) }
   end
 end

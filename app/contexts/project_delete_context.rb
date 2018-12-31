@@ -15,11 +15,13 @@ class ProjectDeleteContext < BaseContext
 
   def validates_user!
     return add_error(:not_project_owner) unless @project.owner_id == @user.id
+
     true
   end
 
   def check_todo_empty
     return add_error(:data_delete_fail) if @project.todos.present?
+
     true
   end
 

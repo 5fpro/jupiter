@@ -1,4 +1,6 @@
 # Load DSL and set up stages
+require 'dotenv'
+Dotenv.load
 require 'capistrano/setup'
 
 # Include default deployment tasks
@@ -33,6 +35,5 @@ require 'capistrano3/unicorn'
 require 'slackistrano/capistrano'
 require_relative 'lib/capistrano/deploy_messaging'
 require 'capistrano/sidekiq'
-require 'whenever/capistrano'
 require 'rollbar/capistrano3'
 require 'capistrano/sitemap_generator'

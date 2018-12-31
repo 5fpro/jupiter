@@ -10,7 +10,6 @@ class Github::ReceiveCallbacksContext < ::BaseContext
     @github = github
     @request = request
     @event = request.headers.to_h['HTTP_X_GITHUB_EVENT']
-    @action = request.request_parameters['action'] || request.query_parameters['action']
     @params = request.params
   end
 
@@ -28,7 +27,16 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   def init_vars!
     @project = @github.project
     @project_users = @project.project_users
-    @params = JSON.parse(@params[:payload]).deep_symbolize_keys if @params[:payload]
+    if @params[:payload]
+      @params = JSON.parse(@params[:payload]).deep_symbolize_keys
+      @action = @params[:action] if @params[:action]
+    end
+    GithubLogger.debug(
+      github_id: @github.id,
+      event: @event,
+      action: @action,
+      params: @params.to_json
+    )
   end
 
   def find_action_type
@@ -50,7 +58,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
 
   def find_target
     @target = {}
-    if @action_type == "comment"
+    if @action_type == 'comment'
       @target[:summary] = strip_body(@params[:comment][:body])
       @target[:body] = @params[:comment][:body]
       @target[:url] = @params[:comment][:html_url]
@@ -74,7 +82,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
       object = @params[:issue] || @params[:pull_request] || {}
       @target[:summary] = object[:title]
       # @target[:body] = "@" + object[:assignee][:login]
-      @target[:body] = "" # disable assignee
+      @target[:body] = '' # disable assignee
       @target[:url] = object[:html_url]
       @target[:message] = "你有新的指派: #{@target[:summary]}"
     end
@@ -85,7 +93,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
     @mentions = []
     if @target[:body].present?
       mapping.each do |github_user, slack_user|
-        @mentions << slack_user if @target[:body].index("@" + github_user)
+        @mentions << slack_user if @target[:body].index('@' + github_user)
       end
     end
   end
@@ -95,7 +103,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   end
 
   def send_notification(slack_user)
-    message = @target[:message] + " ......#{SlackService.render_link(@target[:url], "點擊查看")}"
+    message = @target[:message] + " ......#{SlackService.render_link(@target[:url], '點擊查看')}"
     Notify::SendToUserContext.new(@project, slack_user, message).perform(async: false)
   end
 
@@ -114,10 +122,11 @@ class Github::ReceiveCallbacksContext < ::BaseContext
                 nil
               end
     return {} unless mapping.is_a?(Array)
+
     mapping.inject({}) { |a, e| a.merge(e.first => e.last) }
   end
 
   def strip_body(body)
-    body.to_s.strip.tr("\n", "").tr("\r", "").tr("\t", "")
+    body.to_s.strip.tr("\n", '').tr("\r", '').tr("\t", '')
   end
 end

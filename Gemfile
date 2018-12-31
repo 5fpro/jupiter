@@ -1,50 +1,49 @@
 source 'https://rubygems.org'
-gem 'rails', '4.2.5.1'
+gem 'rails', '~> 5.2'
+
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 # DB
-gem 'pg'
 gem 'activerecord-postgis-adapter'
-gem 'redis'
-gem 'redis-objects', require: "redis/objects"
+gem 'pg', '~> 1.0'
+gem 'redis', '~> 3.3'
+gem 'redis-objects', require: 'redis/objects'
 
 gem 'aasm'
 
 # stores
-gem 'dalli'
 gem 'connection_pool'
+gem 'dalli'
 
 # ENV
 gem 'settingslogic'
 
 # view rendering
 gem 'jbuilder', '~> 2.0'
-gem 'slim'
-gem 'simple_form'
 gem 'nested_form'
 gem 'rails_autolink'
+gem 'simple_form'
+gem 'slim'
 
 # assets
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
 gem 'asset_sync'
+gem 'coffee-rails', '~> 4.2'
+gem 'uglifier', '>= 1.3.0'
 
 # JS plugin
 gem 'jquery-rails'
 gem 'select2-rails', '~> 3'
-gem 'turbolinks'
 
 # background jobs
 gem 'sidekiq'
-gem 'sinatra', '>= 1.3.0', require: nil
 gem 'sidekiq-limit_fetch'
 gem 'sidetiq'
-gem 'whenever'
+gem 'sinatra', '~> 2.0.0.beta2'
 
 # file upload
 gem 'carrierwave'
-gem 'mini_magick'
 gem 'fog'
-gem 'carrierwave_backgrounder'
+gem 'mini_magick'
 
 # soft delete
 gem 'paranoia'
@@ -65,49 +64,47 @@ group :development do
   # slack
   gem 'slackistrano'
 
-  gem 'guard-annotate'
   gem 'annotate'
   gem 'awesome_print'
-  gem 'xray-rails'
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'pry-remote'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'guard'
+  gem 'guard-annotate'
   gem 'http_logger'
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-remote'
   gem 'spring'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.0'
+  gem 'xray-rails'
 end
 
 group :development, :test do
+  gem 'byebug'
+  gem 'factory_girl_rails'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
   gem 'rubocop', require: false
-  gem 'byebug'
 end
 
 group :test do
-  gem 'webmock'
-  gem 'test_after_commit'
   gem 'timecop'
+  gem 'webmock'
 end
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'
 end
 
-gem 'rollbar'
 gem 'kaminari'
+gem 'rollbar'
 
 # devise
 gem 'devise'
 gem 'devise-async'
 
 # aws
-gem 'aws-sdk-v1'
-gem 'aws-sdk'
+gem 'aws-sdk-rails'
 
 # unicorn
 gem 'unicorn'
@@ -115,15 +112,15 @@ gem 'unicorn'
 # versioning
 gem 'paper_trail'
 
-gem 'slack-notifier'
 gem 'acts-as-taggable-on'
+gem 'slack-notifier'
 
 # model sorting
 gem 'acts_as_list'
 
 # front-end
-gem 'jquery-ui-rails'
 gem 'bootstrap-sass'
+gem 'jquery-ui-rails'
 gem 'sass-rails'
 
 # SEO
@@ -140,3 +137,5 @@ gem 'omniauth-github'
 
 # third-party api
 gem 'octokit'
+
+gem 'lograge'
