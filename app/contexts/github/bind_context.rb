@@ -26,11 +26,15 @@ class Github::BindContext < BaseContext
   end
 
   def bind_github
-    @webhook = ::GithubService.new(@owner.full_access_token.value).create_hook(@params[:repo_fullname], @github.webhook_url)
-    if @webhook
-      @github.hook_id = @webhook.attrs[:id]
-    else
-      false
+    begin
+      @webhook = ::GithubService.new(@owner.full_access_token.value).create_hook(@params[:repo_fullname], @github.webhook_url)
+      if @webhook
+        @github.hook_id = @webhook.attrs[:id]
+      else
+        false
+      end
+    rescue Octokit::NotFound => _e
+      true
     end
   end
 
