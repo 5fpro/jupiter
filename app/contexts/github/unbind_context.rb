@@ -11,7 +11,7 @@ class Github::UnbindContext < BaseContext
     github_client = GithubService.new(token)
     return false unless token && github_client.permission_scopes.include?('admin:repo_hook')
 
-    github_client.delete_hook(@github.repo_fullname, @github.hook_id)
+    github_client.delete_hook(@github.repo_fullname, @github.hook_id) if @github.hook_id.present?
     @github.destroy
   end
 end
