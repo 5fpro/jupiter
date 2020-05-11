@@ -62,9 +62,9 @@ class Search::Record < ::Record
 
     def to_csv(opts = {})
       CSV.generate(opts) do |csv|
-        csv << ['ID', 'User', 'Type', 'minutes', 'note', 'time']
+        csv << ['User', 'Type', 'minutes', 'note', 'time']
         all.find_each do |o| # reset pagination
-          csv << [o.id, o.user.try(:name), record_type_name(o.record_type), o.minutes, o.note, o.created_at]
+          csv << [o.user.try(:name), record_type_name(o.record_type), o.minutes, o.note, o.created_at]
         end
       end
     end

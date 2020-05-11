@@ -32,6 +32,8 @@ class Github::BindContext < BaseContext
     else
       false
     end
+  rescue Octokit::NotFound => _e
+    true
   end
 
   def save_github
