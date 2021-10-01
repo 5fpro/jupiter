@@ -15,9 +15,9 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :request do
 
-  let!(:project) { FactoryGirl.create :project_has_members }
+  let!(:project) { FactoryBot.create :project_has_members }
   let(:user) { project.owner }
-  let(:user1) { FactoryGirl.create :user }
+  let(:user1) { FactoryBot.create :user }
 
   def remove_user_from_project!(project, user)
     project.project_users.where(user_id: user.id).first.try(:delete)
@@ -31,16 +31,18 @@ RSpec.describe ProjectsController, type: :request do
 
     context 'empty' do
       before { Project.destroy_all }
+
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
 
     context 'has projects & records' do
-      before { FactoryGirl.create :project_has_records, owner: current_user }
+      before { FactoryBot.create :project_has_records, owner: current_user }
 
       before { subject }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
   end
 
@@ -50,7 +52,7 @@ RSpec.describe ProjectsController, type: :request do
     context 'empty' do
       before { subject }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context 'has member' do
@@ -58,12 +60,13 @@ RSpec.describe ProjectsController, type: :request do
 
       before { subject }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
 
       context 'has reocrds' do
         let(:time) { (50 * 60) + 10 }
 
-        before { FactoryGirl.create :record, project: project, user: member, minutes: time, created_at: 1.minute.ago }
+        before { FactoryBot.create :record, project: project, user: member, minutes: time, created_at: 1.minute.ago }
+
         before { get "/projects/#{project.id}" }
 
         it { expect(response.body).to match(DatetimeService.to_units_text(time.minutes, skip_day: true)) }
@@ -80,16 +83,16 @@ RSpec.describe ProjectsController, type: :request do
 
   it '#new' do
     get '/projects/new'
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#create' do
     expect {
       post '/projects', params: { project: attributes_for(:project) }
-    }.to change { Project.count }.by(1)
+    }.to change(Project, :count).by(1)
     expect(response).to be_redirect
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   describe '#edit' do
@@ -98,18 +101,20 @@ RSpec.describe ProjectsController, type: :request do
     context 'success' do
       before { subject }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
     end
 
     context 'not owner' do
       before { project.update_attribute :owner, user1 }
+
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 
   describe '#update' do
-    let(:data) { attributes_for(:project_for_update, :setting) }
     subject { put "/projects/#{project.id}", params: { project: data } }
+
+    let(:data) { attributes_for(:project_for_update, :setting) }
 
     context 'success' do
       before { subject }
@@ -119,37 +124,42 @@ RSpec.describe ProjectsController, type: :request do
       context 'follow redirect' do
         before { follow_redirect! }
 
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
     end
 
     context 'not owner' do
       before { project.update_attribute :owner, user1 }
+
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
 
     context 'update fail' do
       let!(:data) { attributes_for(:project_for_update, :setting, name: '') }
+
       before { subject }
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(project.reload.description).to be_blank }
     end
   end
 
   describe '#edit_collection' do
     subject { get '/projects/edit' }
+
     before { subject }
 
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#archived' do
+    # subject! { get '/projects/archived' }
+
     before { project.project_users.find_by(user_id: user.id).update(archived: true) }
-    subject! { get '/projects/archived' }
 
     it do
-      expect(response).to be_success
+      get '/projects/archived'
+      expect(response).to be_successful
       expect(response.body).to include(project.name)
     end
   end
@@ -157,14 +167,14 @@ RSpec.describe ProjectsController, type: :request do
   describe '#settlement' do
     it do
       get "/projects/#{project.id}/settlement"
-      expect(response).to be_success
+      expect(response).to be_successful
       get "/projects/#{project.id}/settlement", params: { date: '' }
-      expect(response).to be_success
+      expect(response).to be_successful
       get "/projects/#{project.id}/settlement", params: { date: '2017-5-1' }
-      expect(response).to be_success
-      FactoryGirl.create :record, project: project, user: project.users.last, minutes: 100, created_at: 1.minute.ago
+      expect(response).to be_successful
+      FactoryBot.create :record, project: project, user: project.users.last, minutes: 100, created_at: 1.minute.ago
       get "/projects/#{project.id}/settlement"
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 end

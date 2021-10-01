@@ -18,7 +18,7 @@ module HtmlMatchers
   end
 
   def response_flash_message(klass = nil)
-    response.body.scan(/(<div class=\"alert fade in alert-#{klass}\">)/)[0][0]
+    response.body.scan(/(<div class="alert fade in alert-#{klass}">)/)[0][0]
   rescue
     ''
   end

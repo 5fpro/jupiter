@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe TodoPublishContext, type: :context do
-  let(:user) { FactoryGirl.create(:user) }
   subject { described_class.new(user) }
+
+  let(:user) { FactoryBot.create(:user) }
 
   it 'empty' do
     expect {
@@ -11,8 +12,9 @@ describe TodoPublishContext, type: :context do
   end
 
   context 'has todo & record' do
-    let!(:todo) { FactoryGirl.create :todo, :with_records, user: user }
-    let!(:done_todo) { FactoryGirl.create :todo, :finished, :with_records, user: user }
+    let!(:todo) { FactoryBot.create :todo, :with_records, user: user }
+    let!(:done_todo) { FactoryBot.create :todo, :finished, :with_records, user: user }
+
     it do
       expect {
         subject.perform
@@ -22,6 +24,7 @@ describe TodoPublishContext, type: :context do
 
   describe '#update_user_todos_published' do
     it { expect { subject.perform }.to change { user.reload.todos_published? }.to(true) }
+
     context 'skip_user_update' do
       it { expect { subject.perform(skip_user_update: true) }.not_to change { user.reload.todos_published? } }
     end
@@ -29,7 +32,7 @@ describe TodoPublishContext, type: :context do
 
   context 'todo scopes' do
     def add_record(todo)
-      RecordCreateContext.new(user, todo.project).perform(FactoryGirl.attributes_for(:record_for_params, todo_id: todo.id))
+      RecordCreateContext.new(user, todo.project).perform(FactoryBot.attributes_for(:record_for_params, todo_id: todo.id))
       expect(todo.reload.last_recorded_on).to be_present
     end
 
@@ -47,11 +50,13 @@ describe TodoPublishContext, type: :context do
       project.project_users.create(user: user)
     end
 
-    let(:todo) { FactoryGirl.create(:todo, :pending, user: user) }
+    let(:todo) { FactoryBot.create(:todo, :pending, user: user) }
+
     before { invite_user_to_project(user, todo.project) }
 
     context 'no record -> doing' do
       before { to_doing(todo) }
+
       before { subject.perform }
 
       it { expect(subject.today_doing_todos.map(&:id)).not_to be_include(todo.id) }
@@ -60,7 +65,9 @@ describe TodoPublishContext, type: :context do
 
     context 'doing -> no record -> pending' do
       before { to_doing(todo) }
+
       before { to_pending(todo) }
+
       before { subject.perform }
 
       it { expect(subject.today_doing_todos.map(&:id)).not_to be_include(todo.id) }
@@ -69,16 +76,22 @@ describe TodoPublishContext, type: :context do
 
     context 'doing -> has record' do
       before { to_doing(todo) }
+
       before { add_record(todo) }
+
       before { subject.perform }
+
       it { expect(subject.today_doing_todos.map(&:id)).to be_include(todo.id) }
       it { expect(subject.doing_todos.map(&:id)).to be_include(todo.id) }
     end
 
     context 'doing -> has record -> pending' do
       before { to_doing(todo) }
+
       before { add_record(todo) }
+
       before { to_pending(todo) }
+
       before { subject.perform }
 
       it { expect(subject.today_doing_todos.map(&:id)).to be_include(todo.id) }

@@ -1,14 +1,15 @@
 require 'rails_helper'
 
 describe Notify::TriggerContext do
-  let!(:project) { FactoryGirl.create :project_has_records }
+  subject { described_class.new(project, :record_created) }
+
+  let!(:project) { FactoryBot.create :project_has_records }
   let!(:user) { project.owner }
   let!(:record) { project.records.last }
 
-  subject { described_class.new(project, :record_created) }
-
   context 'one slack channel' do
-    before { FactoryGirl.create :slack_channel, :record_created, project: project }
+    before { FactoryBot.create :slack_channel, :record_created, project: project }
+
     before { project.reload }
 
     it do
@@ -18,7 +19,8 @@ describe Notify::TriggerContext do
     end
 
     context 'two slack channel' do
-      before { FactoryGirl.create :slack_channel, :record_created, project: project }
+      before { FactoryBot.create :slack_channel, :record_created, project: project }
+
       before { project.reload }
 
       it do
@@ -29,7 +31,8 @@ describe Notify::TriggerContext do
     end
 
     context 'slack channel without events' do
-      before { FactoryGirl.create :slack_channel, project: project, events: [''] }
+      before { FactoryBot.create :slack_channel, project: project, events: [''] }
+
       before { project.reload }
 
       it do

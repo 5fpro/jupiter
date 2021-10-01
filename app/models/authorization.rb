@@ -14,7 +14,7 @@
 #
 
 class Authorization < ApplicationRecord
-  enum provider: [:github, :google_oauth2, :facebook]
+  enum provider: { github: 0, google_oauth2: 1, facebook: 2 }
 
   validates :provider, :uid, :auth, presence: true
   validates :provider, uniqueness: { scope: :uid }

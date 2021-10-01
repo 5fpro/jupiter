@@ -11,13 +11,13 @@
 #  data       :hstore
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :comment do
-    user { FactoryGirl.create :user }
-    item { FactoryGirl.create :record }
+    user { FactoryBot.create :user }
+    item { FactoryBot.create :record }
   end
 
-  factory :comment_for_create, class: Comment do
-    user_id { FactoryGirl.create(:user).id }
+  factory :comment_for_create, class: 'Comment' do
+    user_id { FactoryBot.create(:user).id }
   end
 end

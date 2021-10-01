@@ -15,44 +15,44 @@
 #  status           :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :todo do
-    project { FactoryGirl.create :project }
-    user    { FactoryGirl.create :user }
+    project { FactoryBot.create :project }
+    user    { FactoryBot.create :user }
     sequence(:desc) { |n| "desc-#{n}" }
 
     trait :with_records do
       last_recorded_at { Time.zone.now }
       after :create do |todo|
-        FactoryGirl.create_list(:record, 2, todo: todo)
+        FactoryBot.create_list(:record, 2, todo: todo)
       end
     end
 
     trait :with_not_calculate_record do
       after :create do |todo|
-        FactoryGirl.create_list(:record, 2, todo: todo)
+        FactoryBot.create_list(:record, 2, todo: todo)
       end
     end
 
     trait :finished do
       last_recorded_at { Time.zone.now }
-      status 'finished'
+      status { 'finished' }
     end
 
     trait :doing do
-      status 'doing'
+      status { 'doing' }
     end
 
     trait :pending do
-      status 'pending'
+      status { 'pending' }
     end
   end
 
-  factory :todo_for_params, class: Todo do
+  factory :todo_for_params, class: 'Todo' do
     sequence(:desc) { |n| "desc-#{n}" }
 
     trait :has_project_id do
-      project_id { FactoryGirl.create(:project).id }
+      project_id { FactoryBot.create(:project).id }
     end
   end
 end

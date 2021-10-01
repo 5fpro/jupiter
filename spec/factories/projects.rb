@@ -11,40 +11,40 @@
 #  data          :hstore
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :project do
-    owner { FactoryGirl.create :user }
+    owner { FactoryBot.create :user }
     sequence(:name) { |n| "Project Name - #{n}" }
-    price_of_hour 1000
+    price_of_hour { 1000 }
 
     trait :with_project_user do
       after(:create) do |project|
-        FactoryGirl.create :project_user, project: project, user: project.owner
+        FactoryBot.create :project_user, project: project, user: project.owner
       end
     end
 
     trait :with_other_user do
       after(:create) do |project|
-        FactoryGirl.create :project_user, project: project
+        FactoryBot.create :project_user, project: project
       end
     end
 
     trait :with_slack_channel do
       after(:create) do |project|
-        slack_channel = FactoryGirl.create :slack_channel, project: project
+        slack_channel = FactoryBot.create :slack_channel, project: project
         project.update_attribute :primary_slack_channel_id, slack_channel.id
       end
     end
 
     trait :with_todos do
       after(:create) do |project|
-        FactoryGirl.create_list :todo, 2, project: project, user: project.owner
+        FactoryBot.create_list :todo, 2, project: project, user: project.owner
       end
     end
 
     trait :with_records do
       after(:create) do |project|
-        FactoryGirl.create_list :record, 2, :with_todo, project: project, user: project.owner
+        FactoryBot.create_list :record, 2, :with_todo, project: project, user: project.owner
       end
     end
 
@@ -54,13 +54,13 @@ FactoryGirl.define do
     factory :project_has_records, traits: [:with_project_user, :with_records]
   end
 
-  factory :project_for_update, class: Project do
+  factory :project_for_update, class: 'Project' do
 
     trait :setting do
-      name 'blablabla'
-      price_of_hour 10_000_000
-      hours_limit 100
-      description 'hahaha'
+      name { 'blablabla' }
+      price_of_hour { 10_000_000 }
+      hours_limit { 100 }
+      description { 'hahaha' }
     end
 
     trait :project_users do

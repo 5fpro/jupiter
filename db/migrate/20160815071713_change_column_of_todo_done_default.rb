@@ -1,4 +1,4 @@
-class ChangeColumnOfTodoDoneDefault < ActiveRecord::Migration
+class ChangeColumnOfTodoDoneDefault < ActiveRecord::Migration[5.2]
   def up
     change_column :todos, :done, :boolean, default: nil
   end

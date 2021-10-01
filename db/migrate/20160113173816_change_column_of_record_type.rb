@@ -1,4 +1,4 @@
-class ChangeColumnOfRecordType < ActiveRecord::Migration
+class ChangeColumnOfRecordType < ActiveRecord::Migration[5.2]
   def change
     remove_index :records, :record_type
     remove_column :records, :record_type

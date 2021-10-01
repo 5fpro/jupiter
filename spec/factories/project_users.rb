@@ -13,17 +13,17 @@
 #  wage       :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :project_user do
-    user    { FactoryGirl.create :user }
-    project { FactoryGirl.create :project }
+    user    { FactoryBot.create :user }
+    project { FactoryBot.create :project }
     sequence(:slack_user) { |n| "user-#{n}" }
   end
 
-  factory :project_user_for_update, class: ProjectUser do
-    sort :last
-    slack_user 'haha'
-    wage 123
+  factory :project_user_for_update, class: 'ProjectUser' do
+    sort { :last }
+    slack_user { 'haha' }
+    wage { 123 }
   end
 
 end
