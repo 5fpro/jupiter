@@ -12,7 +12,7 @@
 #
 
 class Project < ApplicationRecord
-  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+  belongs_to :owner, class_name: 'User'
   has_many :project_users, dependent: :destroy
   accepts_nested_attributes_for :project_users
   has_many :users, through: :project_users, dependent: :nullify

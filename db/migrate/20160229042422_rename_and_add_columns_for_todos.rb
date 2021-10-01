@@ -1,4 +1,4 @@
-class RenameAndAddColumnsForTodos < ActiveRecord::Migration
+class RenameAndAddColumnsForTodos < ActiveRecord::Migration[5.2]
   def change
     remove_index :todos, :date
     rename_column :todos, :date, :last_recorded_on

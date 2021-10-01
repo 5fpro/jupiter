@@ -80,7 +80,7 @@ class User::GetSettlementContext < ::BaseContext
   end
 
   def users_map
-    @users_map ||= User.where(id: each_user.keys).all.each_with_object({}) { |o, h| h[o.id] = o }
+    @users_map ||= User.where(id: each_user.keys).all.index_by(&:id)
   end
 
   def get_array_max_count_value(array)

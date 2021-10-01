@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Notify::SendToUserContext do
-  let!(:project) { FactoryGirl.create :project_for_slack_notify }
-  let!(:user) { project.owner }
-
   subject { described_class.new(project, user, 'haha') }
+
+  let!(:project) { FactoryBot.create :project_for_slack_notify }
+  let!(:user) { project.owner }
 
   it do
     expect {
@@ -23,7 +23,7 @@ describe Notify::SendToUserContext do
   end
 
   context 'user not in project' do
-    let(:user) { FactoryGirl.create :user }
+    let(:user) { FactoryBot.create :user }
 
     it do
       expect {

@@ -27,8 +27,9 @@ gem 'slim'
 
 # assets
 gem 'asset_sync'
-gem 'coffee-rails', '~> 4.2'
-gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails'
+gem 'sassc-rails'
+gem 'uglifier'
 
 # JS plugin
 gem 'jquery-rails'
@@ -37,7 +38,6 @@ gem 'select2-rails', '~> 3'
 # background jobs
 gem 'sidekiq'
 gem 'sidekiq-limit_fetch'
-gem 'sidetiq'
 gem 'sinatra', '~> 2.0.0.beta2'
 
 # file upload
@@ -51,7 +51,7 @@ gem 'paranoia'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 group :staging, :production do
-  gem 'newrelic_rpm'
+  # gem 'newrelic_rpm'
 end
 
 group :development do
@@ -65,26 +65,31 @@ group :development do
   gem 'slackistrano'
 
   gem 'annotate'
-  gem 'awesome_print'
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  gem 'guard'
-  gem 'guard-annotate'
+  # gem 'awesome_print'
+  # gem 'better_errors'
+  # gem 'binding_of_caller'
+  # gem 'guard'
+  # gem 'guard-annotate'
   gem 'http_logger'
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'pry-remote'
-  gem 'spring'
-  gem 'web-console', '~> 3.0'
-  gem 'xray-rails'
+  # gem 'pry'
+  # gem 'pry-rails'
+  # gem 'pry-remote'
+  # gem 'spring'
+  # gem 'web-console', '~> 3.0'
+  # gem 'xray-rails'
+  gem 'listen'
+  gem 'rails_real_favicon'
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 end
 
 group :development, :test do
   gem 'byebug'
-  gem 'factory_girl_rails'
+  # gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'rubocop', require: false
 end
 
 group :test do
@@ -134,7 +139,8 @@ gem 'ransack'
 # omniauth
 gem 'omniauth'
 gem 'omniauth-github'
-
+gem 'omniauth-oauth2'
+gem 'omniauth-rails_csrf_protection'
 # third-party api
 gem 'octokit'
 

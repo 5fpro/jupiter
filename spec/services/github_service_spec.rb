@@ -23,7 +23,7 @@ RSpec.describe GithubService, type: :model do
   describe '#create_hook' do
     subject { described_class.new('token').create_hook('xxx/repo', 'hook_url') }
 
-    it { expect(subject.id.present?).to be_truthy }
+    it { expect(subject.id).to be_present }
   end
 
   # describe "#show_hook" do

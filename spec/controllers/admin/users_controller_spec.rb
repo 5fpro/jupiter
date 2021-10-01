@@ -34,47 +34,50 @@ RSpec.describe Admin::UsersController, type: :request do
   context 'GET /admin/users' do
     it 'html' do
       get '/admin/users'
-      expect(response).to be_success
+      expect(response).to be_successful
     end
+
     it 'csv' do
       get '/admin/users.csv'
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.body).to match(current_user.name)
     end
   end
 
   it 'GET /admin/users/new' do
     get '/admin/users/new'
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it 'GET /admin/users/123' do
     get "/admin/users/#{current_user.id}"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it 'GET /admin/users/123/edit' do
     get "/admin/users/#{current_user.id}/edit"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   context 'POST /admin/users' do
     it 'success' do
       expect {
         post '/admin/users', params: { user: attributes_for(:user_for_create) }
-      }.to change { User.count }.by(1)
+      }.to change(User, :count).by(1)
       expect(response).to be_redirect
       follow_redirect!
-      expect(response).to be_success
+      expect(response).to be_successful
     end
+
     it 'with avatar' do
       post '/admin/users', params: { user: attributes_for(:user_for_create, avatar: file_data) }
       expect(User.last.avatar.url).to be_present
     end
+
     it 'fail' do
       expect {
         post '/admin/users', params: { user: attributes_for(:user_for_create, email: '') }
-      }.not_to change { User.count }
+      }.not_to change(User, :count)
       expect(response).not_to be_redirect
       expect(response_flash_message('error')).to be_present
     end
@@ -87,8 +90,9 @@ RSpec.describe Admin::UsersController, type: :request do
       }.to change { current_user.reload.name }.to('Venus')
       expect(response).to be_redirect
       follow_redirect!
-      expect(response).to be_success
+      expect(response).to be_successful
     end
+
     it 'fail' do
       expect {
         put "/admin/users/#{current_user.id}", params: { user: { email: '' } }
@@ -99,11 +103,11 @@ RSpec.describe Admin::UsersController, type: :request do
   end
 
   it 'DELETE /admin/users/123' do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     expect {
       delete "/admin/users/#{user.id}"
-    }.to change { User.count }.by(-1)
+    }.to change(User, :count).by(-1)
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 end

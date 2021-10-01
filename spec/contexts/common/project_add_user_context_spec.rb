@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Common::ProjectAddUserContext do
-  let(:user) { FactoryGirl.create :user }
-  let(:project) { FactoryGirl.create :project }
-
   subject { described_class.new(project, user).perform }
+
+  let(:user) { FactoryBot.create :user }
+  let(:project) { FactoryBot.create :project }
 
   it 'success' do
     expect {
@@ -18,7 +18,7 @@ describe Common::ProjectAddUserContext do
     }.to change { project.reload.users_count }.by(1)
   end
 
-  context '#validates_user_not_in_project!' do
+  describe '#validates_user_not_in_project!' do
     before { subject }
 
     it 'users_count' do
@@ -26,6 +26,7 @@ describe Common::ProjectAddUserContext do
         described_class.new(project, user).perform
       }.not_to change { project.reload.users_count }
     end
+
     it 'project_users.count' do
       expect {
         described_class.new(project, user).perform

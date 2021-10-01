@@ -49,7 +49,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # config.action_view.raise_on_missing_translations = true
-  config.cache_store = :dalli_store, *(Setting.dalli.servers + [ Setting.dalli.options.symbolize_keys ])
+  config.cache_store = :mem_cache_store, *(Setting.dalli.servers + [ Setting.dalli.options.symbolize_keys ])
 
   config.action_controller.asset_host = ->(source){ Setting.assets_host }
 end

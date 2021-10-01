@@ -1,4 +1,4 @@
-class CreateGithubs < ActiveRecord::Migration
+class CreateGithubs < ActiveRecord::Migration[5.2]
   def change
     create_table :githubs do |t|
       t.integer :project_id

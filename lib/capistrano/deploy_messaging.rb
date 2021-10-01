@@ -1,7 +1,4 @@
 class Capistrano::DeployMessaging < Slackistrano::Messaging::Base
-  def channels_for(action)
-    super
-  end
 
   def payload_for_updating
     create_payload(

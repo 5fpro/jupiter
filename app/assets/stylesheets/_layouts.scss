@@ -1,7 +1,8 @@
 // -----------------------
 // Layouts
 // -----------------------
-@import "layouts/header";
+@import "_variables";
+@import "layouts/_header";
 
 .page-wrapper {
   margin-top: 51px;

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe ProjectInviteContext do
-  let(:me) { FactoryGirl.create :user }
-  let(:user) { FactoryGirl.create :user }
-  let(:project) { FactoryGirl.create :project, :with_project_user, owner: me }
-
   subject { described_class.new(me, user.email, project).perform }
+
+  let(:me) { FactoryBot.create :user }
+  let(:user) { FactoryBot.create :user }
+  let(:project) { FactoryBot.create :project, :with_project_user, owner: me }
 
   context 'success' do
     it 'project has user' do
@@ -13,6 +13,7 @@ describe ProjectInviteContext do
         subject
       }.to change { project.reload.has_user?(user) }.to(true)
     end
+
     it 'project.users.count' do
       expect {
         subject
@@ -36,8 +37,9 @@ describe ProjectInviteContext do
   end
 
   describe 'validates_user_in_project!' do
-    before { described_class.new(me, user.email, project).perform }
     subject { described_class.new(me, user.email, project).perform }
+
+    before { described_class.new(me, user.email, project).perform }
 
     it { expect(subject).to be_falsey }
   end

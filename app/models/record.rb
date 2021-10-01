@@ -14,7 +14,7 @@
 #
 
 class Record < ApplicationRecord
-  enum record_type: [:coding, :meeting, :discuss, :plan, :research, :documentation, :etc]
+  enum record_type: { coding: 0, meeting: 1, discuss: 2, plan: 3, research: 4, documentation: 5, etc: 6 }
 
   belongs_to :project
   belongs_to :user

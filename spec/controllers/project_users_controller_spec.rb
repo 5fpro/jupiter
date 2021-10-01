@@ -19,16 +19,17 @@ RSpec.describe ProjectUsersController, type: :request do
 
   describe '#update' do
     let(:data) { attributes_for(:project_user_for_update) }
-    let!(:user) { FactoryGirl.create(:user) }
+    let!(:user) { FactoryBot.create(:user) }
     let(:project_user) { user.project_users.first }
 
     before do
       signin_user(user)
-      FactoryGirl.create :project, :with_project_user, owner: user
+      FactoryBot.create :project, :with_project_user, owner: user
     end
 
     context 'success' do
       subject { put "/project_users/#{project_user.id}", params: { project_user: data } }
+
       before { subject }
 
       it { expect(response).to be_redirect }
@@ -37,7 +38,7 @@ RSpec.describe ProjectUsersController, type: :request do
       context 'follow redirect' do
         before { follow_redirect! }
 
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
     end
 
@@ -49,6 +50,7 @@ RSpec.describe ProjectUsersController, type: :request do
 
     context 'archive project with remove from sorted list' do
       let!(:project_users) { create_list(:project_user, 3, user: user) }
+
       before { project_users.map { |pu| pu.update(sort: :last) } }
 
       def get_max_sort_index

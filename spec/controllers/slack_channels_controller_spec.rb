@@ -14,8 +14,9 @@ require 'rails_helper'
 
 RSpec.describe SlackChannelsController, type: :request do
   before { signin_user }
-  let!(:project) { FactoryGirl.create :project, :with_project_user, owner: current_user }
-  let(:slack_channel) { FactoryGirl.create :slack_channel, project: project }
+
+  let!(:project) { FactoryBot.create :project, :with_project_user, owner: current_user }
+  let(:slack_channel) { FactoryBot.create :slack_channel, project: project }
 
   def remove_project_user!(project, user)
     project.project_users.where(user_id: user.id).first.try(:destroy)
@@ -30,17 +31,21 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'empty' do
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
 
     context 'has data' do
       before { slack_channel }
+
       before { subject }
+
       it { expect(response.body).to match(slack_channel.name) }
     end
 
     context 'not my project' do
       before { remove_project_user!(project, current_user) }
+
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
@@ -50,11 +55,13 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'success' do
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
 
     context 'not my project' do
       before { remove_project_user!(project, current_user) }
+
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
@@ -64,11 +71,13 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'success' do
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
 
     context 'not my project' do
       before { remove_project_user!(project, current_user) }
+
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
@@ -78,52 +87,61 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'success' do
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
 
     context 'not my project' do
       before { remove_project_user!(project, current_user) }
+
       it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 
   describe '#create' do
-    let(:data) { attributes_for :slack_channel_for_create }
     subject { post "/projects/#{project.id}/slack_channels/", params: { slack_channel: data } }
+
+    let(:data) { attributes_for :slack_channel_for_create }
 
     context 'success' do
       before { subject }
+
       it { expect(response).to be_redirect }
 
       it 'follow redirect' do
         follow_redirect!
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       describe 'with primary' do
         let(:data) { attributes_for :slack_channel_for_create, primary: '1' }
+
         it { expect(SlackChannel.last.primary?).to eq(true) }
       end
     end
 
     context 'fail' do
       before { remove_project_owner!(project) }
+
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
   end
 
   describe '#edit' do
-    let(:data) { { name: 'venus' } }
     subject { put "/projects/#{project.id}/slack_channels/#{slack_channel.id}", params: { slack_channel: data } }
+
+    let(:data) { { name: 'venus' } }
 
     context 'success' do
       before { subject }
+
       it { expect(response).to be_redirect }
 
       it 'follow redirect' do
         follow_redirect!
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'updated' do
@@ -133,8 +151,10 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'fail' do
       before { remove_project_owner!(project) }
+
       before { subject }
-      it { expect(response).to be_success }
+
+      it { expect(response).to be_successful }
     end
   end
 
@@ -143,11 +163,12 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'success' do
       before { subject }
+
       it { expect(response).to be_redirect }
 
       it 'follow redirect' do
         follow_redirect!
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'deleted' do
@@ -157,7 +178,9 @@ RSpec.describe SlackChannelsController, type: :request do
 
     context 'fail' do
       before { remove_project_owner!(project) }
+
       before { subject }
+
       it { expect(response).to be_redirect }
       it { expect(project.slack_channels.count).to eq 1 }
     end
@@ -170,21 +193,24 @@ RSpec.describe SlackChannelsController, type: :request do
       before { subject }
 
       it { expect(response).to be_redirect }
+
       it 'follow redirect' do
         follow_redirect!
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match('send')
       end
     end
 
     context 'fail' do
       before { slack_channel.update_attribute :room, '' }
+
       before { subject }
 
       it { expect(response).to be_redirect }
+
       it 'follow redirect' do
         follow_redirect!
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match('fail')
       end
     end

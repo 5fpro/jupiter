@@ -8,9 +8,9 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-@import "variables";
-@import "basics";
-@import "layouts";
+@import "_variables";
+@import "_basics";
+@import "_layouts";
 
 // projects/edit
 .project_user {

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe RecordUpdateContext do
-  let(:record) { FactoryGirl.create(:record) }
+  subject { described_class.new(user, record) }
+
+  let(:record) { FactoryBot.create(:record) }
   let(:user) { record.user }
   let(:params) { attributes_for(:record_for_params) }
-
-  subject { described_class.new(user, record) }
 
   it 'success' do
     expect {
@@ -14,9 +14,9 @@ describe RecordUpdateContext do
   end
 
   context 'not owner' do
-    let(:user1) { FactoryGirl.create :user }
-
     subject { described_class.new(user1, record) }
+
+    let(:user1) { FactoryBot.create :user }
 
     it do
       expect {
@@ -26,10 +26,11 @@ describe RecordUpdateContext do
   end
 
   describe '#calculate_todo' do
-    let!(:record) { FactoryGirl.create(:record, :with_todo) }
+    subject { described_class.new(user, record).perform(params) }
+
+    let!(:record) { FactoryBot.create(:record, :with_todo) }
     let(:params) { attributes_for(:record_for_params) }
     let(:todo) { Todo.last }
-    subject { described_class.new(user, record).perform(params) }
 
     it { expect { subject }.to change { todo.reload.total_time } }
   end

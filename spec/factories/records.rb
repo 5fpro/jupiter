@@ -13,25 +13,25 @@
 #  todo_id     :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :record do
-    project { FactoryGirl.create :project }
-    user    { FactoryGirl.create :user }
-    todo    { FactoryGirl.create(:todo) }
-    record_type :coding
-    minutes 100
+    project { FactoryBot.create :project }
+    user    { FactoryBot.create :user }
+    todo    { FactoryBot.create(:todo) }
+    record_type { :coding }
+    minutes { 100 }
 
     trait :with_todo do
     end
   end
 
-  factory :record_for_params, class: Record do
-    record_type :etc
-    minutes 10
-    note 'update minutes'
+  factory :record_for_params, class: 'Record' do
+    record_type { :etc }
+    minutes { 10 }
+    note { 'update minutes' }
 
     trait :has_todo_id do
-      todo_id { FactoryGirl.create(:todo).id }
+      todo_id { FactoryBot.create(:todo).id }
     end
   end
 end
