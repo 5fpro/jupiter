@@ -4,8 +4,10 @@ br/
 
 = render partial: "update_token"
 
+hr/
 | 專案 HookUrl:
-input type="text" value="#{@project.github_token}"
+input type="text" value="https://#{Setting.host}/webhooks/#{@project.github_token}"
+hr/
 
 table.table.table-bordered.table-striped
   thead

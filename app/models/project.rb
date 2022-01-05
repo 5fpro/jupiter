@@ -27,7 +27,7 @@ class Project < ApplicationRecord
 
   validates :name, :owner_id, presence: true
   before_save do
-    self.github_token = github_token || Digest::MD5.hexdigest(id) unless new_record?
+    self.github_token = github_token || Digest::MD5.hexdigest("project-#{id}") unless new_record?
   end
 
   def has_user?(user)
