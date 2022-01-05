@@ -6,11 +6,12 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   before_perform :find_mentions
   before_perform :remove_self_notify!
 
-  def initialize(github, request:)
+  def initialize(github, request:, project: nil)
     @github = github
     @request = request
     @event = request.headers.to_h['HTTP_X_GITHUB_EVENT']
     @params = request.params
+    @project = project
   end
 
   def perform
@@ -25,14 +26,15 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   private
 
   def init_vars!
-    @project = @github.project
+    @project ||= @github.project
     @project_users = @project.project_users
     if @params[:payload]
       @params = JSON.parse(@params[:payload]).deep_symbolize_keys
       @action = @params[:action] if @params[:action]
     end
     GithubLogger.debug(
-      github_id: @github.id,
+      github_id: @github&.id,
+      project_id: @project.id,
       event: @event,
       action: @action,
       params: @params.to_json

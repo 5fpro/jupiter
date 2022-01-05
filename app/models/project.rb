@@ -26,6 +26,9 @@ class Project < ApplicationRecord
                  :github_slack_users_mapping_json
 
   validates :name, :owner_id, presence: true
+  before_save do
+    self.github_token = github_token || Digest::MD5.hexdigest("project-#{id}") unless new_record?
+  end
 
   def has_user?(user)
     project_users.map(&:user_id).include?(user.id)
@@ -45,6 +48,15 @@ class Project < ApplicationRecord
 
   def approached_hours_limit
     super == 'true'
+  end
+
+  def github_token
+    (data || {})['github_token']
+  end
+
+  def github_token=(value)
+    self.data ||= {}
+    self.data['github_token'] = value
   end
 
   def primary_slack_channel
