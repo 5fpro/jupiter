@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Notify::SendToSlackContext do
-  let(:slack_channel) { FactoryGirl.create :slack_channel }
-
   subject { described_class.new('haha', slack_channel) }
+
+  let(:slack_channel) { FactoryBot.create :slack_channel }
 
   it do
     expect {
@@ -18,9 +18,10 @@ describe Notify::SendToSlackContext do
   end
 
   context 'webhook null' do
-    let(:slack_channel) { FactoryGirl.create :slack_channel, webhook: nil }
+    let(:slack_channel) { FactoryBot.create :slack_channel, webhook: nil }
 
     it { expect(subject.perform).to eq false }
+
     it do
       expect {
         subject.perform
@@ -29,9 +30,10 @@ describe Notify::SendToSlackContext do
   end
 
   context 'room null' do
-    let(:slack_channel) { FactoryGirl.create :slack_channel, room: nil }
+    let(:slack_channel) { FactoryBot.create :slack_channel, room: nil }
 
     it { expect(subject.perform).to eq false }
+
     it do
       expect {
         subject.perform

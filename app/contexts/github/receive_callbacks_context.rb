@@ -6,11 +6,12 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   before_perform :find_mentions
   before_perform :remove_self_notify!
 
-  def initialize(github, request:)
+  def initialize(github, request:, project: nil)
     @github = github
     @request = request
     @event = request.headers.to_h['HTTP_X_GITHUB_EVENT']
     @params = request.params
+    @project = project
   end
 
   def perform
@@ -25,14 +26,15 @@ class Github::ReceiveCallbacksContext < ::BaseContext
   private
 
   def init_vars!
-    @project = @github.project
+    @project ||= @github.project
     @project_users = @project.project_users
     if @params[:payload]
       @params = JSON.parse(@params[:payload]).deep_symbolize_keys
       @action = @params[:action] if @params[:action]
     end
     GithubLogger.debug(
-      github_id: @github.id,
+      github_id: @github&.id,
+      project_id: @project.id,
       event: @event,
       action: @action,
       params: @params.to_json
@@ -58,22 +60,23 @@ class Github::ReceiveCallbacksContext < ::BaseContext
 
   def find_target
     @target = {}
-    if @action_type == 'comment'
+    case @action_type
+    when 'comment'
       @target[:summary] = strip_body(@params[:comment][:body])
       @target[:body] = @params[:comment][:body]
       @target[:url] = @params[:comment][:html_url]
       @target[:message] = "你有新的回應: #{@target[:summary]}"
-    elsif @action_type == 'submitted_pull_request_review'
+    when 'submitted_pull_request_review'
       @target[:summary] = strip_body(@params[:review][:body])
       @target[:body] = @params[:review][:body]
       @target[:url] = @params[:review][:html_url]
       @target[:message] = "你有新的 code review: #{@target[:summary]}"
-    elsif @action_type == 'opened_issue'
+    when 'opened_issue'
       @target[:summary] = strip_body(@params[:issue][:title])
       @target[:body] = @params[:issue][:body]
       @target[:url] = @params[:issue][:html_url]
       @target[:message] = "你在新的票被提及: #{@target[:summary]}"
-    elsif @action_type == 'opened_pull_request'
+    when 'opened_pull_request'
       @target[:summary] = strip_body(@params[:pull_request][:title])
       @target[:body] = @params[:pull_request][:body]
       @target[:url] = @params[:pull_request][:html_url]
@@ -93,7 +96,7 @@ class Github::ReceiveCallbacksContext < ::BaseContext
     @mentions = []
     if @target[:body].present?
       mapping.each do |github_user, slack_user|
-        @mentions << slack_user if @target[:body].index('@' + github_user)
+        @mentions << slack_user if @target[:body].index("@#{github_user}")
       end
     end
   end
@@ -117,10 +120,10 @@ class Github::ReceiveCallbacksContext < ::BaseContext
 
   def project_json_mapping
     mapping = begin
-                JSON.parse(@project.github_slack_users_mapping_json)
-              rescue
-                nil
-              end
+      JSON.parse(@project.github_slack_users_mapping_json)
+    rescue
+      nil
+    end
     return {} unless mapping.is_a?(Array)
 
     mapping.inject({}) { |a, e| a.merge(e.first => e.last) }

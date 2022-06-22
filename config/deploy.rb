@@ -1,5 +1,6 @@
 # config valid only for current version of Capistrano
-lock '3.11.0'
+require 'capistrano/version'
+lock Capistrano::VERSION
 
 set :application, 'jupiter'
 set :repo_url, 'git@github.com:5fpro/jupiter.git'

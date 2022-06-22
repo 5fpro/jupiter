@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe TodoCreateContext do
-  let(:project) { FactoryGirl.create :project, :with_project_user }
-  let(:user) { project.owner }
-
   subject { described_class.new(user, params) }
+
+  let(:project) { FactoryBot.create :project, :with_project_user }
+  let(:user) { project.owner }
 
   context 'success' do
     let(:params) { attributes_for(:todo_for_params, project_id: project.id) }

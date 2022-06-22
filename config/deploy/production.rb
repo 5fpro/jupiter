@@ -1,6 +1,6 @@
 set :rails_env, 'production'
 
-servers = ['jupiter.5fpro.com']
+servers = ['52.192.164.37']
 
 shadow_server = 'jupiter-shadow.5fpro.com'
 role :app,             servers

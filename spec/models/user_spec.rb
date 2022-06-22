@@ -29,19 +29,19 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
 
-  context 'FactoryGirl' do
+  context 'FactoryBot' do
     it { expect(user).not_to be_new_record }
-    it { expect(FactoryGirl.create(:user_with_avatar).avatar.url).to be_present }
-    it { expect(FactoryGirl.create(:unconfirmed_user).confirmed?).to eq false }
-    it { expect(FactoryGirl.create(:admin_user).admin?).to eq true }
+    it { expect(FactoryBot.create(:user_with_avatar).avatar.url).to be_present }
+    it { expect(FactoryBot.create(:unconfirmed_user).confirmed?).to eq false }
+    it { expect(FactoryBot.create(:admin_user).admin?).to eq true }
     it { attributes_for :user_for_create }
   end
 
   it 'devise async' do
     expect {
-      FactoryGirl.create :unconfirmed_user
+      FactoryBot.create :unconfirmed_user
     }.not_to have_enqueued_job(Devise::Mailer)
   end
 end

@@ -16,9 +16,9 @@
 require 'rails_helper'
 
 RSpec.describe ProjectUser, type: :model do
-  let(:project_user) { FactoryGirl.create :project_user }
+  let(:project_user) { FactoryBot.create :project_user }
 
-  context 'FactoryGirl' do
+  context 'FactoryBot' do
     it { expect(project_user).not_to be_new_record }
     it { attributes_for :project_user_for_update }
   end

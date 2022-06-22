@@ -1,3 +1,9 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - bin/**/*
@@ -63,15 +69,8 @@ Style/WordArray:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
-
-Metrics/MethodLength:
-  CountComments: false  # count full line comments?
-  Max: 20
-
-Metrics/AbcSize:
-  Max: 30
 
 Rails/HasAndBelongsToMany:
   Enabled: false
@@ -101,7 +100,7 @@ Lint/NestedMethodDefinition:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 50
+  Max: 300
 
 Metrics/PerceivedComplexity:
   Max: 30
@@ -163,6 +162,6 @@ Rails/UnknownEnv:
 Rails/InverseOf:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 

@@ -1,4 +1,4 @@
-class AddColumnSortToTodos < ActiveRecord::Migration
+class AddColumnSortToTodos < ActiveRecord::Migration[5.2]
   def change
     add_column :todos, :sort, :integer
     add_index :todos, [:user_id, :done, :sort]

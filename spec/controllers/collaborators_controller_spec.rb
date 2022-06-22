@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CollaboratorsController, type: :request do
-  let!(:project) { FactoryGirl.create :project_has_members }
+  let!(:project) { FactoryBot.create :project_has_members }
   let!(:user) { project.owner }
   let(:user2) { project.users.last }
 
@@ -11,17 +11,17 @@ RSpec.describe CollaboratorsController, type: :request do
 
   it '#index' do
     get "/projects/#{project.id}/collaborators"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#new' do
     get "/projects/#{project.id}/collaborators/new"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#edit' do
     get "/projects/#{project.id}/collaborators/edit"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   describe '#update' do
@@ -38,19 +38,19 @@ RSpec.describe CollaboratorsController, type: :request do
 
       it do
         put "/projects/#{project.id}/collaborators", params: { project: params }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
 
   it '#create' do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     expect {
       post "/projects/#{project.id}/collaborators", params: { project_user: { email: user.email } }
     }.to change { project.users.count }.by(1)
     expect(response).to redirect_to("/projects/#{project.id}/collaborators")
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#destroy' do
@@ -60,7 +60,7 @@ RSpec.describe CollaboratorsController, type: :request do
     }.to change { project.users.count }.by(-1)
     expect(response).to redirect_to("/projects/#{project.id}/collaborators")
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
 end

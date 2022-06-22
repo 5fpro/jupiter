@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 describe UserCreateProjectContext do
-  let(:user) { FactoryGirl.create :user }
-  let(:data) { attributes_for(:project) }
-
   subject { described_class.new(user, data).perform }
+
+  let(:user) { FactoryBot.create :user }
+  let(:data) { attributes_for(:project) }
 
   it 'success' do
     expect {
       @project = subject
-    }.to change { Project.count }
+    }.to change(Project, :count)
     expect(@project.name).to be_present
   end
 

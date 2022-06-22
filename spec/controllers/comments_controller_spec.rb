@@ -14,36 +14,36 @@
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :request do
-  let!(:record) { FactoryGirl.create :record }
-  let!(:comment) { FactoryGirl.create :comment, item: record }
+  let!(:record) { FactoryBot.create :record }
+  let!(:comment) { FactoryBot.create :comment, item: record }
 
   it '#index' do
     get "/records/#{record.id}/comments"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#show' do
     get "/records/#{record.id}/comments/#{comment.id}"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#new' do
     get "/records/#{record.id}/comments/new"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#create' do
     expect {
       post "/records/#{record.id}/comments", params: { comments: attributes_for(:comment_for_create) }
-    }.to change { Comment.count }.by(1)
+    }.to change(Comment, :count).by(1)
     expect(response).to be_redirect
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#edit' do
     get "/records/#{record.id}/comments/#{comment.id}/edit"
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#update' do
@@ -52,16 +52,16 @@ RSpec.describe CommentsController, type: :request do
     }.to change { comment.reload.tmp }
     expect(response).to be_redirect
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
   it '#destroy' do
     expect {
       delete "/records/#{record.id}/comments/#{comment.id}"
-    }.to change { Comment.count }.by(-1)
+    }.to change(Comment, :count).by(-1)
     expect(response).to be_redirect
     follow_redirect!
-    expect(response).to be_success
+    expect(response).to be_successful
   end
 
 end

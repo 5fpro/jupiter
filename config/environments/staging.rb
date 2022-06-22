@@ -47,7 +47,7 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  config.cache_store = :dalli_store, *(Setting.dalli.servers + [ Setting.dalli.options.symbolize_keys ])
+  config.cache_store = :mem_cache_store, *(Setting.dalli.servers + [ Setting.dalli.options.symbolize_keys ])
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   config.action_controller.asset_host = ->(source){ "//#{Setting.assets_host}" }
