@@ -408,7 +408,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
-    mustermann (1.1.1)
+    mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
     nested_form (0.3.2)
     net-scp (3.0.0)
@@ -454,8 +454,8 @@ GEM
     pg (1.2.3)
     public_suffix (4.0.6)
     racc (1.5.2)
-    rack (2.2.3)
-    rack-protection (2.0.8.1)
+    rack (2.2.4)
+    rack-protection (2.2.3)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -596,10 +596,10 @@ GEM
     simple_form (5.1.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
-    sinatra (2.0.8.1)
-      mustermann (~> 1.0)
-      rack (~> 2.0)
-      rack-protection (= 2.0.8.1)
+    sinatra (2.2.3)
+      mustermann (~> 2.0)
+      rack (~> 2.2)
+      rack-protection (= 2.2.3)
       tilt (~> 2.0)
     sitemap_generator (6.1.2)
       builder (~> 3.0)
@@ -623,7 +623,7 @@ GEM
     temple (0.8.2)
     thor (1.1.0)
     thread_safe (0.3.6)
-    tilt (2.0.10)
+    tilt (2.0.11)
     timecop (0.9.4)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
@@ -716,7 +716,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-limit_fetch
   simple_form
-  sinatra (~> 2.0.0.beta2)
+  sinatra (~> 2.2.3)
   sitemap_generator
   slack-notifier
   slackistrano
