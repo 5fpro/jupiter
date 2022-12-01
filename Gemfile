@@ -38,7 +38,7 @@ gem 'select2-rails', '~> 3'
 # background jobs
 gem 'sidekiq'
 gem 'sidekiq-limit_fetch'
-gem 'sinatra', '~> 2.0.0.beta2'
+gem 'sinatra', '~> 2.2.3'
 
 # file upload
 gem 'carrierwave'
